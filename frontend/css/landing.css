@@ -1,21 +1,7 @@
-body {
-    background-color: #050f0b;
-    color: #e8f0ec;
-    margin: 0;
-    font-family: 'IBM Plex Sans', Arial, sans-serif;
-}
-
-
-a {
-    /* Cores paras as fontes de link */
-    color: #e8f0ec;
-    /* Para remover os sublinhados dos links */
-    text-decoration: none;
-}  
-
-h1, h2, h3 {
-    font-family: 'Sora', Arial, sans-serif;
-}
+/* ==========================================================
+   LANDING PAGE (index.html) — responsável: Samuel
+   Cores e fontes vêm das variáveis de base.css.
+   ========================================================== */
 
 
 /* 1. CABEÇALHO */
@@ -41,20 +27,20 @@ header {
     /* afasta os links da borda da pílula */
     padding: 6px;
     /* Aqui ele lê as cores da esquerda pra direita, fazendo um degradê */
-    background: linear-gradient(90deg, #2ed573, #1ab5a5);
+    background: var(--degrade);
     border-radius: 50px;
 }
 
 /* Dentro do link de navegação */
 .navegacao a {
-    color: #050f0b;
+    color: var(--texto-sobre-verde);
     padding: 8px 18px;
     font-weight: 600;
 }
 
 .botao_comecar {
-    background: linear-gradient(90deg, #2ed573, #1ab5a5);
-    color: #050f0b;
+    background: var(--degrade);
+    color: var(--texto-sobre-verde);
     padding: 10px 22px;
     border-radius: 50px ;
     font-weight: 600;
@@ -64,11 +50,9 @@ header {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    border: 1px solid #1c3529;
     background: none;
     cursor: pointer;
-    color:#e8f0ec;
-    border: 1px solid #2ed573;
-    
-}
+    color: var(--texto);
+    border: 1px solid var(--verde);
 
+}
