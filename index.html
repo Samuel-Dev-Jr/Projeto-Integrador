@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="O SpyCode varre seu repositório do GitHub atrás de chaves expostas, rotas abertas e bibliotecas vulneráveis, e explica cada achado em português.">
+
+    <title>SpyCode | Seu código protegido antes do deploy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&family=Sora:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+</head>
+
+<body>
+
+    <!-- 1. CABEÇALHO: logo, menu, lupa e botão "Começar" -->
+    <header>
+
+        <div class="logo_tipos">
+
+            <a href="index.html">
+                <img src="image/escuro.jpg" alt="SpyCode" width="80">
+            </a>
+
+        </div>
+
+        <nav class="navegacao">
+
+            <a href="index.html">Início</a>
+
+            <a href="#recursos">Recursos</a>
+
+            <a href="#sobre">Sobre</a>
+
+            <a href="#seguranca">Segurança</a>
+
+        </nav>
+
+        <div class="header_acoes">
+            <button type="button" class="botao_lupa" aria-label="Pesquisar">
+                <i class="bi bi-search"></i>
+            </button>
+
+
+            <a href="#comecar" class="botao_comecar">Começar</a>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL: tudo que fica entre o cabeçalho e o rodapé -->
+    <main>
+
+        <!-- 2. HERO: título grande, parágrafo, dois botões e o escudo -->
+        <section class="hero">
+            <div class="hero_texto">
+                <h1>
+                    Seu código <span class="destaque">protegido</span> antes do deploy
+                </h1>
+
+                <p>
+                    O SpyCode varre seu repositório do GitHub atrás de chaves expostas, rotas abertas e bibliotecas
+                    vulneráveis, e explica cada achado em português.
+                </p>
+
+                <a href="#comecar" class="scanner_button">Escanear repositório</a>
+
+                <a href="#sobre" class="info_button">Como funciona</a>
+            </div>
+
+            <!-- escudo: trocar o emoji pela imagem quando tiver o arquivo na pasta image -->
+            <div class="hero_imagem">
+                <span class="escudo">🛡️</span>
+            </div>
+
+        </section>
+
+
+        <!-- 3. CARDS: Caçador de segredos, Mapa de rotas, Dependências -->
+        <section class="cards" id="recursos">
+
+            <article>
+                <span class="icone">🔑</span>
+
+                <h3>Caçador de segredos</h3>
+
+                <p>
+                    Encontra chaves, tokens e senhas no código e em todo o histórico de commits.
+                </p>
+
+            </article>
+
+            <article>
+                <span class="icone">🔀</span>
+
+                <h3>Mapa de rotas</h3>
+
+                <p>
+                    Mostra todas as rotas da sua API e marca as que estão abertas sem autenticação.
+                </p>
+
+            </article>
+
+            <article>
+                <span class="icone">📦</span>
+
+                <h3>Dependências</h3>
+
+                <p>
+                    Cruza suas bibliotecas com a base pública de falhas e mostra a versão que corrige.
+                </p>
+
+            </article>
+
+        </section>
+
+
+        <!-- 4. BEM-VINDO: terminal à esquerda, texto e dois destaques à direita -->
+        <section class="bem_vindo" id="sobre">
+            <div class="terminal">
+
+                <pre>
+$ spycode scan grupo-pi/app-de-tarefas
+lendo 128 arquivos
+✓ 6 rotas mapeadas
+✗ chave exposta em .env, linha 3
+✗ DELETE /users/:id sem autenticação
+! lodash 4.17.15 com falha conhecida
+✓ código apagado da pasta temporária
+nota final: 58/100</pre>
+
+                <p class="motores">
+                    <strong>3</strong> motores de análise
+                </p>
+
+            </div>
+
+            <div class="bem_vindo_texto">
+
+                <p class="etiqueta">Bem-vindo ao SpyCode</p>
+
+                <h2>
+                    A segunda leitura para quem programa com IA
+                </h2>
+
+                <p>
+                    Quase metade do código gerado por IA chega com alguma falha. O SpyCode lê o que você publicou e
+                    aponta o que precisa de atenção antes de virar problema.
+                </p>
+
+                <div class="vantagem">
+                    <span class="icone">🛡️</span>
+
+                    <h3>Suas chaves longe do GitHub</h3>
+
+                    <p>
+                        Avisamos quando um segredo vazou, inclusive nos commits antigos.
+                    </p>
+                </div>
+
+                <div class="vantagem">
+                    <span class="icone">🔒</span>
+
+                    <h3>Suas rotas atrás da porta certa</h3>
+
+                    <p>
+                        Mostramos qual rota qualquer pessoa consegue acessar sem login.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- 5. CTA: faixa verde com a pergunta e o botão "Escanear agora" -->
+        <section class="cta" id="comecar">
+
+            <h2>
+                Pronto para ver o que seu código está escondendo?
+            </h2>
+
+            <a href="#" class="cta_botao">Escanear agora</a>
+
+        </section>
+
+    </main>
+
+
+    <!-- 6. RODAPÉ: logo, linha do Senac e links -->
+    <footer>
+
+        <a href="index.html">
+            <img src="image/escuro.jpg" alt="SpyCode" width="60">
+        </a>
+
+        <p>
+            Projeto Integrador do curso de Desenvolvimento Full Stack do Senac, 2026.
+        </p>
+
+        <nav class="rodape_links">
+
+            <a href="#sobre">Como funciona</a>
+
+            <a href="#recursos">O que encontra</a>
+
+            <a href="#">Privacidade</a>
+
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>
