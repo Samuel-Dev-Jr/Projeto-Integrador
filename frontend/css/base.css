@@ -1,0 +1,62 @@
+/* ==========================================================
+   BASE — vale para TODAS as páginas do SpyCode.
+   Cores, fontes e estilos gerais ficam aqui, num lugar só.
+   Mudar este arquivo muda o site inteiro: combine com o grupo antes.
+   ========================================================== */
+
+
+/* Variáveis: cada cor e fonte do tema verde ganha um nome.
+   Nas outras folhas, escreva var(--verde) em vez de #2BD96B.
+   Assim, se o grupo trocar uma cor, troca só aqui. */
+:root {
+    /* Fundos, do mais escuro para o mais claro */
+    --fundo: #03110B;
+    --superficie: #061A12;
+    --card: #0A2419;
+    --borda: #1F5C3D;
+
+    /* Textos */
+    --texto: #EAF7F0;
+    --texto-secundario: #9CB8AA;
+    --texto-card: #C9E0D4;
+    --placeholder: #6F8C7E;
+    /* texto em cima de botão verde é escuro, nunca branco */
+    --texto-sobre-verde: #02140C;
+
+    /* Verde é a cor de AÇÃO: botões, menu, links de destaque */
+    --verde: #2BD96B;
+    --verde-agua: #19B5A5;
+    --degrade: linear-gradient(90deg, #2BD96B, #19B5A5);
+
+    /* Severidade é a cor de ALERTA: usar só para os achados */
+    --critico: #FF5C6C;
+    --alto: #FF8A3D;
+    --medio: #F5C542;
+    --baixo: #5FB3D9;
+
+    /* Fontes (carregadas do Google Fonts no <head> de cada página) */
+    --fonte-titulo: 'Sora', Arial, sans-serif;
+    --fonte-texto: 'IBM Plex Sans', Arial, sans-serif;
+    --fonte-codigo: 'IBM Plex Mono', monospace;
+}
+
+
+body {
+    background-color: var(--fundo);
+    color: var(--texto);
+    margin: 0;
+    font-family: var(--fonte-texto);
+}
+
+
+a {
+    /* Cor para as fontes de link */
+    color: var(--texto);
+    /* Para remover os sublinhados dos links */
+    text-decoration: none;
+}
+
+
+h1, h2, h3 {
+    font-family: var(--fonte-titulo);
+}
