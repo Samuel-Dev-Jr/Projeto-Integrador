@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpyCode - Entrar</title>
+
+
+
+
+
+    <!-- 1. Firebase App (obrigatório) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
+
+    <!-- 2. Firebase Auth (OBRIGATÓRIO para login/Google) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js" defer></script>
+
+
+    <script src="../js/firebaseConfig.js" defer></script>
+    <script src="../js/login.js" defer></script>
+
+    <!-- Ícones Remixicon (para os ícones dos botões) -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- Estilo CSS -->
+    <link rel="stylesheet" href="../cssTeste/style.css">
+
+
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LADO ESQUERDO: Apresentação e Branding -->
+        <main class="coluna-esquerda">
+            <div class="brand">
+                <i class="ri-spy-line brand-icon"></i>
+                <span class="brand-name">SpyCode</span>
+            </div>
+
+            <div class="hero-graphic">
+                <div class="shield-box">
+                    <i class="ri-shield-keyhole-line shield-icon"></i>
+                </div>
+            </div>
+
+            <div class="hero-text">
+                <h1>Identifique-se, agente.</h1>
+                <p class="subtitle">Entre para ver o dossiê dos seus repositórios e o que precisa ser corrigido.</p>
+
+                <ul class="features-list">
+                    <li><i class="ri-check-line"></i> Só leitura dos seus repositórios</li>
+                    <li><i class="ri-check-line"></i> Código apagado depois de cada análise</li>
+                    <li><i class="ri-check-line"></i> Segredos sempre mascarados</li>
+                </ul>
+            </div>
+
+            <footer class="footer-text">
+                Projeto Integrador do curso de Desenvolvimento Full Stack do Senac, 2026.
+            </footer>
+        </main>
+
+        <!-- LADO DIREITO: Card de Login -->
+        <aside class="coluna-direita">
+            <div class="card-login">
+                <h2>Entrar no SpyCode</h2>
+                <p class="card-subtitle">Escolha como você quer entrar.</p>
+
+                <!-- Botões de Login Social -->
+                <button type="button" id="btn-github" class="btn-social btn-github">
+                    <i class="ri-github-fill"></i> Continuar com GitHub
+                </button>
+
+                <button type="button" id="btn-google" class="btn-social btn-google">
+                    <i class="ri-google-fill"></i> Continuar com Google
+                </button>
+
+                <div class="divisor">
+                    <span>ou com e-mail</span>
+                </div>
+
+                <!-- Formulário de Login Tradicional -->
+                <form id="form-login">
+                    <div class="input-group">
+                        <label for="input-email">E-mail</label>
+                        <input type="email" id="input-email" placeholder="voce@email.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="input-senha">Senha</label>
+                            <a href="#" class="link-esqueceu">Esqueci minha senha</a>
+                        </div>
+                        <div class="password-wrapper">
+                            <input type="password" id="input-senha" placeholder="Sua senha" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Entrar</button>
+                </form>
+
+                <div class="info-box">
+                    <i class="ri-information-line"></i>
+                    <span>Entrando com Google ou e-mail, você conecta o GitHub no passo seguinte para poder
+                        escanear.</span>
+                </div>
+
+                <p class="signup-text">
+                    Não tem conta? <a href="#">Criar conta</a>
+                </p>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- BIBLIOTECAS DO FIREBASE (Compatíveis com v8 para iniciantes) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
