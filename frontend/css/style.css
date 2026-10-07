@@ -1,17 +1,32 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --fundo: #03110B;
+    --texto: #EAF7F0;
+    --texto-secundario: #9CB8AA;
+    --borda: #1F5C3D;
+    --verde: #2BD96B;
+    --texto-sobre-verde: #02140C;
+    --degrade: linear-gradient(90deg, #2BD96B, #19B5A5);
+    --margem-lateral: 80px;
+}
+
+
+
 body {
-    background-color: #050f0b;
-    color: #e8f0ec;
+    background-color: var(--fundo);
+    color: var(--texto);
     margin: 0;
     font-family: 'IBM Plex Sans', Arial, sans-serif;
 }
 
-
 a {
-    /* Cores paras as fontes de link */
-    color: #e8f0ec;
-    /* Para remover os sublinhados dos links */
+    color: var(--texto);
     text-decoration: none;
-}  
+}
+
 
 h1, h2, h3 {
     font-family: 'Sora', Arial, sans-serif;
@@ -21,9 +36,61 @@ h1, h2, h3 {
 /* 1. CABEÇALHO */
 header {
     display: flex;
+    align-items: center;
+    height: 88px;
+    /* Serve para dar espaçamento entre o header e o corpo (entre a cabeça e o corpo) */
+    min-height: 700px;
+    /* Ficar um pouco longe das laterais */
+    padding: 0 var(--margem-lateral) 40px;
+}
+
+.hero {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 8%;
+    min-height: 700px;
+    /* Afastar o h1 das bordas */
+    padding: 0 var(--margem-lateral);
+}
+
+
+.hero_texto {
+    max-width: 640px;
+}
+
+/* Aumentar o titulo */
+.hero h1 {
+    font-size: 64px;
+    line-height: 1.1;
+    margin: 0 0 24px;
+}
+
+.destaque {
+    /* coloração do destaque */
+    color: var(--verde);
+}
+
+.hero p {
+    max-width: 560px;
+    margin: 0 0 24px;
+    font-size: 18px;
+    line-height: 1.7;
+    /* Aqui ele dar cores para textos Subtitulos */
+    color: var(--texto-secundario);
+}
+
+
+
+.logo_tipos,
+.header_acoes {
+    flex: 1;
+}
+
+.header_acoes {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
 }
 
 
@@ -33,7 +100,6 @@ header {
     mix-blend-mode: screen;
 }
 
-
 .navegacao {
     display: flex;
     /* coloca um espaço entre os itens enfileirados pelo flex */
@@ -41,40 +107,73 @@ header {
     /* afasta os links da borda da pílula */
     padding: 6px;
     /* Aqui ele lê as cores da esquerda pra direita, fazendo um degradê */
-    background: linear-gradient(90deg, #2ed573, #1ab5a5);
+    background: var(--degrade);
     border-radius: 50px;
 
 }
 
 /* Dentro do link de navegação */
 .navegacao a {
-    color: #050f0b;
+    color: var(--texto-sobre-verde);
     padding: 8px 18px;
+    font-size: 14px;
     font-weight: 600;
 }
 
 .botao_comecar {
-    background: linear-gradient(90deg, #2ed573, #1ab5a5);
-    color: #050f0b;
-    padding: 10px 22px;
+    background: var(--degrade);
+    color: var(--degrade);
+    padding: 13px 20px;
     border-radius: 50px ;
     font-weight: 600;
+
 }
 
 .botao_lupa {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    border: 1px solid #1c3529;
+    border: 1px solid var(--borda);
     background: none;
     cursor: pointer;
-    color:#e8f0ec;
+    color: var(--texto);
     border: 1px solid #2ed573;
-
-    
+    transition: border-color 0.2s, color 0.2s;
 }
 
 .botao_lupa:hover {
-    
+    border-color: var(--verde);
+    color: var(--verde);
+}
+
+
+
+/* Botões e Scaners*/
+
+.scanner_button,
+.info_button {
+    display: inline-block;
+    padding: 16px 28px;
+    border-radius: 50%;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.scanner_button,
+.info_button {
+    margin-right: 10px;
+    background: var(--degrade);
+    color: var(--texto-sobre-verde);
+}
+
+
+.hero_imagem {
+    width: 560px;
+    text-align: center;
+
+}
+
+.escudo {
+    font-size: 200px;
 }
 
