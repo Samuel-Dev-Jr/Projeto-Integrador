@@ -43,6 +43,7 @@ header {
     /* Aqui ele lê as cores da esquerda pra direita, fazendo um degradê */
     background: linear-gradient(90deg, #2ed573, #1ab5a5);
     border-radius: 50px;
+
 }
 
 /* Dentro do link de navegação */
@@ -69,6 +70,11 @@ header {
     cursor: pointer;
     color:#e8f0ec;
     border: 1px solid #2ed573;
+
+    
+}
+
+.botao_lupa:hover {
     
 }
 
