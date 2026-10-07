@@ -1,0 +1,14 @@
+# Guarda todo arquivo de texto com quebra de linha no padrão LF.
+# Evita que um computador Windows e um Mac/Linux "mudem" todas as linhas
+# de um arquivo sem ninguém ter editado nada (e gerem conflito à toa).
+* text=auto eol=lf
+
+# Imagens e fontes são binárias: o Git não deve mexer nelas
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary

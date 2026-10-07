@@ -1,0 +1,19 @@
+# Dependências do Node (quando o backend existir, o "npm install" recria esta pasta)
+node_modules/
+
+# Variáveis de ambiente: tokens, senhas e chaves NUNCA vão para o GitHub
+.env
+.env.*
+!.env.example
+
+# Arquivos que o sistema operacional cria sozinho
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configurações pessoais do editor
+.vscode/
+.idea/
+
+# Logs
+*.log
