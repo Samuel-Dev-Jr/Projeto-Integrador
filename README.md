@@ -17,9 +17,11 @@ O navegador abre a página e recarrega sozinho toda vez que você salvar um arqu
 Projeto-Integrador/
 ├── frontend/              tudo que o navegador abre
 │   ├── index.html         página inicial (landing)
+│   ├── recursos.html      páginas do menu (ainda vazias)
+│   ├── sobre.html
+│   ├── seguranca.html
 │   ├── css/
-│   │   ├── base.css       cores, fontes e estilos de TODAS as páginas
-│   │   └── landing.css    estilos só da página inicial
+│   │   └── style.css      estilos da página inicial
 │   └── img/               logos e ilustrações usadas no site
 ├── docs/
 │   └── design/            desenhos das telas (referência, não vão para o site)
@@ -36,36 +38,34 @@ Cada pessoa trabalha nos **seus** arquivos. Assim duas pessoas nunca editam a me
 
 | Parte | Responsável | Arquivos |
 | --- | --- | --- |
-| Página inicial | Samuel | `frontend/index.html`, `frontend/css/landing.css` |
+| Página inicial | Samuel | `frontend/index.html`, `frontend/css/style.css` |
 | Tela de login | Aline e Helena | `frontend/login.html`, `frontend/css/login.css` |
-| Estilos compartilhados | o grupo todo | `frontend/css/base.css` |
 
-- Cada página nova tem **um HTML e um CSS com o mesmo nome**.
-- Toda página carrega primeiro o `base.css` e depois o CSS dela:
-
-  ```html
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/login.css">
-  ```
-
-- `base.css` só muda com o grupo de acordo, porque mexe no site inteiro.
+- Cada página nova tem **um HTML e um CSS com o mesmo nome**, como `login.html` e `css/login.css`.
+- Página nova vai dentro de `frontend/`, nunca solta na raiz do projeto.
 - Imagem nova vai para `frontend/img/`. Desenho de tela vai para `docs/design/`.
 
 ## Cores e fontes
 
-Não digite o código da cor. Use a variável que está no `base.css`:
+O tema do site é o verde. Use sempre estes códigos, para todas as páginas ficarem iguais:
 
-```css
-.meu_botao {
-    background: var(--degrade);
-    color: var(--texto-sobre-verde);
-    font-family: var(--fonte-titulo);
-}
-```
+| Uso | Cor |
+| --- | --- |
+| Fundo principal | `#03110B` |
+| Fundo de seção alternada | `#061A12` |
+| Card | `#0A2419` |
+| Borda | `#1F5C3D` |
+| Texto principal | `#EAF7F0` |
+| Texto secundário | `#9CB8AA` |
+| Verde principal | `#2BD96B` |
+| Verde-água | `#19B5A5` |
+| Texto sobre fundo verde | `#02140C` |
 
-- **Verde** (`--verde`, `--verde-agua`, `--degrade`) é a cor de ação: botões, menu e destaques.
-- **Vermelho, laranja, amarelo e azul** (`--critico`, `--alto`, `--medio`, `--baixo`) são só para a severidade dos achados.
-- Texto em cima de botão verde é sempre escuro (`--texto-sobre-verde`), nunca branco.
+- **Degradê** de botões, menu e faixa de destaque: `linear-gradient(90deg, #2BD96B, #19B5A5)`.
+- **Verde** é a cor de ação: botões, menu e destaques.
+- **Vermelho, laranja, amarelo e azul** são só para a severidade dos achados: crítico `#FF5C6C`, alto `#FF8A3D`, médio `#F5C542`, baixo `#5FB3D9`.
+- Texto em cima de botão verde é sempre escuro (`#02140C`), nunca branco.
+- **Fontes** (Google Fonts): Sora nos títulos, IBM Plex Sans no texto e IBM Plex Mono em código.
 
 ## Padrão de nomes
 
@@ -93,7 +93,7 @@ git push origin branch-SeuNome
 4. No GitHub, abra um **Pull Request** da sua branch para a `main`.
 5. Outra pessoa do grupo revisa e aprova. Só então ele entra na `main`.
 
-A mensagem de commit começa pela parte que você mexeu (`landing:`, `login:`, `base:`) e diz o que mudou.
+A mensagem de commit começa pela parte que você mexeu (`landing:`, `login:`) e diz o que mudou.
 
 ## Combinados do time
 
