@@ -10,12 +10,18 @@
     --verde: #2BD96B;
     --texto-sobre-verde: #02140C;
     --degrade: linear-gradient(90deg, #2BD96B, #19B5A5);
-    --margem-lateral: 80px;
+    /* largura máxima do conteúdo: a mesma do desenho */
+    --largura-conteudo: 1280px;
+    /* Em tela comum a margem é 80px. Em tela grande ela cresce sozinha,
+       para o conteúdo ficar no meio e nunca passar de 1280px de largura. */
+    --margem-lateral: max(80px, calc((100% - var(--largura-conteudo)) / 2));
     --superficie: #061A12;
     --card: #0A2419;
     --critico: #FF5C6C;
     --medio: #F5C542;
-
+    /* Ritmo das animações. A "mola" passa um pouco do ponto e volta,
+       como algo com peso; é o que deixa o movimento fluido em vez de seco. */
+    --mola: cubic-bezier(0.3, 1.3, 0.4, 1);
 
 }
 
@@ -106,9 +112,15 @@ header {
 }
 
 .navegacao {
-    display: flex;
-    /* coloca um espaço entre os itens enfileirados pelo flex */
-    gap: 8px;
+    /* a pílula escura (o ::before logo abaixo) é posicionada em relação ao menu */
+    position: relative;
+    /* quatro colunas iguais: assim a pílula escura tem sempre a mesma largura */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* em qual link a pílula escura está: 0 é o primeiro, 1 o segundo... */
+    --posicao: 0;
+    /* se a pílula escura passar um pouco do ponto na ponta do menu, o excesso é cortado */
+    overflow: hidden;
     /* afasta os links da borda da pílula */
     padding: 6px;
     /* Aqui ele lê as cores da esquerda pra direita, fazendo um degradê */
@@ -117,38 +129,148 @@ header {
 
 }
 
+/* A pílula escura. É uma só para o menu inteiro: em vez de cada link acender
+   e apagar, ela desliza de um link para o outro. */
+.navegacao::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 6px;
+    /* largura de uma coluna: o menu, menos as duas bordas de 6px, dividido por 4 */
+    width: calc((100% - 12px) / 4);
+    border-radius: 50px;
+    background-color: var(--texto-sobre-verde);
+    /* anda uma largura inteira dela mesma para cada posição */
+    transform: translateX(calc(var(--posicao) * 100%));
+    transition: transform 0.45s var(--mola);
+}
+
+/* O :has() pergunta "o menu tem um link assim com o mouse em cima?".
+   Se tiver, muda a posição, e a pílula desliza até lá. */
+.navegacao:has(a:nth-child(1):hover) { --posicao: 0; }
+.navegacao:has(a:nth-child(2):hover) { --posicao: 1; }
+.navegacao:has(a:nth-child(3):hover) { --posicao: 2; }
+.navegacao:has(a:nth-child(4):hover) { --posicao: 3; }
+
 /* Dentro do link de navegação */
 .navegacao a {
+    /* fica na frente da pílula escura */
+    position: relative;
     color: var(--texto-sobre-verde);
     padding: 8px 18px;
+    text-align: center;
     font-size: 14px;
     font-weight: 600;
+    transition: color 0.3s, transform 0.15s;
 }
+
+/* O link onde a pílula está fica com o texto claro: o que está com o mouse em cima
+   ou, quando o mouse não está em nenhum, o primeiro (a página atual). */
+.navegacao a:hover,
+.navegacao:not(:has(a:hover)) a:first-child {
+    color: var(--texto);
+}
+
+/* encolhe um pouco enquanto está sendo clicado */
+.navegacao a:active {
+    transform: scale(0.95);
+}
+
+
+
+
+
 
 .botao_comecar {
     background: var(--degrade);
     color: var(--texto-sobre-verde);
-    padding: 13px 20px;
+    /* maior que no desenho, para ficar com a mesma altura da lupa */
+    padding: 14px 26px;
     border-radius: 50px ;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
+    /* os dois abaixo são para o reflexo: ele fica preso dentro do botão e é cortado nas bordas */
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s var(--mola), box-shadow 0.3s;
 
+}
+
+/* com o mouse em cima, o botão sobe e ganha um brilho verde embaixo */
+.botao_comecar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(43, 217, 107, 0.35);
+}
+
+/* no clique ele desce e a sombra encolhe, como se encostasse de volta */
+.botao_comecar:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 2px 8px rgba(43, 217, 107, 0.3);
+    transition-duration: 0.1s;
+}
+
+/* o reflexo: uma faixa de luz inclinada, escondida à esquerda do botão */
+.botao_comecar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: skewX(-20deg);
+}
+
+/* quando o mouse entra, a faixa atravessa o botão. O transition fica só aqui
+   para ela deslizar na ida e voltar ao começo sem animação. */
+.botao_comecar:hover::after {
+    left: 120%;
+    transition: left 0.6s;
 }
 
 .botao_lupa {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    border: 1px solid var(--borda);
+    /* borda verde, para o botão aparecer no fundo escuro */
+    border: 1px solid var(--verde);
     background: none;
     cursor: pointer;
     color: var(--texto);
-    transition: border-color 0.2s, color 0.2s;
+    /* tamanho do ícone da lupa */
+    font-size: 18px;
+    /* o transform usa a mola; cor e sombra mudam de forma simples */
+    transition: background-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.4s var(--mola);
 }
 
+/* com o mouse em cima, o botão enche de verde, cresce, inclina e ganha um anel em volta */
 .botao_lupa:hover {
-    border-color: var(--verde);
-    color: var(--verde);
+    background-color: var(--verde);
+    color: var(--texto-sobre-verde);
+    transform: scale(1.08) rotate(-10deg);
+    box-shadow: 0 0 0 5px rgba(43, 217, 107, 0.2);
+}
+
+/* encolhe enquanto está sendo clicado */
+.botao_lupa:active {
+    transform: scale(0.94);
+    transition-duration: 0.1s;
+}
+
+/* contorno para quem navega pelo teclado, com a tecla Tab */
+.navegacao a:focus-visible,
+.botao_lupa:focus-visible,
+.botao_comecar:focus-visible {
+    outline: 2px solid var(--texto);
+    outline-offset: 3px;
+}
+
+/* quem pediu "menos movimento" no sistema vê as trocas sem animação */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
 }
 
 
