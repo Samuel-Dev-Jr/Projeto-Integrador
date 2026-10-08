@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 460" role="img" aria-label="Cadeado com o símbolo de código sobre uma plataforma">
+
+    <!-- Cores e formas reaproveitadas no desenho -->
+    <defs>
+        <!-- degradê verde do tema, o mesmo dos botões -->
+        <linearGradient id="verde" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2BD96B" />
+            <stop offset="1" stop-color="#19B5A5" />
+        </linearGradient>
+
+        <!-- verde mais fechado, para a argola ficar atrás do corpo -->
+        <linearGradient id="verde_escuro" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#22B463" />
+            <stop offset="1" stop-color="#0F7F74" />
+        </linearGradient>
+
+        <!-- luz suave atrás de tudo -->
+        <radialGradient id="brilho">
+            <stop offset="0" stop-color="#2BD96B" stop-opacity="0.2" />
+            <stop offset="1" stop-color="#2BD96B" stop-opacity="0" />
+        </radialGradient>
+
+        <linearGradient id="chao" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0D2E20" />
+            <stop offset="1" stop-color="#061A12" />
+        </linearGradient>
+
+        <!-- recorte no formato do corpo do cadeado, para a luz e a sombra não vazarem -->
+        <clipPath id="corpo">
+            <rect x="156" y="182" width="208" height="140" rx="24" />
+        </clipPath>
+
+        <!-- um cubo: tampa, lado esquerdo e lado direito -->
+        <g id="cubo">
+            <polygon points="0,-13 26,0 0,13 -26,0" fill="#2BD96B" />
+            <polygon points="-26,0 0,13 0,43 -26,30" fill="#19B5A5" />
+            <polygon points="26,0 0,13 0,43 26,30" fill="#128F84" />
+        </g>
+    </defs>
+
+    <!-- 1. LUZ DE FUNDO -->
+    <ellipse cx="260" cy="250" rx="255" ry="210" fill="url(#brilho)" />
+
+    <!-- 2. PLATAFORMA: as duas laterais, o tampo e as linhas da grade -->
+    <polygon points="45,345 260,430 260,444 45,359" fill="#04140D" stroke="#1F5C3D" />
+    <polygon points="475,345 260,430 260,444 475,359" fill="#03110B" stroke="#1F5C3D" />
+    <polygon points="45,345 260,260 475,345 260,430" fill="url(#chao)" stroke="#2BD96B" stroke-opacity="0.55"
+        stroke-width="1.2" />
+
+    <g stroke="#1F5C3D" stroke-width="1">
+        <line x1="116.7" y1="373.3" x2="331.7" y2="288.3" />
+        <line x1="188.3" y1="401.7" x2="403.3" y2="316.7" />
+        <line x1="116.7" y1="316.7" x2="331.7" y2="401.7" />
+        <line x1="188.3" y1="288.3" x2="403.3" y2="373.3" />
+    </g>
+
+    <!-- brilho no centro da plataforma e sombra do cadeado -->
+    <ellipse cx="260" cy="345" rx="120" ry="47" fill="#2BD96B" fill-opacity="0.1" />
+    <ellipse cx="260" cy="345" rx="76" ry="30" fill="#2BD96B" fill-opacity="0.16" />
+    <ellipse cx="260" cy="350" rx="88" ry="22" fill="#000000" fill-opacity="0.35" />
+
+    <!-- 3. LINHAS TRACEJADAS que ligam os cubos ao cadeado -->
+    <g fill="none" stroke="#2BD96B" stroke-opacity="0.7" stroke-width="1.4" stroke-dasharray="4 5">
+        <line x1="104" y1="238" x2="156" y2="252" />
+        <line x1="428" y1="186" x2="364" y2="216" />
+        <line x1="416" y1="302" x2="364" y2="298" />
+    </g>
+
+    <!-- 4. CADEADO: argola, corpo, luz em cima, sombra embaixo -->
+    <path d="M204 196 V138 A56 56 0 0 1 316 138 V196" fill="none" stroke="url(#verde_escuro)" stroke-width="26" />
+    <rect x="156" y="182" width="208" height="140" rx="24" fill="url(#verde)" />
+    <rect x="156" y="182" width="208" height="12" fill="#FFFFFF" fill-opacity="0.18" clip-path="url(#corpo)" />
+    <rect x="156" y="286" width="208" height="36" fill="#02140C" fill-opacity="0.14" clip-path="url(#corpo)" />
+
+    <!-- o símbolo de código, no lugar do buraco da chave -->
+    <g fill="none" stroke="#02140C" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="232,228 206,252 232,276" />
+        <polyline points="288,228 314,252 288,276" />
+        <line x1="271" y1="220" x2="249" y2="284" />
+    </g>
+
+    <!-- 5. CUBOS FLUTUANDO: o mesmo cubo em três tamanhos -->
+    <use href="#cubo" transform="translate(78 222)" />
+    <use href="#cubo" transform="translate(452 168) scale(0.85)" />
+    <use href="#cubo" transform="translate(432 292) scale(0.58)" />
+
+    <!-- 6. CHAVE: os segredos que o scanner procura -->
+    <g transform="translate(398 88) rotate(-38)" fill="none" stroke="#2BD96B" stroke-width="6" stroke-linecap="round">
+        <circle cx="0" cy="0" r="12" />
+        <line x1="12" y1="0" x2="50" y2="0" />
+        <line x1="36" y1="0" x2="36" y2="10" />
+        <line x1="47" y1="0" x2="47" y2="12" />
+    </g>
+
+    <!-- 7. PONTINHOS DE LUZ -->
+    <g fill="#2BD96B">
+        <circle cx="128" cy="148" r="2.5" />
+        <circle cx="92" cy="318" r="2" />
+        <circle cx="352" cy="96" r="2" />
+        <circle cx="486" cy="256" r="2.5" />
+    </g>
+
+</svg>
