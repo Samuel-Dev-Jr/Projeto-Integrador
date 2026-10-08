@@ -1,0 +1,320 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #03130d;
+    color: white;
+}
+
+/* PÁGINA */
+.login {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* LADO ESQUERDO */
+.esquerda {
+    width: 53%;
+    min-height: 100vh;
+    padding: 55px 70px;
+    background: #03130d;
+    border-right: 1px solid #164c37;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* LOGO */
+.logo {
+    font-size: 24px;
+}
+
+.logo span {
+    color: #8fa099;
+}
+
+/* ILUSTRAÇÃO */
+.imgLog {
+    height: 280px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 150px;
+}
+
+
+/* TEXTO */
+.texto {
+    max-width: 520px;
+}
+
+.texto h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.texto p {
+    color: #91a49b;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+/* LISTA */
+.texto ul {
+    list-style: none;
+}
+
+.texto li {
+    color: #c2cec9;
+    margin-bottom: 13px;
+}
+
+.texto li::first-letter {
+    color: #20db77;
+}
+
+/* RODAPÉ */
+.esquerda small {
+    margin-top: auto;
+    color: #71847b;
+}
+
+/* =================================
+   LADO DIREITO
+================================= */
+
+.direita {
+    width: 47%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+}
+
+/* CARD */
+.card {
+    width: 440px;
+    padding: 38px;
+
+    background: #041b12;
+    border: 1px solid #1a6244;
+    border-radius: 12px;
+}
+
+/* TÍTULO */
+.card h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.card > p {
+    color: #91a49b;
+    margin-bottom: 20px;
+}
+
+/* BOTÕES */
+.github,
+.btngoogle,
+.entrar {
+    width: 100%;
+    height: 50px;
+
+    border-radius: 25px;
+
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* GITHUB */
+.github {
+ background: transparent;
+    border: 1px solid #d7e1dc;
+    color: white;
+
+    margin-bottom: 15px;
+}
+
+.github:hover {
+    background: white;
+    color: #03130d;
+}
+
+/* GOOGLE */
+.btngoogle {
+    background: transparent;
+    border: 1px solid #d7e1dc;
+    color: white;
+    
+}
+.btngoogle:hover {
+    background: white;
+    color: #03130d;
+}
+
+
+/* DIVISOR */
+.divisor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 22px 0;
+
+    color: #84968d;
+    font-size: 12px;
+}
+
+.divisor span {
+    height: 1px;
+    background: #195e42;
+    flex: 1;
+}
+
+/* FORMULÁRIO */
+form label {
+    display: block;
+
+    color: #d9e3de;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+form input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    margin-bottom: 18px;
+
+    background: #03150e;
+
+    border: 1px solid #1d6848;
+    border-radius: 8px;
+
+    color: white;
+
+    outline: none;
+}
+
+form input:focus {
+    border-color: #20db77;
+}
+
+/* SENHA */
+.senha-titulo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.senha-titulo a {
+    color: #20db77;
+    font-size: 12px;
+}
+
+/* ENTRAR */
+.entrar {
+    background: transparent;
+
+    border: 1px solid #20db77;
+
+    color: #20db77;
+}
+
+.entrar:hover {
+    background: #20db77;
+    color: #03130d;
+}
+
+/* AVISO */
+.aviso {
+    margin-top: 16px;
+    padding: 13px;
+
+    border: 1px solid #1b6144;
+    border-radius: 7px;
+
+    background: #08291c;
+
+    color: #b8c7c0;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* CADASTRO */
+.cadastro {
+    margin-top: 16px;
+
+    color: #899b92;
+
+    font-size: 13px;
+}
+
+.cadastro a {
+    color: #20db77;
+}
+
+
+/* =================================
+   RESPONSIVO
+================================= */
+
+@media (max-width: 800px) {
+
+    .login {
+        flex-direction: column;
+    }
+
+    .esquerda,
+    .direita {
+        width: 100%;
+    }
+
+    .esquerda {
+        min-height: auto;
+    }
+
+    .direita {
+        min-height: auto;
+    }
+
+    .texto h1 {
+        font-size: 32px;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .esquerda {
+        padding: 35px 25px;
+    }
+
+    .direita {
+        padding: 20px;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .ilustracao {
+        height: 200px;
+        font-size: 100px;
+    }
+
+}
