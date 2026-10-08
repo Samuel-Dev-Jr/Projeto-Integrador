@@ -1,0 +1,252 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 654 232" role="img" aria-label="SpyCode">
+
+    <style>
+        /* ==========================================================
+           LOGO ANIMADO DO SPYCODE
+           Tudo é CSS dentro do próprio SVG, sem JavaScript.
+           O NOME anima uma vez só, quando a página abre.
+           O ESPIÃO repete para sempre um ciclo de 9 segundos:
+           olha para um lado, olha para o outro, levanta a lupa,
+           confere, guarda a lupa e descansa.
+           ========================================================== */
+
+
+        /* ---------- 1. ENTRADA: toca uma vez ---------- */
+
+        /* o espião surge crescendo */
+        .espiao {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: surge 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+        }
+
+        /* cada letra do nome sobe e aparece, uma depois da outra */
+        .letra {
+            animation: letra 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        }
+
+        .letra.l1 { animation-delay: 0.25s; }
+        .letra.l2 { animation-delay: 0.32s; }
+        .letra.l3 { animation-delay: 0.39s; }
+        .letra.l4 { animation-delay: 0.46s; }
+        .letra.l5 { animation-delay: 0.53s; }
+        .letra.l6 { animation-delay: 0.6s; }
+        .letra.l7 { animation-delay: 0.67s; }
+
+        @keyframes surge {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes letra {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* ---------- 2. CICLO DO ESPIÃO: 9 segundos, repete para sempre ----------
+           Todas as regras abaixo têm a mesma duração e o mesmo atraso,
+           por isso as porcentagens dos @keyframes ficam sincronizadas.
+           1% do ciclo = 0,09 segundo. */
+
+        .cabeca,
+        .rosto,
+        .chapeu,
+        .gola,
+        .lupa,
+        .aro,
+        .reflexo,
+        .selo {
+            animation-duration: 9s;
+            animation-delay: 1.3s;
+            animation-iteration-count: infinite;
+            animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+        }
+
+        /* a cabeça inteira vira para os lados, girando em torno do pescoço */
+        .cabeca {
+            transform-origin: 104px 158px;
+            animation-name: olha;
+        }
+
+        /* o rosto anda mais que o chapéu e a gola quase não sai do lugar:
+           essa diferença é o que dá a impressão de a cabeça estar virando */
+        .rosto { animation-name: olha_rosto; }
+        .gola { animation-name: olha_gola; }
+
+        /* o chapéu acompanha o olhar e, perto do fim do ciclo, faz um cumprimento */
+        .chapeu {
+            transform-box: fill-box;
+            transform-origin: 50% 100%;
+            animation-name: olha_chapeu;
+        }
+
+        /* a lupa fica guardada (invisível, caída para baixo) e sobe na hora de conferir.
+           O ponto de giro é a ponta do cabo, como se uma mão a segurasse. */
+        .lupa {
+            opacity: 0;
+            transform: translate(0, 110px) rotate(-18deg);
+            transform-origin: 222px 222px;
+            animation-name: levanta;
+        }
+
+        /* o aro fica verde na hora em que a conferência dá certo */
+        .aro { animation-name: confere; }
+
+        /* um reflexo de luz atravessa o vidro */
+        .reflexo {
+            transform: translateX(-150px);
+            animation-name: reflexo;
+        }
+
+        /* o selo de "conferido" pula no canto da lupa */
+        .selo {
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center;
+            animation-name: selo;
+        }
+
+        @keyframes olha {
+            0%, 8% { transform: translate(0, 0) rotate(0deg); }
+            13%, 19% { transform: translate(-6px, 0) rotate(-7deg); }
+            26%, 32% { transform: translate(6px, 0) rotate(7deg); }
+            37%, 44% { transform: translate(0, 0) rotate(0deg); }
+            49% { transform: translate(-2px, 0) rotate(-3deg); }
+            54% { transform: translate(2px, 0) rotate(3deg); }
+            58%, 100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        @keyframes olha_rosto {
+            0%, 8% { transform: translateX(0); }
+            13%, 19% { transform: translateX(-5px); }
+            26%, 32% { transform: translateX(5px); }
+            37%, 100% { transform: translateX(0); }
+        }
+
+        @keyframes olha_gola {
+            0%, 8% { transform: translateX(0); }
+            13%, 19% { transform: translateX(2px); }
+            26%, 32% { transform: translateX(-2px); }
+            37%, 100% { transform: translateX(0); }
+        }
+
+        @keyframes olha_chapeu {
+            0%, 8% { transform: translate(0, 0) rotate(0deg); }
+            13%, 19% { transform: translate(-2px, 0) rotate(0deg); }
+            26%, 32% { transform: translate(2px, 0) rotate(0deg); }
+            37%, 80% { transform: translate(0, 0) rotate(0deg); }
+            84% { transform: translate(0, -7px) rotate(-6deg); }
+            89%, 100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        @keyframes levanta {
+            0%, 36% { opacity: 0; transform: translate(0, 110px) rotate(-18deg); }
+            39% { opacity: 1; }
+            43% { opacity: 1; transform: translate(0, -5px) rotate(3deg); }
+            46% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-5px, 1px) rotate(-2deg); }
+            54% { transform: translate(4px, 0) rotate(1.5deg); }
+            58%, 64% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+            71%, 100% { opacity: 0; transform: translate(0, 110px) rotate(-18deg); }
+        }
+
+        @keyframes confere {
+            0%, 55% { fill: #FFFFFF; }
+            58%, 62% { fill: #2BD96B; }
+            66%, 100% { fill: #FFFFFF; }
+        }
+
+        @keyframes reflexo {
+            0%, 45% { transform: translateX(-150px); }
+            54%, 100% { transform: translateX(150px); }
+        }
+
+        @keyframes selo {
+            0%, 55% { opacity: 0; transform: scale(0); }
+            58% { opacity: 1; transform: scale(1.25); }
+            60%, 63% { opacity: 1; transform: scale(1); }
+            67%, 100% { opacity: 0; transform: scale(0); }
+        }
+
+
+        /* ---------- 3. ACESSIBILIDADE ----------
+           Quem pediu "menos movimento" no sistema vê o logo parado, com a lupa levantada. */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+            }
+
+            .lupa {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+
+
+    <defs>
+        <!-- recorte redondo do tamanho do vidro, para o reflexo não passar do aro -->
+        <clipPath id="vidro">
+            <circle cx="104" cy="104" r="78" />
+        </clipPath>
+    </defs>
+
+
+    <!-- 1. ESPIÃO: gola, rosto e chapéu, cada parte no seu grupo para poder mexer separado -->
+    <g class="espiao" fill="#FFFFFF">
+        <g class="cabeca">
+
+            <g class="gola">
+                <path d="M 62.2 129.5 C 62.2 130.8, 66.8 140.8, 68.8 143.8 C 74.1 151.8, 84.4 158.3, 94.4 160.1 L 96 160.4 93.1 151.9 C 91.5 147.2, 90 143.3, 89.8 143.1 C 89.6 142.9, 85.3 141.1, 80.2 139.1 C 70.6 135.3, 66.8 133.3, 63.9 130.6 C 62.9 129.6, 62.2 129.2, 62.2 129.5" />
+                <path d="M 145 131 C 142.1 133.6, 137.3 136, 128 139.6 C 123.7 141.3, 119.9 142.9, 119.6 143.2 C 118.8 143.9, 113.2 159.9, 113.7 160.3 C 114.3 161, 121.2 158.9, 125.6 156.6 C 133 152.9, 139.2 146.9, 142.9 139.8 C 144.5 136.7, 147.7 129.1, 147.3 129.1 C 147.3 129.1, 146.2 130, 145 131" />
+            </g>
+
+            <g class="rosto">
+                <path d="M 60.8 104.7 C 59.4 106.1, 61.5 119.2, 64 124.5 C 66.7 130.4, 68.2 131.4, 82.6 137 C 87.5 138.9, 91.9 140.8, 92.2 141.2 C 92.5 141.5, 94.2 146, 95.9 151.1 C 99.4 161.6, 98.7 161, 106.1 161 L 110.1 161 113.5 150.9 L 117 140.9 126.2 137.3 C 139 132.2, 141.9 130.5, 144 127.1 C 146.9 122.3, 148.5 115.5, 148.5 108.4 L 148.6 104.7 147.1 105 C 146.2 105.1, 143.7 105.5, 141.3 105.9 C 137.6 106.6, 137 106.8, 136.6 108 C 136.3 108.8, 135.8 109.6, 135.4 109.9 C 135 110.2, 134.1 112.5, 133.5 114.9 C 132.2 120.4, 131.3 121.7, 128.2 123.2 C 126.2 124.2, 124.8 124.4, 120.8 124.4 C 113.1 124.4, 110.3 122.5, 108 115.8 C 106.8 112.1, 106.1 111.3, 104.6 111.3 C 103.1 111.3, 101.8 112.7, 101.3 114.8 C 100.6 117.7, 98.4 121.4, 96.8 122.6 C 93.4 125, 85.2 125.3, 80.9 123.1 C 78.1 121.7, 76.2 118.6, 75.5 114.3 C 75.1 111.8, 74.6 110.7, 74 110.5 C 73.4 110.3, 72.9 109.5, 72.8 108.5 C 72.7 106.8, 72.6 106.7, 68.9 106.1 C 66.8 105.8, 64.2 105.2, 63.1 104.9 C 62 104.6, 61 104.5, 60.8 104.7" />
+            </g>
+
+            <g class="chapeu">
+                <path d="M 67.6 71.2 C 66.6 73.2, 65.8 79.6, 66.1 84.1 C 66.3 88.4, 66.3 88.6, 65.2 88.9 C 64.6 89, 62.4 89.5, 60.4 90 C 49.9 92.3, 47 95.9, 53.2 98.8 C 70.9 107.1, 127.6 108.2, 150.8 100.7 C 162.1 97, 161.3 93, 148.6 90 C 142.4 88.6, 142.5 88.6, 142.9 87.6 C 144 84.7, 142.8 72.1, 141.3 70.8 C 139.9 69.7, 128.5 72.9, 128.6 74.4 C 128.6 74.7, 129.4 77.5, 130.5 80.7 C 131.5 84, 132.4 86.9, 132.4 87.3 C 132.4 88.2, 125.7 90.1, 118 91.4 C 110.3 92.7, 95 92.5, 88.3 91.1 C 82.6 89.8, 76.7 88, 76.7 87.5 C 76.7 87.2, 77.6 84.2, 78.6 80.7 C 79.7 77.3, 80.4 74.2, 80.1 74 C 79.4 73.3, 72.9 70.9, 70.4 70.5 C 68.5 70.2, 68.1 70.3, 67.6 71.2" />
+                <path d="M 91.3 57.5 C 89.3 58.6, 88 61.3, 84.5 71.5 C 82.1 78.5, 81.6 80.7, 82.1 81 C 83.2 81.7, 91 83.1, 97.3 83.8 C 103 84.4, 111.5 84.1, 117.1 83.2 C 121.1 82.5, 127.5 81, 127.5 80.7 C 127.5 80.6, 126 76, 124.2 70.5 C 119.5 56.1, 118 54.7, 110.6 58.4 C 108.3 59.6, 106.5 60.1, 104.8 60.1 C 103.1 60.1, 101.3 59.6, 99 58.4 C 95.4 56.6, 93.4 56.4, 91.3 57.5" />
+            </g>
+
+        </g>
+    </g>
+
+
+    <!-- 2. LUPA: vidro, reflexo, aro com o cabo e o selo de conferido -->
+    <g class="lupa">
+
+        <circle cx="104" cy="104" r="78" fill="#2BD96B" fill-opacity="0.1" />
+
+        <!-- o grupo de fora recorta no formato do vidro; o do meio inclina a faixa de luz -->
+        <g clip-path="url(#vidro)">
+            <g transform="rotate(20 104 104)">
+                <rect class="reflexo" x="91" y="-20" width="26" height="250" fill="#FFFFFF" fill-opacity="0.3" />
+            </g>
+        </g>
+
+        <path class="aro" fill="#FFFFFF" fill-rule="evenodd" d="M 92.1 6.3 C 57.4 11.3, 29.3 31.7, 14.6 62.4 C -1.5 96, 3.3 135.6, 26.9 164.8 C 59.1 204.7, 115.4 213.9, 157.7 186.1 L 162.3 183.1 182.8 203.6 C 205.4 226.1, 205.6 226.3, 211.7 226.3 C 217.5 226.3, 222.2 223.4, 225.1 218.1 C 226.6 215.3, 226.4 207.9, 224.8 204.7 C 223.9 203.1, 216.7 195.5, 203.5 182.3 L 183.6 162.2 186.9 157.1 C 212.3 118.5, 207 67.6, 174.1 34.9 C 160.1 21, 143.7 12, 124.3 7.8 C 118.8 6.6, 116.5 6.4, 105.9 6.3 C 99.2 6.2, 93 6.2, 92.1 6.3 M 95.6 26.5 C 70.5 29.2, 46.9 45.1, 34.9 67.6 C 18.7 98, 24.4 134, 49.2 158.8 C 60.6 170.3, 73.2 177.2, 88.8 180.5 C 96.7 182.2, 111.3 182.2, 119.2 180.5 C 150.4 173.8, 174.4 149.6, 181 118.1 C 182.5 111, 182.7 98.3, 181.3 90.9 C 174.6 54.1, 144 27.8, 106.4 26.3 C 103 26.2, 98.1 26.3, 95.6 26.5" />
+
+        <g class="selo">
+            <circle cx="176" cy="36" r="24" fill="#2BD96B" stroke="#03110B" stroke-width="5" />
+            <polyline points="165,37 173,45 188,28" fill="none" stroke="#02140C" stroke-width="6"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+
+    </g>
+
+
+    <!-- 3. NOME: uma letra por grupo, para entrarem uma depois da outra -->
+    <g fill="#FFFFFF" fill-rule="evenodd">
+        <path class="letra l1" d="M 256.2 77.6 C 246.9 80.1, 242.3 84.6, 240.7 92.6 C 239.2 100, 242.1 106.3, 248.6 109.6 C 250.3 110.4, 255.9 112.2, 261.1 113.5 C 272.5 116.3, 275.6 117.7, 276.2 120.1 C 278.3 128.7, 263 131.1, 248.8 124.3 L 244 122.1 241.6 127.6 C 238.7 134.1, 238.6 134, 248.5 137.3 C 254.3 139.2, 256.3 139.4, 264.8 139.4 C 273.9 139.4, 274.9 139.3, 279.4 137.2 C 287.8 133.3, 291.8 127, 291 118.7 C 290.2 110.3, 283.9 105.7, 268 102.2 C 258.1 100, 256 99, 255.2 95.9 C 254.4 92.9, 256.8 90, 261 88.8 C 266.3 87.2, 273.7 88.3, 282.9 92.1 C 284 92.5, 284.7 91.7, 286.6 87.3 C 289.4 81.1, 289.4 81, 281.1 78.4 C 273.9 76.2, 262.8 75.8, 256.2 77.6" /> <!-- S -->
+        <path class="letra l2" d="M 325 90.7 C 321.9 91.1, 318.5 92.4, 315.9 94.2 C 313.3 96, 313.1 96, 313.2 93.5 C 313.3 91.5, 313.1 91.3, 309.8 91.1 C 307.9 90.9, 304.9 91, 303.1 91.3 L 299.8 91.8 299.8 123.6 L 299.8 155.3 306.7 155.3 L 313.7 155.3 313.7 144.8 L 313.7 134.2 315.9 135.6 C 320.9 138.9, 322.7 139.4, 328.9 139.4 C 339.2 139.4, 346.3 134.9, 350.5 125.9 C 353.1 120.3, 352.9 109, 350 103.6 C 345.1 94.3, 335.3 89.2, 325 90.7 M 323 102.5 C 317.2 104.3, 314.5 108.4, 314.5 115.2 C 314.5 122.7, 319.7 128.2, 327 128.2 C 335.4 128.2, 340.8 117.3, 336.6 108.6 C 334.4 103.9, 327.8 101, 323 102.5" /> <!-- p -->
+        <path class="letra l3" d="M 354.1 91.3 C 354.1 91.5, 358.1 101, 363.1 112.4 C 375 139.9, 374.8 139.2, 373.6 141.7 C 372.1 145.1, 368.2 146.4, 363.6 145.1 L 359.7 143.9 357.5 148.5 C 355.3 153.1, 355.3 153.2, 356.8 154.3 C 361 157.4, 371.4 157.6, 377 154.7 C 383.1 151.6, 384.7 149.1, 392.8 130 C 396.2 122, 401.1 110.6, 403.6 104.8 C 410.3 89.4, 410.4 90.9, 402.7 90.9 C 398.4 90.9, 395.9 91.3, 395.4 91.9 C 394.7 92.8, 387.3 110.1, 383.7 119.3 L 382.1 123.1 380.8 120 C 380.1 118.3, 377.1 111.2, 374.2 104.1 L 369 91.3 361.5 91.1 C 357.4 91, 354.1 91, 354.1 91.3" /> <!-- y -->
+        <path class="letra l4" d="M 435.7 77.4 C 415.9 82.7, 406.3 103.5, 415 122.5 C 423.3 140.7, 455.4 145.8, 469.4 131.2 L 471.6 128.9 467.2 124.5 L 462.8 120.2 459.7 122.6 C 455.2 126.2, 451.8 127.4, 446 127.4 C 440.1 127.4, 437 126.3, 432.8 122.6 C 424.5 115.3, 424.6 100.2, 433.1 93.3 C 440.7 87, 452.7 87.2, 459.7 93.8 C 460.9 94.9, 462.2 95.6, 462.6 95.5 C 463.8 95, 471.2 87.8, 471.2 87.1 C 471.2 86, 465.9 81.7, 462.1 79.8 C 455 76.2, 443.9 75.2, 435.7 77.4" /> <!-- C -->
+        <path class="letra l5" d="M 496.5 90.9 C 484 92.8, 475.1 102.5, 475.1 114.2 C 475.1 125.2, 479.8 132.8, 489.3 137.2 C 496.1 140.3, 506.7 140.4, 513.2 137.4 C 522.1 133.2, 527.1 126.4, 527.7 117.3 C 528.9 100.1, 514.8 88.2, 496.5 90.9 M 494.7 104.1 C 489.4 107.4, 487.5 117.6, 491.3 122.7 C 496.5 129.7, 506.8 130, 511.2 123.2 C 515.6 116.5, 513.5 107.1, 506.8 103.7 C 503.7 102, 497.7 102.3, 494.7 104.1" /> <!-- o -->
+        <path class="letra l6" d="M 572.9 84.8 L 572.9 95.6 569.3 93.5 C 562.6 89.6, 552.9 89.7, 546 93.7 C 529.9 103.1, 530.3 128.6, 546.8 136.7 C 555.2 140.8, 563.7 140.7, 570.1 136.3 L 572.9 134.4 572.9 136.7 L 572.9 139 579.9 139 L 586.9 139 586.9 106.4 L 586.9 73.9 579.9 73.9 L 572.9 73.9 572.9 84.8 M 553.8 104.2 C 550.5 106.3, 548.5 110.5, 548.6 115.5 C 548.7 122.8, 552.9 127.4, 559.9 128 C 564.4 128.3, 567.8 126.7, 570.8 122.6 C 574.6 117.5, 572.7 107.4, 567.3 104.1 C 563.8 102, 557.1 102, 553.8 104.2" /> <!-- d -->
+        <path class="letra l7" d="M 616.7 90.9 C 598.5 93.5, 589.6 114.8, 600.5 129.9 C 608.2 140.5, 630.2 143.1, 640.3 134.6 C 643.4 132, 643.2 131.1, 638.7 126.8 L 636.1 124.3 632.3 126.3 C 625.3 129.8, 616.5 128.6, 612.2 123.6 C 608.3 118.8, 608.2 118.9, 628.5 118.9 L 646.8 118.9 646.4 113.5 C 645.1 97.9, 632.9 88.7, 616.7 90.9 M 616.7 102.1 C 613.8 103.4, 610.2 107.6, 610.2 109.6 C 610.2 111, 610.8 111.1, 621.4 111.1 C 632.3 111.1, 632.7 111.1, 632.7 109.5 C 632.7 103.7, 623.2 99.3, 616.7 102.1" /> <!-- e -->
+    </g>
+
+</svg>

@@ -1,4 +1,330 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 460" role="img" aria-label="Cadeado com o símbolo de código sobre uma plataforma">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 460" role="img"
+    aria-label="Cadeado com o símbolo de código sobre uma plataforma">
+
+    <style>
+        /* ==========================================================
+           ANIMAÇÕES DA ILUSTRAÇÃO
+           Tudo é CSS dentro do próprio SVG, sem JavaScript.
+           Cada animação tem duas partes: a regra que diz QUEM anima,
+           por quanto tempo e quantas vezes, e o @keyframes com o
+           mesmo nome, que diz O QUE muda do começo ao fim.
+           ========================================================== */
+
+
+        /* ---------- 1. ENTRADA: toca uma vez quando a página abre ---------- */
+
+        /* a plataforma sobe e aparece */
+        .plataforma {
+            animation: sobe 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        }
+
+        /* o cadeado desce e aparece, um instante depois */
+        .cadeado {
+            animation: desce 0.8s 0.15s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        }
+
+        /* a argola começa levantada e fecha com um estalo */
+        .argola {
+            animation: trava 0.5s 1s cubic-bezier(0.3, 0, 0.2, 1) both;
+        }
+
+        /* o corpo afunda um pouquinho na hora do estalo */
+        .corpo_cadeado {
+            transform-box: fill-box;
+            transform-origin: 50% 100%;
+            animation: aperta 0.5s 1s both;
+        }
+
+        /* o símbolo de código é desenhado traço a traço */
+        .simbolo polyline,
+        .simbolo line {
+            stroke-dasharray: 1;
+            animation: desenha 0.6s 1.35s ease-out both;
+        }
+
+        /* cubos e chave surgem crescendo, um depois do outro */
+        .surge {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: surge 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+        }
+
+        .surge.s1 { animation-delay: 0.55s; }
+        .surge.s2 { animation-delay: 0.7s; }
+        .surge.s3 { animation-delay: 0.85s; }
+        .surge.s4 { animation-delay: 1s; }
+
+        /* fios e pontinhos aparecem por último */
+        .fios,
+        .pontos {
+            animation: aparece 0.7s 1.3s both;
+        }
+
+        @keyframes sobe {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes desce {
+            from { opacity: 0; transform: translateY(-22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes trava {
+            0% { transform: translateY(-14px); }
+            60% { transform: translateY(3px); }
+            80% { transform: translateY(-1px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes aperta {
+            0%, 45% { transform: scaleY(1); }
+            62% { transform: scaleY(0.965); }
+            100% { transform: scaleY(1); }
+        }
+
+        @keyframes desenha {
+            from { stroke-dashoffset: 1; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes surge {
+            from { opacity: 0; transform: scale(0.2); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes aparece {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+
+        /* ---------- 2. VARREDURA: repete a cada 4,8 segundos ---------- */
+
+        /* a faixa de luz desce pelo corpo do cadeado, como um scanner */
+        .feixe {
+            transform: translateY(-10px);
+            animation: varre 4.8s 2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        }
+
+        /* quando a varredura termina, um contorno claro pisca e se abre */
+        .contorno {
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: confirma 4.8s 2s ease-out infinite;
+        }
+
+        /* a borda e o brilho da plataforma acendem junto */
+        .borda_tampo {
+            animation: acende 4.8s 2s ease-in-out infinite;
+        }
+
+        .chao_brilho {
+            opacity: 0.65;
+            animation: acende_chao 4.8s 2s ease-in-out infinite;
+        }
+
+        @keyframes varre {
+            0% { transform: translateY(-10px); }
+            45%, 100% { transform: translateY(152px); }
+        }
+
+        @keyframes confirma {
+            0%, 42% { opacity: 0; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1); }
+            74%, 100% { opacity: 0; transform: scale(1.08); }
+        }
+
+        @keyframes acende {
+            0%, 40%, 80%, 100% { stroke-opacity: 0.55; }
+            52% { stroke-opacity: 1; }
+        }
+
+        @keyframes acende_chao {
+            0%, 40%, 85%, 100% { opacity: 0.65; }
+            52% { opacity: 1; }
+        }
+
+
+        /* ---------- 3. MOVIMENTO CONTÍNUO ---------- */
+
+        /* a luz de fundo respira */
+        .brilho {
+            transform-origin: 260px 250px;
+            animation: respira 6s ease-in-out infinite;
+        }
+
+        /* ondas saem do pé do cadeado e se espalham pela plataforma */
+        .onda {
+            opacity: 0;
+            transform-origin: 260px 345px;
+            animation: onda 4.5s linear infinite;
+        }
+
+        .onda.o2 { animation-delay: 1.5s; }
+        .onda.o3 { animation-delay: 3s; }
+
+        /* caracteres de código sobem da plataforma e somem */
+        .bit {
+            opacity: 0;
+            fill: #2BD96B;
+            font: 600 14px monospace;
+            animation: sobe_bit 6s linear infinite;
+        }
+
+        .bit.b1 { animation-delay: 0.4s; }
+        .bit.b2 { animation-delay: 2.1s; animation-duration: 7s; }
+        .bit.b3 { animation-delay: 3.3s; }
+        .bit.b4 { animation-delay: 1.2s; animation-duration: 6.6s; }
+        .bit.b5 { animation-delay: 4.4s; animation-duration: 5.4s; }
+        .bit.b6 { animation-delay: 5.1s; animation-duration: 7.2s; }
+
+        /* cada cubo flutua no seu ritmo */
+        .cubo.c1 { animation: flutua1 5.2s ease-in-out infinite; }
+        .cubo.c2 { animation: flutua2 4.4s -1.3s ease-in-out infinite; }
+        .cubo.c3 { animation: flutua3 3.6s -0.6s ease-in-out infinite; }
+
+        /* o fio de cada cubo inclina no mesmo ritmo, para a ponta acompanhar o cubo.
+           O ponto fixo (transform-origin) é a ponta que encosta no cadeado. */
+        .fio.f1 { transform-origin: 156px 254px; animation: estica1 5.2s ease-in-out infinite; }
+        .fio.f2 { transform-origin: 364px 216px; animation: estica2 4.4s -1.3s ease-in-out infinite; }
+        .fio.f3 { transform-origin: 364px 298px; animation: estica3 3.6s -0.6s ease-in-out infinite; }
+
+        /* os tracinhos do fio correm na direção do cadeado */
+        .fio line {
+            animation: corre 1.1s linear infinite;
+        }
+
+        /* uma faísca viaja do cubo até o cadeado */
+        .pulso {
+            opacity: 0;
+        }
+
+        .f1 .pulso { animation: pulso1 3.2s 2.2s ease-in infinite; }
+        .f2 .pulso { animation: pulso2 3.8s 3.1s ease-in infinite; }
+        .f3 .pulso { animation: pulso3 2.9s 4s ease-in infinite; }
+
+        /* a chave balança */
+        .chave {
+            transform-origin: 398px 88px;
+            animation: balanca 4s ease-in-out infinite alternate;
+        }
+
+        /* a estrelinha ao lado da chave cintila */
+        .estrela {
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: cintila 3.4s 2s ease-in-out infinite;
+        }
+
+        /* os pontinhos de luz piscam, cada um num tempo */
+        .ponto {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: pisca 2.6s ease-in-out infinite;
+        }
+
+        .ponto.p2 { animation-delay: -0.9s; animation-duration: 3.2s; }
+        .ponto.p3 { animation-delay: -1.7s; }
+        .ponto.p4 { animation-delay: -0.4s; animation-duration: 3.6s; }
+
+        @keyframes respira {
+            0%, 100% { opacity: 0.7; transform: scale(0.96); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes onda {
+            0% { opacity: 0; transform: scale(0.45); }
+            15% { opacity: 0.75; }
+            100% { opacity: 0; transform: scale(2); }
+        }
+
+        @keyframes sobe_bit {
+            0% { opacity: 0; transform: translateY(0); }
+            15% { opacity: 0.85; }
+            70% { opacity: 0.5; }
+            100% { opacity: 0; transform: translateY(-130px); }
+        }
+
+        @keyframes flutua1 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes flutua2 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+
+        @keyframes flutua3 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes estica1 {
+            0%, 100% { transform: skewY(0deg); }
+            50% { transform: skewY(9.1deg); }
+        }
+
+        @keyframes estica2 {
+            0%, 100% { transform: skewY(0deg); }
+            50% { transform: skewY(-6.2deg); }
+        }
+
+        @keyframes estica3 {
+            0%, 100% { transform: skewY(0deg); }
+            50% { transform: skewY(-5.6deg); }
+        }
+
+        @keyframes corre {
+            to { stroke-dashoffset: -18; }
+        }
+
+        @keyframes pulso1 {
+            0% { opacity: 0; transform: translate(0, 0); }
+            10%, 38% { opacity: 1; }
+            46%, 100% { opacity: 0; transform: translate(50px, 14px); }
+        }
+
+        @keyframes pulso2 {
+            0% { opacity: 0; transform: translate(0, 0); }
+            10%, 38% { opacity: 1; }
+            46%, 100% { opacity: 0; transform: translate(-64px, 30px); }
+        }
+
+        @keyframes pulso3 {
+            0% { opacity: 0; transform: translate(0, 0); }
+            10%, 38% { opacity: 1; }
+            46%, 100% { opacity: 0; transform: translate(-51px, -3px); }
+        }
+
+        @keyframes balanca {
+            from { transform: rotate(-7deg) translateY(0); }
+            to { transform: rotate(8deg) translateY(-4px); }
+        }
+
+        @keyframes cintila {
+            0%, 62%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            78% { opacity: 1; transform: scale(1) rotate(45deg); }
+        }
+
+        @keyframes pisca {
+            0%, 100% { opacity: 0.25; transform: scale(0.6); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+
+        /* ---------- 4. ACESSIBILIDADE ----------
+           Quem pediu "menos movimento" no sistema vê o desenho parado. */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+            }
+        }
+    </style>
+
 
     <!-- Cores e formas reaproveitadas no desenho -->
     <defs>
@@ -15,8 +341,8 @@
         </linearGradient>
 
         <!-- luz suave atrás de tudo -->
-        <radialGradient id="brilho">
-            <stop offset="0" stop-color="#2BD96B" stop-opacity="0.2" />
+        <radialGradient id="luz_fundo">
+            <stop offset="0" stop-color="#2BD96B" stop-opacity="0.24" />
             <stop offset="1" stop-color="#2BD96B" stop-opacity="0" />
         </radialGradient>
 
@@ -25,9 +351,20 @@
             <stop offset="1" stop-color="#061A12" />
         </linearGradient>
 
-        <!-- recorte no formato do corpo do cadeado, para a luz e a sombra não vazarem -->
+        <!-- rastro que a faixa de luz deixa para trás -->
+        <linearGradient id="rastro" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#EAF7F0" stop-opacity="0" />
+            <stop offset="1" stop-color="#EAF7F0" stop-opacity="0.34" />
+        </linearGradient>
+
+        <!-- recorte no formato do corpo do cadeado, para a luz não vazar para fora -->
         <clipPath id="corpo">
             <rect x="156" y="182" width="208" height="140" rx="24" />
+        </clipPath>
+
+        <!-- recorte no formato do tampo da plataforma, para as ondas não saírem dela -->
+        <clipPath id="tampo">
+            <polygon points="45,345 260,260 475,345 260,430" />
         </clipPath>
 
         <!-- um cubo: tampa, lado esquerdo e lado direito -->
@@ -38,66 +375,163 @@
         </g>
     </defs>
 
+
     <!-- 1. LUZ DE FUNDO -->
-    <ellipse cx="260" cy="250" rx="255" ry="210" fill="url(#brilho)" />
+    <ellipse class="brilho" cx="260" cy="250" rx="255" ry="210" fill="url(#luz_fundo)" />
 
-    <!-- 2. PLATAFORMA: as duas laterais, o tampo e as linhas da grade -->
-    <polygon points="45,345 260,430 260,444 45,359" fill="#04140D" stroke="#1F5C3D" />
-    <polygon points="475,345 260,430 260,444 475,359" fill="#03110B" stroke="#1F5C3D" />
-    <polygon points="45,345 260,260 475,345 260,430" fill="url(#chao)" stroke="#2BD96B" stroke-opacity="0.55"
-        stroke-width="1.2" />
 
-    <g stroke="#1F5C3D" stroke-width="1">
-        <line x1="116.7" y1="373.3" x2="331.7" y2="288.3" />
-        <line x1="188.3" y1="401.7" x2="403.3" y2="316.7" />
-        <line x1="116.7" y1="316.7" x2="331.7" y2="401.7" />
-        <line x1="188.3" y1="288.3" x2="403.3" y2="373.3" />
+    <!-- 2. PLATAFORMA: as duas laterais, o tampo, a grade, o brilho e as ondas -->
+    <g class="plataforma">
+        <polygon points="45,345 260,430 260,444 45,359" fill="#04140D" stroke="#1F5C3D" />
+        <polygon points="475,345 260,430 260,444 475,359" fill="#03110B" stroke="#1F5C3D" />
+        <polygon class="borda_tampo" points="45,345 260,260 475,345 260,430" fill="url(#chao)" stroke="#2BD96B"
+            stroke-opacity="0.55" stroke-width="1.2" />
+
+        <g stroke="#1F5C3D" stroke-width="1">
+            <line x1="116.7" y1="373.3" x2="331.7" y2="288.3" />
+            <line x1="188.3" y1="401.7" x2="403.3" y2="316.7" />
+            <line x1="116.7" y1="316.7" x2="331.7" y2="401.7" />
+            <line x1="188.3" y1="288.3" x2="403.3" y2="373.3" />
+        </g>
+
+        <g class="chao_brilho">
+            <ellipse cx="260" cy="345" rx="120" ry="47" fill="#2BD96B" fill-opacity="0.15" />
+            <ellipse cx="260" cy="345" rx="76" ry="30" fill="#2BD96B" fill-opacity="0.24" />
+        </g>
+
+        <g clip-path="url(#tampo)" fill="none" stroke="#2BD96B" stroke-width="1.4">
+            <ellipse class="onda o1" cx="260" cy="345" rx="76" ry="30" vector-effect="non-scaling-stroke" />
+            <ellipse class="onda o2" cx="260" cy="345" rx="76" ry="30" vector-effect="non-scaling-stroke" />
+            <ellipse class="onda o3" cx="260" cy="345" rx="76" ry="30" vector-effect="non-scaling-stroke" />
+        </g>
+
+        <!-- sombra do cadeado -->
+        <ellipse cx="260" cy="350" rx="88" ry="22" fill="#000000" fill-opacity="0.35" />
     </g>
 
-    <!-- brilho no centro da plataforma e sombra do cadeado -->
-    <ellipse cx="260" cy="345" rx="120" ry="47" fill="#2BD96B" fill-opacity="0.1" />
-    <ellipse cx="260" cy="345" rx="76" ry="30" fill="#2BD96B" fill-opacity="0.16" />
-    <ellipse cx="260" cy="350" rx="88" ry="22" fill="#000000" fill-opacity="0.35" />
 
-    <!-- 3. LINHAS TRACEJADAS que ligam os cubos ao cadeado -->
-    <g fill="none" stroke="#2BD96B" stroke-opacity="0.7" stroke-width="1.4" stroke-dasharray="4 5">
-        <line x1="104" y1="238" x2="156" y2="252" />
-        <line x1="428" y1="186" x2="364" y2="216" />
-        <line x1="416" y1="302" x2="364" y2="298" />
+    <!-- 3. CARACTERES DE CÓDIGO que sobem da plataforma, por trás do cadeado -->
+    <g>
+        <text class="bit b1" x="118" y="356">1</text>
+        <text class="bit b2" x="176" y="372">0</text>
+        <text class="bit b3" x="228" y="340">{</text>
+        <text class="bit b4" x="338" y="368">1</text>
+        <text class="bit b5" x="392" y="352">;</text>
+        <text class="bit b6" x="296" y="336">0</text>
     </g>
 
-    <!-- 4. CADEADO: argola, corpo, luz em cima, sombra embaixo -->
-    <path d="M204 196 V138 A56 56 0 0 1 316 138 V196" fill="none" stroke="url(#verde_escuro)" stroke-width="26" />
-    <rect x="156" y="182" width="208" height="140" rx="24" fill="url(#verde)" />
-    <rect x="156" y="182" width="208" height="12" fill="#FFFFFF" fill-opacity="0.18" clip-path="url(#corpo)" />
-    <rect x="156" y="286" width="208" height="36" fill="#02140C" fill-opacity="0.14" clip-path="url(#corpo)" />
 
-    <!-- o símbolo de código, no lugar do buraco da chave -->
-    <g fill="none" stroke="#02140C" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="232,228 206,252 232,276" />
-        <polyline points="288,228 314,252 288,276" />
-        <line x1="271" y1="220" x2="249" y2="284" />
+    <!-- 4. FIOS TRACEJADOS que ligam os cubos ao cadeado, cada um com a sua faísca -->
+    <g class="fios">
+        <g class="fio f1">
+            <line x1="106" y1="240" x2="156" y2="254" fill="none" stroke="#2BD96B" stroke-opacity="0.7"
+                stroke-width="1.4" stroke-dasharray="4 5" />
+            <g class="pulso">
+                <circle cx="106" cy="240" r="6" fill="#2BD96B" fill-opacity="0.3" />
+                <circle cx="106" cy="240" r="2.6" fill="#EAF7F0" />
+            </g>
+        </g>
+
+        <g class="fio f2">
+            <line x1="428" y1="186" x2="364" y2="216" fill="none" stroke="#2BD96B" stroke-opacity="0.7"
+                stroke-width="1.4" stroke-dasharray="4 5" />
+            <g class="pulso">
+                <circle cx="428" cy="186" r="6" fill="#2BD96B" fill-opacity="0.3" />
+                <circle cx="428" cy="186" r="2.6" fill="#EAF7F0" />
+            </g>
+        </g>
+
+        <g class="fio f3">
+            <line x1="415" y1="301" x2="364" y2="298" fill="none" stroke="#2BD96B" stroke-opacity="0.7"
+                stroke-width="1.4" stroke-dasharray="4 5" />
+            <g class="pulso">
+                <circle cx="415" cy="301" r="6" fill="#2BD96B" fill-opacity="0.3" />
+                <circle cx="415" cy="301" r="2.6" fill="#EAF7F0" />
+            </g>
+        </g>
     </g>
 
-    <!-- 5. CUBOS FLUTUANDO: o mesmo cubo em três tamanhos -->
-    <use href="#cubo" transform="translate(78 222)" />
-    <use href="#cubo" transform="translate(452 168) scale(0.85)" />
-    <use href="#cubo" transform="translate(432 292) scale(0.58)" />
 
-    <!-- 6. CHAVE: os segredos que o scanner procura -->
-    <g transform="translate(398 88) rotate(-38)" fill="none" stroke="#2BD96B" stroke-width="6" stroke-linecap="round">
-        <circle cx="0" cy="0" r="12" />
-        <line x1="12" y1="0" x2="50" y2="0" />
-        <line x1="36" y1="0" x2="36" y2="10" />
-        <line x1="47" y1="0" x2="47" y2="12" />
+    <!-- 5. CADEADO -->
+    <g class="cadeado">
+
+        <!-- argola -->
+        <g class="argola">
+            <path d="M204 196 V138 A56 56 0 0 1 316 138 V196" fill="none" stroke="url(#verde_escuro)"
+                stroke-width="26" />
+        </g>
+
+        <!-- corpo, com a luz em cima, a sombra embaixo e o símbolo de código -->
+        <g class="corpo_cadeado">
+            <rect x="156" y="182" width="208" height="140" rx="24" fill="url(#verde)" />
+            <rect x="156" y="182" width="208" height="12" fill="#FFFFFF" fill-opacity="0.18" clip-path="url(#corpo)" />
+            <rect x="156" y="286" width="208" height="36" fill="#02140C" fill-opacity="0.14" clip-path="url(#corpo)" />
+
+            <g class="simbolo" fill="none" stroke="#02140C" stroke-width="11" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="232,228 206,252 232,276" pathLength="1" />
+                <polyline points="288,228 314,252 288,276" pathLength="1" />
+                <line x1="271" y1="220" x2="249" y2="284" pathLength="1" />
+            </g>
+        </g>
+
+        <!-- faixa de luz da varredura: a linha clara e o rastro acima dela -->
+        <g clip-path="url(#corpo)">
+            <g class="feixe">
+                <rect x="156" y="136" width="208" height="46" fill="url(#rastro)" />
+                <rect x="156" y="180" width="208" height="2.5" fill="#EAF7F0" fill-opacity="0.9" />
+            </g>
+        </g>
+
+        <!-- contorno que pisca quando a varredura termina -->
+        <rect class="contorno" x="153" y="179" width="214" height="146" rx="27" fill="none" stroke="#B6FFD3"
+            stroke-width="2.5" />
     </g>
 
-    <!-- 7. PONTINHOS DE LUZ -->
-    <g fill="#2BD96B">
-        <circle cx="128" cy="148" r="2.5" />
-        <circle cx="92" cy="318" r="2" />
-        <circle cx="352" cy="96" r="2" />
-        <circle cx="486" cy="256" r="2.5" />
+
+    <!-- 6. CUBOS FLUTUANDO: o mesmo cubo em três tamanhos -->
+    <g class="cubo c1">
+        <g class="surge s1">
+            <use href="#cubo" transform="translate(78 222)" />
+        </g>
+    </g>
+
+    <g class="cubo c2">
+        <g class="surge s2">
+            <use href="#cubo" transform="translate(452 168) scale(0.85)" />
+        </g>
+    </g>
+
+    <g class="cubo c3">
+        <g class="surge s3">
+            <use href="#cubo" transform="translate(432 292) scale(0.58)" />
+        </g>
+    </g>
+
+
+    <!-- 7. CHAVE: os segredos que o scanner procura, com a estrelinha ao lado -->
+    <g class="surge s4">
+        <g class="chave">
+            <g transform="translate(398 88) rotate(-38)" fill="none" stroke="#2BD96B" stroke-width="6"
+                stroke-linecap="round">
+                <circle cx="0" cy="0" r="12" />
+                <line x1="12" y1="0" x2="50" y2="0" />
+                <line x1="36" y1="0" x2="36" y2="10" />
+                <line x1="47" y1="0" x2="47" y2="12" />
+            </g>
+        </g>
+    </g>
+
+    <path class="estrela" d="M452 34 L454.5 43.5 L464 46 L454.5 48.5 L452 58 L449.5 48.5 L440 46 L449.5 43.5 Z"
+        fill="#EAF7F0" />
+
+
+    <!-- 8. PONTINHOS DE LUZ -->
+    <g class="pontos" fill="#2BD96B">
+        <circle class="ponto p1" cx="128" cy="148" r="2.5" />
+        <circle class="ponto p2" cx="92" cy="318" r="2" />
+        <circle class="ponto p3" cx="352" cy="96" r="2" />
+        <circle class="ponto p4" cx="486" cy="256" r="2.5" />
     </g>
 
 </svg>
