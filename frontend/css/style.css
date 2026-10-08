@@ -11,6 +11,12 @@
     --texto-sobre-verde: #02140C;
     --degrade: linear-gradient(90deg, #2BD96B, #19B5A5);
     --margem-lateral: 80px;
+    --superficie: #061A12;
+    --card: #0A2419;
+    --critico: #FF5C6C;
+    --medio: #F5C542;
+
+
 }
 
 
@@ -38,10 +44,7 @@ header {
     display: flex;
     align-items: center;
     height: 88px;
-    /* Serve para dar espaçamento entre o header e o corpo (entre a cabeça e o corpo) */
-    min-height: 700px;
-    /* Ficar um pouco longe das laterais */
-    padding: 0 var(--margem-lateral) 40px;
+    padding: 0 var(--margem-lateral);
 }
 
 .hero {
@@ -49,9 +52,9 @@ header {
     justify-content: space-between;
     align-items: center;
     min-height: 700px;
-    /* Afastar o h1 das bordas */
-    padding: 0 var(--margem-lateral);
+    padding: 0 var(--margem-lateral) 40px;
 }
+
 
 
 .hero_texto {
@@ -62,6 +65,8 @@ header {
 .hero h1 {
     font-size: 64px;
     line-height: 1.1;
+    /* aproxima as letras, como no desenho */
+    letter-spacing: -1px;
     margin: 0 0 24px;
 }
 
@@ -71,10 +76,10 @@ header {
 }
 
 .hero p {
-    max-width: 560px;
+    max-width: 570px;
     margin: 0 0 24px;
-    font-size: 18px;
-    line-height: 1.7;
+    font-size: 19px;
+    line-height: 1.6;
     /* Aqui ele dar cores para textos Subtitulos */
     color: var(--texto-secundario);
 }
@@ -96,8 +101,8 @@ header {
 
 
 .logo_tipos img {
-    /* Mistura a imagem com oque está atrás dela */
-    mix-blend-mode: screen;
+    /* O logo novo já tem fundo transparente; o block tira o espaço que sobra embaixo de toda imagem */
+    display: block;
 }
 
 .navegacao {
@@ -122,9 +127,10 @@ header {
 
 .botao_comecar {
     background: var(--degrade);
-    color: var(--degrade);
+    color: var(--texto-sobre-verde);
     padding: 13px 20px;
     border-radius: 50px ;
+    font-size: 14px;
     font-weight: 600;
 
 }
@@ -137,7 +143,6 @@ header {
     background: none;
     cursor: pointer;
     color: var(--texto);
-    border: 1px solid #2ed573;
     transition: border-color 0.2s, color 0.2s;
 }
 
@@ -153,18 +158,22 @@ header {
 .scanner_button,
 .info_button {
     display: inline-block;
-    padding: 16px 28px;
-    border-radius: 50%;
-    font-size: 15px;
+    padding: 16px 26px;
+    border-radius: 50px;
+    font-size: 16px;
     font-weight: 600;
 }
 
-.scanner_button,
-.info_button {
+.scanner_button {
     margin-right: 10px;
     background: var(--degrade);
     color: var(--texto-sobre-verde);
 }
+
+.info_button {
+    border: 1px solid var(--texto);
+}
+
 
 
 .hero_imagem {
@@ -173,7 +182,261 @@ header {
 
 }
 
-.escudo {
-    font-size: 200px;
+.hero_imagem img {
+    /* a ilustração nunca fica mais larga que a coluna dela */
+    max-width: 100%;
+    height: auto;
 }
 
+
+
+/* Cards */
+
+/* Faz a criação dos cards e da cor de fundo no geral */
+.cards {
+    /* Organiza eles em colunas */
+    display: grid;
+    /* Aqui ele cria 3 colunas iguais */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    padding: 88px var(--margem-lateral);
+    background-color: var(--superficie);
+}
+
+
+/* Faz a organização e cores da caixa */
+.cards article {
+
+    /* Aqui ele cria a caixa das bordas (Altura, comprimento e largura) */
+    padding: 44px 32px 40px;
+    /* aui faz a criação das bordas da caixa e dar a cor a ele */
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    /* Aqui ele dá a cor de fundo de dentro da caixa criada anteriormente */
+    background-color: var(--fundo);
+    /* Mantém as letras no centro */
+    text-align: center;
+}
+
+.cards .icone {
+    display: block;
+    margin-bottom: 22px;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--verde);
+}
+
+.cards h3 {
+    margin: 0 0 17px;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.cards p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--texto-secundario);
+}
+
+
+/* 4. BEM-VINDO */
+.bem_vindo {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    padding: 104px var(--margem-lateral);
+}
+
+.terminal {
+    position: relative;
+    flex-shrink: 0;
+    width: 540px;
+    margin-bottom: 48px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background-color: var(--card);
+}
+
+.terminal_barra {
+    display: flex;
+    gap: 8px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.terminal_barra span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--borda);
+}
+
+.terminal pre {
+    margin: 0;
+    padding: 18px 24px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    line-height: 31px;
+    color: var(--texto-secundario);
+}
+
+.terminal .claro {
+    color: var(--texto);
+}
+
+.terminal .ok {
+    color: var(--verde);
+}
+
+.terminal .erro {
+    color: var(--critico);
+}
+
+.terminal .aviso {
+    color: var(--medio);
+}
+
+.motores {
+    position: absolute;
+    right: -28px;
+    bottom: -48px;
+    width: 170px;
+    margin: 0;
+    padding: 27px 22px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2BD96B, #19B5A5);
+    color: var(--texto-sobre-verde);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.motores strong {
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 54px;
+    line-height: 1;
+}
+
+.bem_vindo_texto {
+    flex: 1;
+}
+
+.etiqueta {
+    margin: 0 0 20px;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--verde);
+}
+
+.bem_vindo h2 {
+    margin: 0 0 20px;
+    font-size: 42px;
+    line-height: 1.15;
+}
+
+.bem_vindo_resumo {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--texto-secundario);
+}
+
+.vantagem {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    column-gap: 16px;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background-color: var(--card);
+}
+
+.vantagem .icone {
+    grid-row: span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 46px;
+    border: 1px solid var(--verde);
+    border-radius: 8px;
+    font-size: 18px;
+    color: var(--verde);
+}
+
+.vantagem h3 {
+    margin: 0 0 2px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.vantagem p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--texto-secundario);
+}
+
+/* 5. CTA */
+.cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px var(--margem-lateral) 104px;
+    padding: 54px 64px;
+    border-radius: 20px;
+    background: var(--degrade);
+}
+
+.cta h2 {
+    max-width: 680px;
+    margin: 0;
+    font-size: 38px;
+    line-height: 1.2;
+    color: var(--texto-sobre-verde);
+}
+
+.cta_botao {
+    padding: 18px 28px;
+    border-radius: 50px;
+    background-color: var(--fundo);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+/* 6. RODAPÉ */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px var(--margem-lateral) 64px;
+    border-top: 1px solid var(--borda);
+}
+
+footer img {
+    display: block;
+}
+
+footer p {
+    max-width: 400px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--texto-secundario);
+}
+
+.rodape_links {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+}
+
+.rodape_links a {
+    color: var(--texto-secundario);
+}
