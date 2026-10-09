@@ -5,6 +5,7 @@ body {
     font-family: 'IBM Plex Sans', Arial, sans-serif;
 }
 
+<<<<<<< HEAD
 .esquerda {
     flex: 1.35;
     size: 120%;
@@ -13,17 +14,25 @@ body {
 .direita {
     flex: 1;
 }
+=======
+>>>>>>> d35f2f158b35d008bf8b1a77d2c92610289f4d8b
 
 a {
     /* Cores paras as fontes de link */
     color: #e8f0ec;
     /* Para remover os sublinhados dos links */
     text-decoration: none;
+<<<<<<< HEAD
 }
 
 h1,
 h2,
 h3 {
+=======
+}  
+
+h1, h2, h3 {
+>>>>>>> d35f2f158b35d008bf8b1a77d2c92610289f4d8b
     font-family: 'Sora', Arial, sans-serif;
 }
 
@@ -36,6 +45,7 @@ header {
     padding: 16px 8%;
 }
 
+<<<<<<< HEAD
 .esquerda {
    display: flex;
    justify-content: flex-start;
@@ -60,6 +70,15 @@ header {
     max-width: 100%;   /* nunca passa da largura do lado esquerdo */
     height: auto;      /* mantém a proporção, sem achatar */
 }
+=======
+
+
+.logo_tipos img {
+    /* Mistura a imagem com oque está atrás dela */
+    mix-blend-mode: screen;
+}
+
+>>>>>>> d35f2f158b35d008bf8b1a77d2c92610289f4d8b
 
 .navegacao {
     display: flex;
@@ -84,7 +103,11 @@ header {
     background: linear-gradient(90deg, #2ed573, #1ab5a5);
     color: #050f0b;
     padding: 10px 22px;
+<<<<<<< HEAD
     border-radius: 50px;
+=======
+    border-radius: 50px ;
+>>>>>>> d35f2f158b35d008bf8b1a77d2c92610289f4d8b
     font-weight: 600;
 }
 
@@ -95,6 +118,7 @@ header {
     border: 1px solid #1c3529;
     background: none;
     cursor: pointer;
+<<<<<<< HEAD
     color: #e8f0ec;
     border: 1px solid #2ed573;
 
@@ -109,3 +133,15 @@ header {
     margin: 16px 0;
     size: 70%;
 }
+=======
+    color:#e8f0ec;
+    border: 1px solid #2ed573;
+
+    
+}
+
+.botao_lupa:hover {
+    
+}
+
+>>>>>>> d35f2f158b35d008bf8b1a77d2c92610289f4d8b
