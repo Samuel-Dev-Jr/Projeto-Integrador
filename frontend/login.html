@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpyCode - Login</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../frontend/css/style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
+    
+    <script src="../frontend/js/loginC.js" defer></script>
+</head>
+
+<body>
+
+    <main class="login">
+
+        <!-- LADO ESQUERDO -->
+        <section class="esquerda">
+
+            <div class="logo">
+
+                <img id="logo-img" class="logo-img" src="../frontend/img/logo-animado.svg">
+
+
+            </div>
+
+
+            <div class="ilustracao" id="ilustracao">
+                <img id="img-login" src="../image/img login.png" alt="Ilustração de login">
+            </div>
+
+
+            <div class="texto">
+
+                <h1>Identifique-se, agente.</h1>
+
+                <p>
+                    Entre para ver o dossiê dos seus
+                    repositórios e o que precisa ser corrigido.
+                </p>
+
+                <ul>
+                    <li>✓ Só leitura dos seus repositórios</li>
+                    <li>✓ Código apagado depois de cada análise</li>
+                    <li>✓ Segredos sempre mascarados</li>
+                </ul>
+            </div>
+
+            <small>
+                Projeto Integrador do curso de Desenvolvimento Full Stack do Senac, 2026.
+            </small>
+
+        </section>
+
+
+        <!-- LADO DIREITO -->
+        <section class="direita">
+
+            <div class="card">
+
+                <h2>Entrar no SpyCode</h2>
+                <p>Escolha como você quer entrar.</p>
+
+                <button class="github">
+                    ● Continuar com GitHub
+                </button>
+
+                <button class="btngoogle">
+                    <img src="../image/img google.png" width="20" height="16" alt="Logo do Google">
+                    Continuar com Google
+                </button>
+
+                <div class="divisor">
+                    <span></span>
+                    ou com e-mail
+                    <span></span>
+                </div>
+
+                <form>
+
+                    <label>E-mail</label>
+                    <input type="email" placeholder="voce@email.com">
+
+                    <div class="senha-titulo">
+                        <label>Senha</label>
+                        <a href="#">Esqueci minha senha</a>
+                    </div>
+
+                    <input type="password" id="senha" placeholder="Sua senha">
+
+                    <button class="entrar">
+                        Entrar
+                    </button>
+
+                </form>
+
+                <div class="aviso">
+                    ⓘ Entrando com Google ou e-mail, você conecta o
+                    GitHub no passo seguinte para poder escanear.
+                </div>
+
+                <div class="cadastro">
+                    Não tem conta?
+                    <a href="#">Criar conta</a>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
