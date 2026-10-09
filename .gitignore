@@ -15,5 +15,8 @@ desktop.ini
 .vscode/
 .idea/
 
+# Pasta do Claude Code: é de cada computador e NUNCA vai para o GitHub
+.claude/
+
 # Logs
 *.log
