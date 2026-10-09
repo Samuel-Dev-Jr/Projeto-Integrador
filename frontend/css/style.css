@@ -18,6 +18,7 @@
     --superficie: #061A12;
     --card: #0A2419;
     --critico: #FF5C6C;
+    --alto: #FF8A3D;
     --medio: #F5C542;
     /* Ritmo das animações. A "mola" passa um pouco do ponto e volta,
        como algo com peso; é o que deixa o movimento fluido em vez de seco. */
@@ -79,6 +80,39 @@ header {
 .destaque {
     /* coloração do destaque */
     color: var(--verde);
+}
+
+/* PALAVRA QUE TROCA NO TÍTULO
+   As palavras ficam empilhadas, uma embaixo da outra. A "janela" (.palavras) tem a altura
+   de uma linha só e esconde o resto; a pilha (.palavras_lista) sobe uma linha de cada vez. */
+.palavras {
+    /* ocupa a linha inteira, assim o tamanho da palavra não empurra o resto do título */
+    display: block;
+    /* a altura de uma linha do título: o mesmo 1.1 do line-height */
+    height: 1.1em;
+    overflow: hidden;
+}
+
+.palavras_lista {
+    display: block;
+    /* 15 segundos para as cinco palavras: 3 segundos para cada uma */
+    animation: troca_palavra 15s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+}
+
+.palavras_lista span {
+    display: block;
+    height: 1.1em;
+}
+
+/* Cada palavra fica parada 2,4s e leva 0,6s para subir.
+   A última é igual à primeira: quando o ciclo recomeça, ninguém percebe o salto. */
+@keyframes troca_palavra {
+    0%, 16% { transform: translateY(0); }
+    20%, 36% { transform: translateY(-1.1em); }
+    40%, 56% { transform: translateY(-2.2em); }
+    60%, 76% { transform: translateY(-3.3em); }
+    80%, 96% { transform: translateY(-4.4em); }
+    100% { transform: translateY(-5.5em); }
 }
 
 .hero p {
@@ -266,10 +300,13 @@ header {
     outline-offset: 3px;
 }
 
-/* quem pediu "menos movimento" no sistema vê as trocas sem animação */
+/* quem pediu "menos movimento" no sistema vê tudo parado: sem transições e sem animações */
 @media (prefers-reduced-motion: reduce) {
-    * {
+    *,
+    *::before,
+    *::after {
         transition: none !important;
+        animation: none !important;
     }
 }
 
@@ -279,21 +316,118 @@ header {
 
 .scanner_button,
 .info_button {
-    display: inline-block;
+    /* inline-flex deixa o ícone e o texto lado a lado, alinhados pelo meio */
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    /* sem isto os dois botões ficam desnivelados, porque um começa com ícone e o outro com texto */
+    vertical-align: middle;
     padding: 16px 26px;
     border-radius: 50px;
     font-size: 16px;
     font-weight: 600;
 }
 
+/* com o mouse em cima, os dois botões sobem um pouco */
+.scanner_button:hover,
+.info_button:hover {
+    transform: translateY(-2px);
+}
+
+
+/* BOTÃO "ESCANEAR REPOSITÓRIO"
+   Parado: verde, com o cadeado fechado.
+   Com o mouse em cima: escurece aos poucos e o cadeado abre. */
 .scanner_button {
     margin-right: 10px;
     background: var(--degrade);
     color: var(--texto-sobre-verde);
+    /* Três sombras, todas invisíveis por enquanto (o último número de cada cor é 0):
+       1) "inset" pinta por dentro do botão: é a camada escura que vai cobrir o degradê
+       2) um contorno verde de 1px, para o botão escuro não sumir no fundo da página
+       3) o brilho verde embaixo */
+    box-shadow:
+        inset 0 0 0 60px rgba(2, 20, 12, 0),
+        0 0 0 1px rgba(43, 217, 107, 0),
+        0 8px 22px rgba(43, 217, 107, 0);
+    /* os 0.9s são o "aos poucos" do escurecimento */
+    transition: transform 0.4s var(--mola), box-shadow 0.9s, color 0.9s;
 }
 
+/* as três sombras aparecem, e o texto clareia para continuar legível no fundo escuro */
+.scanner_button:hover {
+    color: var(--texto);
+    box-shadow:
+        inset 0 0 0 60px rgba(2, 20, 12, 0.85),
+        0 0 0 1px rgba(43, 217, 107, 1),
+        0 8px 22px rgba(43, 217, 107, 0.3);
+}
+
+/* O cadeado. No SVG a argola e o corpo são peças separadas, para a argola poder abrir. */
+.cadeado {
+    /* não encolhe quando falta espaço */
+    flex: none;
+    width: 20px;
+    height: 22px;
+    /* deixa a argola aparecer quando ela sobe além da área do desenho */
+    overflow: visible;
+    transition: color 0.9s;
+}
+
+.cadeado_argola {
+    /* o ponto de giro é a perna esquerda da argola, onde ela entra no corpo */
+    transform-origin: 6.5px 9.5px;
+    transition: transform 0.5s var(--mola);
+}
+
+/* com o mouse no botão, o cadeado fica verde... */
+.scanner_button:hover .cadeado {
+    color: var(--verde);
+}
+
+/* ...e a argola sobe e gira: é o cadeado abrindo.
+   O atraso espera o botão começar a escurecer. */
+.scanner_button:hover .cadeado_argola {
+    transform: translateY(-2.5px) rotate(-32deg);
+    transition-delay: 0.2s;
+}
+
+
+/* BOTÃO "COMO FUNCIONA"
+   Com o mouse em cima: fica verde e a seta anda para a direita. */
 .info_button {
     border: 1px solid var(--texto);
+    transition: transform 0.4s var(--mola), border-color 0.3s, color 0.3s;
+}
+
+.info_button:hover {
+    border-color: var(--verde);
+    color: var(--verde);
+}
+
+.seta {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    transition: transform 0.4s var(--mola);
+}
+
+.info_button:hover .seta {
+    transform: translateX(5px);
+}
+
+/* encolhem um pouco enquanto estão sendo clicados */
+.scanner_button:active,
+.info_button:active {
+    transform: translateY(0) scale(0.97);
+    transition-duration: 0.1s;
+}
+
+/* contorno para quem navega pelo teclado, com a tecla Tab */
+.scanner_button:focus-visible,
+.info_button:focus-visible {
+    outline: 2px solid var(--texto);
+    outline-offset: 3px;
 }
 
 
@@ -326,11 +460,28 @@ header {
 }
 
 
+/* título da seção: ocupa as três colunas e fica centralizado */
+.cards_topo {
+    grid-column: 1 / -1;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cards h2 {
+    max-width: 640px;
+    /* o auto dos lados centraliza o bloco do título */
+    margin: 0 auto;
+    font-size: 36px;
+    line-height: 1.2;
+}
+
 /* Faz a organização e cores da caixa */
 .cards article {
-
+    /* os dois abaixo prendem a linha de luz do topo dentro do card */
+    position: relative;
+    overflow: hidden;
     /* Aqui ele cria a caixa das bordas (Altura, comprimento e largura) */
-    padding: 44px 32px 40px;
+    padding: 44px 32px 36px;
     /* aui faz a criação das bordas da caixa e dar a cor a ele */
     border: 1px solid var(--borda);
     border-radius: 4px;
@@ -338,18 +489,61 @@ header {
     background-color: var(--fundo);
     /* Mantém as letras no centro */
     text-align: center;
+    transition: transform 0.4s var(--mola), border-color 0.3s, box-shadow 0.3s;
 }
 
+/* linha de luz no topo do card: começa com largura zero */
+.cards article::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--degrade);
+    /* scaleX(0) achata a linha até sumir; ela cresce a partir da esquerda */
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* com o mouse em cima: o card sobe, a borda acende, ganha um brilho e a linha do topo cresce */
+.cards article:hover {
+    transform: translateY(-6px);
+    border-color: var(--verde);
+    box-shadow: 0 14px 34px rgba(43, 217, 107, 0.14);
+}
+
+.cards article:hover::before {
+    transform: scaleX(1);
+}
+
+/* o ícone fica dentro de um quadrado com borda */
 .cards .icone {
-    display: block;
-    margin-bottom: 22px;
-    font-size: 28px;
-    line-height: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background-color: var(--card);
+    font-size: 24px;
     color: var(--verde);
+    transition: transform 0.4s var(--mola), background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+/* com o mouse no card, o quadrado do ícone enche de verde e inclina */
+.cards article:hover .icone {
+    transform: scale(1.08) rotate(-6deg);
+    border-color: var(--verde);
+    background-color: var(--verde);
+    color: var(--texto-sobre-verde);
 }
 
 .cards h3 {
-    margin: 0 0 17px;
+    margin: 0 0 14px;
     font-size: 21px;
     font-weight: 600;
 }
@@ -359,6 +553,87 @@ header {
     font-size: 15px;
     line-height: 1.6;
     color: var(--texto-secundario);
+}
+
+/* EXEMPLO DE ACHADO: uma linha em fonte de código, com a bolinha da severidade na frente */
+.cards .achado {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 7px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    background-color: var(--superficie);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.4;
+    text-align: left;
+}
+
+/* a bolinha: a cor vem da variável que cada severidade define logo abaixo */
+.cards .achado::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--cor-achado);
+}
+
+.achado_critico { --cor-achado: var(--critico); }
+.achado_alto { --cor-achado: var(--alto); }
+.achado_medio { --cor-achado: var(--medio); }
+
+/* ENTRADA AO ROLAR A PÁGINA
+   Os cards sobem e aparecem conforme entram na tela. Só vale nos navegadores que sabem ligar
+   uma animação à rolagem (o @supports testa isso); nos outros, os cards já aparecem prontos. */
+@supports (animation-timeline: view()) {
+    .cards article {
+        animation: card_entra linear both;
+        /* o "relógio" desta animação é a posição do card na tela, não o tempo */
+        animation-timeline: view();
+        /* começa quando o card aponta embaixo da tela e termina com ele um pouco acima */
+        animation-range: cover 0% cover 22%;
+    }
+
+    /* o segundo e o terceiro começam um pouco depois, para entrarem em escadinha */
+    .cards article:nth-of-type(2) { animation-range: cover 5% cover 27%; }
+    .cards article:nth-of-type(3) { animation-range: cover 10% cover 32%; }
+}
+
+/* usa "translate" e não "transform" para não brigar com o transform do mouse em cima */
+@keyframes card_entra {
+    from { opacity: 0; translate: 0 50px; }
+    to { opacity: 1; translate: 0 0; }
+}
+
+/* TELA ESTREITA: com menos de 1100px de largura, três colunas ficam apertadas.
+   Os cards passam a ficar um embaixo do outro, deitados: ícone à esquerda, textos à direita. */
+@media (max-width: 1100px) {
+    .cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .cards h2 {
+        font-size: 30px;
+    }
+
+    .cards article {
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        column-gap: 20px;
+        justify-items: start;
+        padding: 28px;
+        text-align: left;
+    }
+
+    /* o ícone ocupa as três linhas: título, texto e exemplo */
+    .cards .icone {
+        grid-row: span 3;
+        margin-bottom: 0;
+    }
 }
 
 
@@ -394,13 +669,99 @@ header {
     background-color: var(--borda);
 }
 
+/* nome da cena que está passando, no canto direito da barra */
+.terminal_titulo {
+    /* o auto empurra o nome para a direita, longe das bolinhas */
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    line-height: 12px;
+    color: var(--texto-secundario);
+    transition: opacity 0.45s;
+}
+
 .terminal pre {
     margin: 0;
     padding: 18px 24px 20px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    line-height: 31px;
+    /* letra menor e linhas juntas: cabe mais informação e os desenhos não ficam "rasgados" */
+    font-size: 13px;
+    line-height: 20px;
     color: var(--texto-secundario);
+    /* Altura fixa de 14 linhas (14 x 20px, mais o padding de cima e de baixo),
+       para o terminal não mudar de tamanho enquanto o texto é escrito. */
+    height: 318px;
+    overflow: hidden;
+    /* para as listras do ::after logo abaixo ficarem presas dentro da tela */
+    position: relative;
+    transition: opacity 0.45s, transform 0.45s;
+}
+
+/* listras bem fracas por cima do texto, como a tela de um monitor antigo */
+.terminal pre::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* uma linha escura de 1px a cada 3px, repetida até o fim */
+    background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 3px);
+    /* deixa o mouse "atravessar" as listras */
+    pointer-events: none;
+}
+
+/* TRANSIÇÃO ENTRE CENAS: o JavaScript põe a classe "saindo" no fim de cada cena.
+   O texto sobe um pouco e some; depois a classe sai e a cena seguinte começa. */
+.terminal pre.saindo {
+    opacity: 0;
+    transform: translateY(-8px);
+}
+
+.terminal_titulo.saindo {
+    opacity: 0;
+}
+
+/* cada linha que o JavaScript escreve: ocupa a largura toda e entra com um leve deslize */
+.terminal .linha {
+    display: block;
+    animation: linha_entra 0.25s ease-out both;
+}
+
+@keyframes linha_entra {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* As linhas dos desenhos entram de outro jeito: aparecem da esquerda para a direita,
+   como se estivessem sendo impressas. O clip-path esconde a parte que ainda não "saiu". */
+.terminal .desenho {
+    animation: imprime 0.3s steps(24) both;
+}
+
+@keyframes imprime {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+/* texto de menos importância, mais apagado */
+.terminal .apagado {
+    color: #6F8C7E;
+}
+
+/* o cursor: um bloquinho verde que pisca no fim da linha */
+.terminal .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    margin-left: 2px;
+    /* desce um pouco para alinhar com as letras */
+    vertical-align: -2px;
+    background-color: var(--verde);
+    /* steps(1) faz ele acender e apagar de uma vez, sem ir sumindo aos poucos */
+    animation: pisca_cursor 1s steps(1) infinite;
+}
+
+@keyframes pisca_cursor {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .terminal .claro {
@@ -409,6 +770,8 @@ header {
 
 .terminal .ok {
     color: var(--verde);
+    /* um brilho verde em volta das letras, como tela acesa */
+    text-shadow: 0 0 8px rgba(43, 217, 107, 0.45);
 }
 
 .terminal .erro {
@@ -458,6 +821,8 @@ header {
     margin: 0 0 20px;
     font-size: 42px;
     line-height: 1.15;
+    /* divide o título em linhas de tamanho parecido, sem deixar uma palavra sozinha na última */
+    text-wrap: balance;
 }
 
 .bem_vindo_resumo {
@@ -477,6 +842,18 @@ header {
     border: 1px solid var(--borda);
     border-radius: 8px;
     background-color: var(--card);
+    transition: transform 0.4s var(--mola), border-color 0.3s, box-shadow 0.3s;
+}
+
+/* A caixa "acende" em duas situações, com o mesmo visual:
+   com o mouse em cima (:hover) ou quando o terminal ao lado está falando do assunto dela.
+   Nesse segundo caso é o js/terminal.js que põe e tira a classe "ativa". */
+.vantagem:hover,
+.vantagem.ativa {
+    /* anda um pouco para a direita, como se desse um passo à frente */
+    transform: translateX(8px);
+    border-color: var(--verde);
+    box-shadow: 0 10px 28px rgba(43, 217, 107, 0.12);
 }
 
 .vantagem .icone {
@@ -489,6 +866,14 @@ header {
     border-radius: 8px;
     font-size: 18px;
     color: var(--verde);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* o quadrado do ícone enche de verde junto com a caixa */
+.vantagem:hover .icone,
+.vantagem.ativa .icone {
+    background-color: var(--verde);
+    color: var(--texto-sobre-verde);
 }
 
 .vantagem h3 {
@@ -502,6 +887,40 @@ header {
     font-size: 14px;
     line-height: 1.5;
     color: var(--texto-secundario);
+}
+
+/* ENTRADA AO ROLAR A PÁGINA: a mesma animação dos cards.
+   Cada pedaço da coluna (etiqueta, título, resumo e as três caixas) sobe e aparece
+   quando entra na tela. O sinal ">" pega só os filhos diretos da coluna. */
+@supports (animation-timeline: view()) {
+    .bem_vindo_texto > * {
+        animation: card_entra linear both;
+        animation-timeline: view();
+        animation-range: cover 0% cover 24%;
+    }
+}
+
+/* TELA ESTREITA: com menos de 1100px, o terminal e o texto não cabem lado a lado.
+   O terminal vai para cima, centralizado, e o texto ocupa a largura toda embaixo. */
+@media (max-width: 1100px) {
+    .bem_vindo {
+        /* column troca a fila de "lado a lado" para "um embaixo do outro" */
+        flex-direction: column;
+        align-items: stretch;
+        gap: 56px;
+        padding-block: 72px;
+    }
+
+    .terminal {
+        /* ocupa a largura disponível, mas nunca passa dos 540px originais */
+        width: 100%;
+        max-width: 540px;
+        align-self: center;
+    }
+
+    .bem_vindo h2 {
+        font-size: 34px;
+    }
 }
 
 /* 5. CTA */

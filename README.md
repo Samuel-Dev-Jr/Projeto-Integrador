@@ -22,6 +22,8 @@ Projeto-Integrador/
 │   ├── seguranca.html
 │   ├── css/
 │   │   └── style.css      estilos da página inicial
+│   ├── js/
+│   │   └── terminal.js    animação do terminal da página inicial
 │   └── img/               logos e ilustrações usadas no site
 ├── docs/
 │   └── design/            desenhos das telas (referência, não vão para o site)
