@@ -25,7 +25,8 @@ Projeto-Integrador/
 │   │   ├── style.css      estilos da página inicial
 │   │   └── login.css      estilos da tela de login
 │   ├── js/
-│   │   └── terminal.js    animação do terminal da página inicial
+│   │   ├── terminal.js    animação do terminal da página inicial
+│   │   └── login.js       login com GitHub, Google e e-mail (Firebase)
 │   └── img/               logos e ilustrações usadas no site
 ├── docs/
 │   └── design/            desenhos das telas (referência, não vão para o site)
@@ -43,7 +44,7 @@ Cada pessoa trabalha nos **seus** arquivos. Assim duas pessoas nunca editam a me
 | Parte | Responsável | Arquivos |
 | --- | --- | --- |
 | Página inicial | Samuel | `frontend/index.html`, `frontend/css/style.css` |
-| Tela de login | Aline e Helena | `frontend/login.html`, `frontend/css/login.css` |
+| Tela de login | Aline e Helena | `frontend/login.html`, `frontend/css/login.css`, `frontend/js/login.js` |
 
 - Cada página nova tem **um HTML e um CSS com o mesmo nome**, como `login.html` e `css/login.css`.
 - Página nova vai dentro de `frontend/`, nunca solta na raiz do projeto.
