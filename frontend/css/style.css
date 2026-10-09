@@ -54,75 +54,6 @@ header {
     padding: 0 var(--margem-lateral);
 }
 
-.hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 700px;
-    padding: 0 var(--margem-lateral) 40px;
-}
-
-
-
-.hero_texto {
-    max-width: 640px;
-}
-
-/* Aumentar o titulo */
-.hero h1 {
-    font-size: 64px;
-    line-height: 1.1;
-    /* aproxima as letras, como no desenho */
-    letter-spacing: -1px;
-    margin: 0 0 24px;
-}
-
-.destaque {
-    /* coloração do destaque */
-    color: var(--verde);
-}
-
-/* PALAVRA QUE TROCA NO TÍTULO
-   As palavras ficam empilhadas, uma embaixo da outra. A "janela" (.palavras) tem a altura
-   de uma linha só e esconde o resto; a pilha (.palavras_lista) sobe uma linha de cada vez. */
-.palavras {
-    /* ocupa a linha inteira, assim o tamanho da palavra não empurra o resto do título */
-    display: block;
-    /* a altura de uma linha do título: o mesmo 1.1 do line-height */
-    height: 1.1em;
-    overflow: hidden;
-}
-
-.palavras_lista {
-    display: block;
-    /* 15 segundos para as cinco palavras: 3 segundos para cada uma */
-    animation: troca_palavra 15s cubic-bezier(0.7, 0, 0.2, 1) infinite;
-}
-
-.palavras_lista span {
-    display: block;
-    height: 1.1em;
-}
-
-/* Cada palavra fica parada 2,4s e leva 0,6s para subir.
-   A última é igual à primeira: quando o ciclo recomeça, ninguém percebe o salto. */
-@keyframes troca_palavra {
-    0%, 16% { transform: translateY(0); }
-    20%, 36% { transform: translateY(-1.1em); }
-    40%, 56% { transform: translateY(-2.2em); }
-    60%, 76% { transform: translateY(-3.3em); }
-    80%, 96% { transform: translateY(-4.4em); }
-    100% { transform: translateY(-5.5em); }
-}
-
-.hero p {
-    max-width: 570px;
-    margin: 0 0 24px;
-    font-size: 19px;
-    line-height: 1.6;
-    /* Aqui ele dar cores para textos Subtitulos */
-    color: var(--texto-secundario);
-}
 
 
 
@@ -221,7 +152,7 @@ header {
     color: var(--texto-sobre-verde);
     /* maior que no desenho, para ficar com a mesma altura da lupa */
     padding: 14px 26px;
-    border-radius: 50px ;
+    border-radius: 50px;
     font-size: 15px;
     font-weight: 600;
     /* os dois abaixo são para o reflexo: ele fica preso dentro do botão e é cortado nas bordas */
@@ -312,6 +243,76 @@ header {
 
 
 
+/* 2. HERO */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 700px;
+    padding: 0 var(--margem-lateral) 40px;
+}
+
+
+
+.hero_texto {
+    max-width: 640px;
+}
+
+/* Aumentar o titulo */
+.hero h1 {
+    font-size: 64px;
+    line-height: 1.1;
+    /* aproxima as letras, como no desenho */
+    letter-spacing: -1px;
+    margin: 0 0 24px;
+}
+
+.destaque {
+    /* coloração do destaque */
+    color: var(--verde);
+}
+
+/* PALAVRA QUE TROCA NO TÍTULO
+   As palavras ficam empilhadas, uma embaixo da outra. A "janela" (.palavras) tem a altura
+   de uma linha só e esconde o resto; a pilha (.palavras_lista) sobe uma linha de cada vez. */
+.palavras {
+    /* ocupa a linha inteira, assim o tamanho da palavra não empurra o resto do título */
+    display: block;
+    /* a altura de uma linha do título: o mesmo 1.1 do line-height */
+    height: 1.1em;
+    overflow: hidden;
+}
+
+.palavras_lista {
+    display: block;
+    /* 15 segundos para as cinco palavras: 3 segundos para cada uma */
+    animation: troca_palavra 15s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+}
+
+.palavras_lista span {
+    display: block;
+    height: 1.1em;
+}
+
+/* Cada palavra fica parada 2,4s e leva 0,6s para subir.
+   A última é igual à primeira: quando o ciclo recomeça, ninguém percebe o salto. */
+@keyframes troca_palavra {
+    0%, 16% { transform: translateY(0); }
+    20%, 36% { transform: translateY(-1.1em); }
+    40%, 56% { transform: translateY(-2.2em); }
+    60%, 76% { transform: translateY(-3.3em); }
+    80%, 96% { transform: translateY(-4.4em); }
+    100% { transform: translateY(-5.5em); }
+}
+
+.hero p {
+    max-width: 570px;
+    margin: 0 0 24px;
+    font-size: 19px;
+    line-height: 1.6;
+    /* Aqui ele dar cores para textos Subtitulos */
+    color: var(--texto-secundario);
+}
 /* Botões e Scaners*/
 
 .scanner_button,
@@ -446,7 +447,7 @@ header {
 
 
 
-/* Cards */
+/* 3. CARDS */
 
 /* Faz a criação dos cards e da cor de fundo no geral */
 .cards {
@@ -460,21 +461,6 @@ header {
 }
 
 
-/* título da seção: ocupa as três colunas e fica centralizado */
-.cards_topo {
-    grid-column: 1 / -1;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.cards h2 {
-    max-width: 640px;
-    /* o auto dos lados centraliza o bloco do título */
-    margin: 0 auto;
-    font-size: 36px;
-    line-height: 1.2;
-}
-
 /* Faz a organização e cores da caixa */
 .cards article {
     /* os dois abaixo prendem a linha de luz do topo dentro do card */
@@ -482,7 +468,7 @@ header {
     overflow: hidden;
     /* Aqui ele cria a caixa das bordas (Altura, comprimento e largura) */
     padding: 44px 32px 36px;
-    /* aui faz a criação das bordas da caixa e dar a cor a ele */
+    /* aqui faz a criação das bordas da caixa e dá a cor a ela */
     border: 1px solid var(--borda);
     border-radius: 4px;
     /* Aqui ele dá a cor de fundo de dentro da caixa criada anteriormente */
@@ -555,36 +541,6 @@ header {
     color: var(--texto-secundario);
 }
 
-/* EXEMPLO DE ACHADO: uma linha em fonte de código, com a bolinha da severidade na frente */
-.cards .achado {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 22px;
-    padding: 7px 12px;
-    border: 1px solid var(--borda);
-    border-radius: 6px;
-    background-color: var(--superficie);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    line-height: 1.4;
-    text-align: left;
-}
-
-/* a bolinha: a cor vem da variável que cada severidade define logo abaixo */
-.cards .achado::before {
-    content: "";
-    flex: none;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--cor-achado);
-}
-
-.achado_critico { --cor-achado: var(--critico); }
-.achado_alto { --cor-achado: var(--alto); }
-.achado_medio { --cor-achado: var(--medio); }
-
 /* ENTRADA AO ROLAR A PÁGINA
    Os cards sobem e aparecem conforme entram na tela. Só vale nos navegadores que sabem ligar
    uma animação à rolagem (o @supports testa isso); nos outros, os cards já aparecem prontos. */
@@ -616,10 +572,6 @@ header {
         gap: 20px;
     }
 
-    .cards h2 {
-        font-size: 30px;
-    }
-
     .cards article {
         display: grid;
         grid-template-columns: 56px 1fr;
@@ -629,9 +581,9 @@ header {
         text-align: left;
     }
 
-    /* o ícone ocupa as três linhas: título, texto e exemplo */
+    /* o ícone ocupa as duas linhas: título e texto */
     .cards .icone {
-        grid-row: span 3;
+        grid-row: span 2;
         margin-bottom: 0;
     }
 }
