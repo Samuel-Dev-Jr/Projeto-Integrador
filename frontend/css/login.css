@@ -270,6 +270,55 @@ form input:focus {
 
 
 /* =================================
+   AJUSTES DA ALINE
+   Estas regras estavam no style.css, que é o da página inicial.
+   Vieram para cá porque são da tela de login.
+================================= */
+
+/* a coluna da esquerda fica um pouco mais larga que a da direita */
+.esquerda {
+    flex: 1.35;
+}
+
+.direita {
+    flex: 1;
+}
+
+/* logo animado, no lugar do emoji */
+.logo-img {
+    /* Mistura a imagem com oque está atrás dela */
+    mix-blend-mode: screen;
+    width: 11rem;
+    height: 11rem;
+}
+
+.ilustracao {
+    display: flex;
+    justify-content: flex-start; /* alinha à esquerda, junto com o texto */
+    margin: 0;
+}
+
+.ilustracao img {
+    width: 400px;      /* maior que o logo */
+    max-width: 100%;   /* nunca passa da largura do lado esquerdo */
+    height: auto;      /* mantém a proporção, sem achatar */
+}
+
+.card {
+    background-color: #1c3529;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 16px 0;
+}
+
+/* links sem sublinhado */
+.card a {
+    text-decoration: none;
+}
+
+
+/* =================================
    RESPONSIVO
 ================================= */
 

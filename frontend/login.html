@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpyCode - Login</title>
     <link rel="stylesheet" href="css/login.css">
+
+    <!-- Firebase: é o serviço que faz o login com GitHub, Google e e-mail -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
+
+    <!-- o que acontece quando a pessoa clica em cada botão desta tela -->
+    <script src="js/login.js" defer></script>
 </head>
 
 <body>
@@ -16,12 +23,12 @@
         <section class="esquerda">
 
             <div class="logo">
-                🕵️ <strong>Spy<span>Code</span></strong>
+                <img id="logo-img" class="logo-img" src="img/logo-animado.svg" alt="SpyCode">
             </div>
 
-            <a href="img/login-ilustracao.png">
-                <img src="img/login-ilustracao.png" width="280" height="280" alt="Ilustração de login">
-            </a>
+            <div class="ilustracao" id="ilustracao">
+                <img id="img-login" src="img/login-ilustracao.png" alt="Ilustração de login">
+            </div>
 
             <div class="texto">
                 <h1>Identifique-se, agente.</h1>
