@@ -1,5 +1,5 @@
 
- const firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyAJbg_-LkPIRR0ioW5cqWYV0dBuduUmn3o",
     authDomain: "spycode-saneni.firebaseapp.com",
     projectId: "spycode-saneni",
@@ -38,3 +38,29 @@ if (googleLoginButton) {
 
 window.firebaseAuth = auth;
 window.googleProvider = GoogleProvider;
+
+
+// Instância do provedor do GitHub
+const GithubProvider = new firebase.auth.GithubAuthProvider();
+
+const githubLoginButton = document.getElementById("btn-github");
+
+if (githubLoginButton) {
+    githubLoginButton.addEventListener("click", () => {
+        auth.signInWithPopup(GithubProvider)
+            .then((result) => {
+                const user = result.user;
+                localStorage.setItem("usuario_github", JSON.stringify({
+                    nome: user.displayName || user.reloadUserInfo.screenName,
+                    email: user.email
+                }));
+                alert(`Bem-Vindo, ${user.displayName || 'Dev'}!`);
+                window.location.href = "telaLog.html";
+            })
+            .catch((error) => {
+                alert(`Erro ao tentar logar com GitHub: ${error.message}`);
+            });
+    });
+    // Opcional: expor no objeto window
+    window.githubProvider = GithubProvider;
+}
