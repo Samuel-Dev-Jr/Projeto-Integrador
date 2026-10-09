@@ -17,11 +17,13 @@ O navegador abre a página e recarrega sozinho toda vez que você salvar um arqu
 Projeto-Integrador/
 ├── frontend/              tudo que o navegador abre
 │   ├── index.html         página inicial (landing)
-│   ├── recursos.html      páginas do menu (ainda vazias)
+│   ├── login.html         tela de login
+│   ├── recursos.html      páginas do menu (em construção)
 │   ├── sobre.html
 │   ├── seguranca.html
 │   ├── css/
-│   │   └── style.css      estilos da página inicial
+│   │   ├── style.css      estilos da página inicial
+│   │   └── login.css      estilos da tela de login
 │   ├── js/
 │   │   └── terminal.js    animação do terminal da página inicial
 │   └── img/               logos e ilustrações usadas no site
@@ -29,7 +31,7 @@ Projeto-Integrador/
 │   └── design/            desenhos das telas (referência, não vão para o site)
 ├── .editorconfig          mesmo espaçamento no editor de todo mundo
 ├── .gitattributes         mesma quebra de linha em Windows, Mac e Linux
-└── .gitignore             o que o Git nunca deve enviar (ex.: .env)
+└── .gitignore             o que o Git nunca deve enviar (ex.: .env, .claude)
 ```
 
 Quando o backend começar, ele vai para uma pasta `backend/` ao lado da `frontend/`.
