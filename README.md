@@ -3,6 +3,8 @@
 Site que audita a segurança de repositórios do GitHub e explica cada problema em português simples.
 É o Projeto Integrador do curso de Desenvolvimento Full Stack do Senac.
 
+Como o sistema vai funcionar, com as tecnologias, o banco e o mapa das partes: [docs/planejamento.md](docs/planejamento.md).
+
 ## Como abrir o site
 
 1. Abra a pasta do projeto no VS Code.
@@ -29,13 +31,14 @@ Projeto-Integrador/
 │   │   └── login.js       login com GitHub, Google e e-mail (Firebase)
 │   └── img/               logos e ilustrações usadas no site
 ├── docs/
+│   ├── planejamento.md    como o sistema vai funcionar (prévia planejada)
 │   └── design/            desenhos das telas (referência, não vão para o site)
 ├── .editorconfig          mesmo espaçamento no editor de todo mundo
 ├── .gitattributes         mesma quebra de linha em Windows, Mac e Linux
 └── .gitignore             o que o Git nunca deve enviar (ex.: .env, .claude)
 ```
 
-Quando o backend começar, ele vai para uma pasta `backend/` ao lado da `frontend/`.
+Quando o backend começar, ele vai para uma pasta `backend/` ao lado da `frontend/`, como planejado em [docs/planejamento.md](docs/planejamento.md).
 
 ## Quem cuida de quê
 
