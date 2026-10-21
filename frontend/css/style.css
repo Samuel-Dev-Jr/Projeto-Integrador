@@ -20,6 +20,7 @@
     --critico: #FF5C6C;
     --alto: #FF8A3D;
     --medio: #F5C542;
+    --baixo: #5FB3D9;
     /* Ritmo das animações. A "mola" passa um pouco do ponto e volta,
        como algo com peso; é o que deixa o movimento fluido em vez de seco. */
     --mola: cubic-bezier(0.3, 1.3, 0.4, 1);
@@ -111,6 +112,13 @@ header {
     transition: transform 0.45s var(--mola);
 }
 
+/* Onde a pílula fica parada: no link da página atual, que o HTML marca com aria-current="page"
+   (o leitor de tela também usa essa marca para avisar "página atual").
+   Estas regras vêm antes das do mouse para o mouse sempre ganhar. */
+.navegacao:has(a:nth-child(2)[aria-current="page"]) { --posicao: 1; }
+.navegacao:has(a:nth-child(3)[aria-current="page"]) { --posicao: 2; }
+.navegacao:has(a:nth-child(4)[aria-current="page"]) { --posicao: 3; }
+
 /* O :has() pergunta "o menu tem um link assim com o mouse em cima?".
    Se tiver, muda a posição, e a pílula desliza até lá. */
 .navegacao:has(a:nth-child(1):hover) { --posicao: 0; }
@@ -131,9 +139,9 @@ header {
 }
 
 /* O link onde a pílula está fica com o texto claro: o que está com o mouse em cima
-   ou, quando o mouse não está em nenhum, o primeiro (a página atual). */
+   ou, quando o mouse não está em nenhum, o da página atual. */
 .navegacao a:hover,
-.navegacao:not(:has(a:hover)) a:first-child {
+.navegacao:not(:has(a:hover)) a[aria-current="page"] {
     color: var(--texto);
 }
 
@@ -932,4 +940,60 @@ footer p {
 
 .rodape_links a {
     color: var(--texto-secundario);
+    transition: color 0.2s;
+}
+
+.rodape_links a:hover {
+    color: var(--verde);
+}
+
+
+/* 7. TELA DE CELULAR (vale para todas as páginas que usam este arquivo)
+   Com menos de 760px, a margem de 80px come metade da tela. Ela diminui,
+   o cabeçalho quebra em duas linhas (logo e botões em cima, menu embaixo)
+   e a faixa verde e o rodapé passam a ficar um item embaixo do outro. */
+@media (max-width: 760px) {
+    :root {
+        --margem-lateral: 20px;
+    }
+
+    header {
+        flex-wrap: wrap;
+        height: auto;
+        padding-block: 16px;
+        row-gap: 14px;
+    }
+
+    .logo_tipos img {
+        height: 44px;
+        width: auto;
+    }
+
+    /* o menu vai para a segunda linha e ocupa a largura toda */
+    .navegacao {
+        order: 3;
+        width: 100%;
+    }
+
+    .navegacao a {
+        padding: 8px 4px;
+        font-size: 13px;
+    }
+
+    .cta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        padding: 36px 28px;
+    }
+
+    .cta h2 {
+        font-size: 28px;
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
 }

@@ -1,0 +1,88 @@
+/* PÁGINA SOBRE
+   Só as peças desta página. Cores, cabeçalho e rodapé vêm do style.css;
+   topo, seções, cartões e passos vêm do paginas.css. */
+
+
+/* 1. OS NÚMEROS DA PESQUISA
+   O fundo da grade é a cor da borda e cada número tem o fundo do card.
+   Com 1px de espaço entre eles, sobra uma linha fina separando os quatro,
+   em qualquer quantidade de colunas. */
+.dados {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background-color: var(--borda);
+}
+
+.dado {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 32px 28px;
+    background-color: var(--card);
+}
+
+.dado strong {
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -1px;
+    color: var(--verde);
+    /* "R$ 7,19 mi" não pode quebrar no meio */
+    white-space: nowrap;
+}
+
+.dado p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+/* a fonte fica embaixo, sempre na mesma altura nos quatro (margin-top: auto empurra para o fim) */
+.dado a {
+    margin-top: auto;
+    font-size: 13px;
+    color: var(--texto-secundario);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.dado a:hover {
+    color: var(--verde);
+}
+
+.dados_nota {
+    max-width: 720px;
+    margin: 20px 0 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--texto-secundario);
+}
+
+
+/* 2. O BOTÃO DEPOIS DOS PASSOS */
+.sobre_acao {
+    margin-top: 48px;
+}
+
+
+/* 3. TELAS MENORES */
+@media (max-width: 1280px) {
+    /* com menos espaço, os números ficam dois a dois para caberem inteiros */
+    .dados {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 760px) {
+    .dados {
+        grid-template-columns: 1fr;
+    }
+
+    .dado strong {
+        font-size: 36px;
+    }
+}
