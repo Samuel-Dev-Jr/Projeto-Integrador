@@ -1,0 +1,500 @@
+/* PÁGINA DE RECURSOS
+   Só as peças desta página. Cores, cabeçalho e rodapé vêm do style.css;
+   topo, seções, cartões e selos de gravidade vêm do paginas.css. */
+
+
+/* os atalhos do topo levam até as seções deslizando, em vez de pular de uma vez */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+
+/* 1. ATALHOS DO TOPO: pílulas que levam até cada parte da página */
+.atalhos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.atalhos a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid var(--borda);
+    border-radius: 50px;
+    background-color: var(--card);
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.4s var(--mola), border-color 0.3s, color 0.3s;
+}
+
+.atalhos i {
+    color: var(--verde);
+}
+
+.atalhos a:hover {
+    transform: translateY(-2px);
+    border-color: var(--verde);
+    color: var(--verde);
+}
+
+
+/* 2. CADA MOTOR: texto de um lado, exemplo do outro */
+.recurso {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 72px;
+}
+
+/* no motor do meio o texto vai para a direita, para a página não ficar repetitiva */
+.recurso_invertido .recurso_texto {
+    order: 2;
+}
+
+.recurso_texto h2 {
+    margin: 0 0 16px;
+    font-size: 42px;
+    line-height: 1.15;
+}
+
+.recurso_resumo {
+    margin: 0 0 28px;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--texto-secundario);
+}
+
+/* subtítulo pequeno, em letra de código */
+.recurso_subtitulo {
+    margin: 0 0 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--verde);
+}
+
+.recurso_lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+}
+
+/* o ícone de "certo" fica numa coluna só dele, e o texto quebra alinhado */
+.recurso_lista li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.recurso_lista i {
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--verde);
+}
+
+/* observação com uma linha verde do lado */
+.recurso_nota {
+    margin: 0;
+    padding: 14px 16px;
+    border-left: 2px solid var(--verde);
+    border-radius: 0 6px 6px 0;
+    background-color: var(--card);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--texto-secundario);
+}
+
+/* nome de arquivo ou de biblioteca no meio do texto */
+.recurso code,
+.exemplo code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9em;
+    color: var(--texto);
+}
+
+
+/* 3. MOLDURA DOS EXEMPLOS: a mesma janela do terminal da página inicial
+   (a barra com as três bolinhas vem do style.css: .terminal_barra) */
+.exemplo {
+    /* sem isto a figura cresce mais que a coluna quando o conteúdo é largo */
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background-color: var(--card);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* a legenda embaixo de cada exemplo */
+.exemplo figcaption {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--borda);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--texto-secundario);
+}
+
+
+/* 4. EXEMPLO DO CAÇADOR DE SEGREDOS: um .env com a linha do segredo destacada */
+.janela_codigo {
+    margin: 0;
+    padding: 18px 0;
+    overflow-x: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    line-height: 28px;
+    color: var(--texto-secundario);
+}
+
+.janela_linha {
+    display: block;
+    padding: 0 20px;
+}
+
+/* número da linha, apagado, que não entra quando alguém copia o texto */
+.janela_linha .numero {
+    display: inline-block;
+    width: 28px;
+    color: #6F8C7E;
+    user-select: none;
+}
+
+/* a linha do segredo: fundo avermelhado e uma faixa vermelha à esquerda (vermelho = gravidade crítica) */
+.janela_achado {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 92, 108, 0.10);
+    box-shadow: inset 3px 0 0 var(--critico);
+    color: var(--texto);
+}
+
+.mascara {
+    letter-spacing: 1px;
+    color: var(--critico);
+}
+
+/* uma faixa de luz atravessa a linha do segredo de tempos em tempos, como um scanner */
+.janela_achado::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    background: linear-gradient(90deg, transparent, rgba(255, 92, 108, 0.18), transparent);
+    transform: translateX(-100%);
+    animation: varre_linha 3.2s ease-in-out infinite;
+}
+
+@keyframes varre_linha {
+    0%, 20% { transform: translateX(-100%); }
+    70%, 100% { transform: translateX(400%); }
+}
+
+
+/* 5. EXEMPLO DO MAPA DE ROTAS: tabela com método, caminho e cadeado */
+.mapa_caixa {
+    overflow-x: auto;
+}
+
+.mapa table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.mapa th {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--borda);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-align: left;
+    text-transform: uppercase;
+    color: var(--texto-secundario);
+}
+
+.mapa td {
+    padding: 13px 20px;
+    border-bottom: 1px solid rgba(31, 92, 61, 0.5);
+    /* cada informação numa linha só; se faltar espaço, a tabela rola para o lado */
+    white-space: nowrap;
+}
+
+.mapa tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* GET, POST, DELETE numa caixinha de mesma largura, para alinhar os caminhos */
+.metodo {
+    display: inline-block;
+    min-width: 62px;
+    padding: 2px 8px;
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-align: center;
+}
+
+.acesso {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.acesso_fechado i {
+    color: var(--verde);
+}
+
+/* o cadeado aberto pisca devagar; laranja porque a rota aberta tem gravidade alta */
+.acesso_aberto i {
+    color: var(--alto);
+    animation: pisca_cadeado 2s ease-in-out infinite;
+}
+
+@keyframes pisca_cadeado {
+    50% { opacity: 0.35; }
+}
+
+/* a rota de login, pública de propósito, fica apagada */
+.rota_dispensada td,
+.rota_dispensada code {
+    color: #6F8C7E;
+}
+
+
+/* 6. EXEMPLO DAS DEPENDÊNCIAS: lista de bibliotecas com a situação de cada uma */
+.pacotes {
+    margin: 0;
+    padding: 8px 0;
+    list-style: none;
+}
+
+.pacote {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(31, 92, 61, 0.5);
+}
+
+.pacote:last-child {
+    border-bottom: none;
+}
+
+.pacote_nome {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+}
+
+.pacote_versao {
+    margin-left: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--texto-secundario);
+}
+
+.pacote_estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.pacote_ok {
+    color: var(--verde);
+}
+
+
+/* 7. O DOSSIÊ: a nota à esquerda e os cartões à direita */
+.dossie {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    align-items: start;
+    gap: 48px;
+}
+
+.nota_cartao {
+    margin: 0;
+    padding: 32px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background-color: var(--fundo);
+    text-align: center;
+}
+
+/* O anel da nota. O conic-gradient pinta "fatias" em volta do centro:
+   verde até a porcentagem de --valor e a cor da borda no resto.
+   O ::before é um círculo escuro por cima, que deixa só o anel aparecendo. */
+.nota {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 200px;
+    max-width: 100%;
+    aspect-ratio: 1;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: conic-gradient(var(--verde) calc(var(--valor) * 1%), var(--borda) 0);
+}
+
+.nota::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    background-color: var(--fundo);
+}
+
+.nota_numero {
+    /* fica na frente do círculo escuro */
+    position: relative;
+    margin: 0;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.nota_numero small {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--texto-secundario);
+}
+
+.nota_contagem {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 16px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+}
+
+.nota_contagem li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* bolinha com a cor de cada gravidade */
+.ponto {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.ponto_critica { background-color: var(--critico); }
+.ponto_alta { background-color: var(--alto); }
+.ponto_media { background-color: var(--medio); }
+.ponto_baixa { background-color: var(--baixo); }
+
+.nota_conta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--texto-secundario);
+}
+
+/* os cartões do dossiê ficam em duas colunas */
+.cartoes_2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* as quatro gravidades, lado a lado */
+.gravidades {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+}
+
+.gravidade {
+    padding: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background-color: var(--fundo);
+}
+
+.gravidade strong {
+    display: block;
+    margin: 12px 0 4px;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 22px;
+}
+
+.gravidade p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--texto-secundario);
+}
+
+
+/* 8. TELAS MENORES */
+@media (max-width: 1100px) {
+    /* texto em cima, exemplo embaixo, nos três motores */
+    .recurso {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .recurso_invertido .recurso_texto {
+        order: 0;
+    }
+
+    .recurso_texto h2 {
+        font-size: 34px;
+    }
+
+    .dossie {
+        grid-template-columns: 1fr;
+    }
+
+    .nota_cartao {
+        width: 100%;
+        max-width: 420px;
+        margin-inline: auto;
+    }
+
+    .gravidades {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 760px) {
+    .recurso_texto h2 {
+        font-size: 28px;
+    }
+
+    .cartoes_2,
+    .gravidades {
+        grid-template-columns: 1fr;
+    }
+}

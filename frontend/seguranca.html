@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="O SpyCode varre seu repositório do GitHub atrás de chaves expostas, rotas abertas e bibliotecas vulneráveis, e explica cada achado em português.">
+        content="As regras que o SpyCode segue com o seu código: só leitura, nada executado, cópia apagada e segredos mascarados.">
 
-    <title>SpyCode | Seu código protegido antes do deploy</title>
+    <title>SpyCode | Segurança</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,10 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&family=Sora:wght@600;700&display=swap"
         rel="stylesheet">
 
+    <!-- style.css: cores, cabeçalho e rodapé | paginas.css: peças das páginas do menu | seguranca.css: só desta página -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/paginas.css">
+    <link rel="stylesheet" href="css/seguranca.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -35,6 +38,7 @@
 
         </div>
 
+        <!-- aria-current="page" marca a página atual: o CSS deixa a pílula escura parada nela -->
         <nav class="navegacao">
 
             <a href="index.html">Início</a>
@@ -43,7 +47,7 @@
 
             <a href="sobre.html">Sobre</a>
 
-            <a href="seguranca.html">Segurança</a>
+            <a href="seguranca.html" aria-current="page">Segurança</a>
 
         </nav>
 
@@ -58,3 +62,193 @@
         </div>
 
     </header>
+
+
+    <main>
+
+        <!-- 2. TOPO -->
+        <section class="pagina_topo">
+            <p class="etiqueta">Segurança</p>
+
+            <h1>Seu código é lido, nunca guardado</h1>
+
+            <p>
+                Uma ferramenta de segurança precisa dar o exemplo. Estas são as regras que o SpyCode segue com o seu
+                repositório, em todas as partes do sistema.
+            </p>
+        </section>
+
+
+        <!-- 3. O CAMINHO DO CÓDIGO: quatro passos em ordem (o número vem do CSS) -->
+        <section class="secao">
+
+            <div class="secao_cabecalho">
+                <p class="etiqueta">O caminho do seu código</p>
+                <h2>Do GitHub ao laudo, sem o código ficar com a gente</h2>
+            </div>
+
+            <ol class="passos">
+                <li class="passo revela">
+                    <h3>Você autoriza</h3>
+                    <p>Entra com o GitHub e escolhe o repositório. O SpyCode pede só permissão de leitura.</p>
+                </li>
+                <li class="passo revela">
+                    <h3>Uma cópia é baixada</h3>
+                    <p>O código vai para uma pasta temporária, separada para cada análise.</p>
+                </li>
+                <li class="passo revela">
+                    <h3>Os motores leem</h3>
+                    <p>O código é lido como texto. Nenhuma linha dele é executada.</p>
+                </li>
+                <li class="passo revela">
+                    <h3>Fica só o laudo</h3>
+                    <p>A pasta é apagada no fim, mesmo quando a análise dá erro.</p>
+                </li>
+            </ol>
+
+        </section>
+
+
+        <!-- 4. AS REGRAS -->
+        <section class="secao secao_alternada">
+
+            <div class="secao_cabecalho">
+                <p class="etiqueta">As regras</p>
+                <h2>O que vale em todas as análises</h2>
+            </div>
+
+            <div class="cartoes cartoes_4">
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-eye"></i></span>
+                    <h3>Só leitura</h3>
+                    <p>O SpyCode pede ao GitHub a menor permissão possível.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-slash-circle"></i></span>
+                    <h3>Nada é executado</h3>
+                    <p>A análise só lê os arquivos. O seu código nunca roda no servidor.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-trash3"></i></span>
+                    <h3>Cópia apagada</h3>
+                    <p>Depois da análise, o banco guarda só o laudo.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-eye-slash"></i></span>
+                    <h3>Segredo mascarado</h3>
+                    <p>Na tela, no banco e no log. Você vê <code>sk_live_••••4f2a</code>, nunca a chave inteira.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-shield-lock"></i></span>
+                    <h3>Acesso protegido</h3>
+                    <p>A autorização do seu GitHub fica criptografada no banco.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-link-45deg"></i></span>
+                    <h3>Atalhos ignorados</h3>
+                    <p>Links simbólicos do repositório são pulados, porque podem apontar para fora da pasta temporária.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-hourglass-split"></i></span>
+                    <h3>Limites</h3>
+                    <p>Tamanho máximo de repositório, tempo máximo por análise e limite de pedidos.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-arrow-repeat"></i></span>
+                    <h3>Testado em casa</h3>
+                    <p>O repositório do próprio SpyCode passa pelo scanner antes de cada entrega.</p>
+                </article>
+            </div>
+
+        </section>
+
+
+        <!-- 5. O QUE FICA GUARDADO E O QUE NÃO FICA -->
+        <section class="secao">
+
+            <div class="secao_cabecalho">
+                <p class="etiqueta">Seus dados</p>
+                <h2>O que fica guardado e o que não fica</h2>
+            </div>
+
+            <div class="guarda">
+                <div class="guarda_coluna guarda_sim">
+                    <h3><i class="bi bi-database-check"></i> Guardamos</h3>
+                    <ul>
+                        <li><i class="bi bi-check2"></i><span>Quem você é: o seu usuário do GitHub</span></li>
+                        <li><i class="bi bi-check2"></i><span>Os repositórios que você conectou</span></li>
+                        <li><i class="bi bi-check2"></i><span>O laudo de cada análise: achados, nota e data</span></li>
+                        <li><i class="bi bi-check2"></i><span>O que você marcou como falso positivo</span></li>
+                    </ul>
+                </div>
+
+                <div class="guarda_coluna guarda_nao">
+                    <h3><i class="bi bi-database-x"></i> Nunca guardamos</h3>
+                    <ul>
+                        <li><i class="bi bi-x-lg"></i><span>O seu código</span></li>
+                        <li><i class="bi bi-x-lg"></i><span>Segredos inteiros</span></li>
+                        <li><i class="bi bi-x-lg"></i><span>Senhas em texto puro</span></li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- 6. SÓ O DONO ESCANEIA -->
+        <section class="secao secao_alternada">
+
+            <div class="dono">
+                <span class="dono_icone"><i class="bi bi-person-check"></i></span>
+                <h2>Só o dono escaneia</h2>
+                <p>
+                    O SpyCode analisa apenas os repositórios que a própria pessoa conecta, pela conta dela do GitHub, e
+                    o resultado aparece só para ela. Não dá para escanear o projeto de outra pessoa.
+                </p>
+                <p class="dono_nota">
+                    O SpyCode está em construção. Estas regras valem desde a primeira versão e são conferidas antes de
+                    cada entrega.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- 7. CTA -->
+        <section class="cta">
+            <h2>Seu código lido, seu laudo guardado. Vamos começar?</h2>
+            <a href="login.html" class="cta_botao">Escanear agora</a>
+        </section>
+
+    </main>
+
+
+    <!-- 8. RODAPÉ -->
+    <footer>
+
+        <a href="index.html">
+            <img src="img/logo-horizontal.png" alt="SpyCode" height="32">
+        </a>
+
+        <p>
+            Projeto Integrador do curso de Desenvolvimento Full Stack do Senac, 2026.
+        </p>
+
+        <nav class="rodape_links">
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="recursos.html">O que encontra</a>
+            <a href="seguranca.html">Privacidade</a>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>

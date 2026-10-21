@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="O SpyCode varre seu repositório do GitHub atrás de chaves expostas, rotas abertas e bibliotecas vulneráveis, e explica cada achado em português.">
+        content="Por que o SpyCode existe, para quem ele é, como funciona e para onde o projeto vai.">
 
-    <title>SpyCode | Seu código protegido antes do deploy</title>
+    <title>SpyCode | Sobre</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,10 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&family=Sora:wght@600;700&display=swap"
         rel="stylesheet">
 
+    <!-- style.css: cores, cabeçalho e rodapé | paginas.css: peças das páginas do menu | sobre.css: só desta página -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/paginas.css">
+    <link rel="stylesheet" href="css/sobre.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -35,13 +38,14 @@
 
         </div>
 
+        <!-- aria-current="page" marca a página atual: o CSS deixa a pílula escura parada nela -->
         <nav class="navegacao">
 
             <a href="index.html">Início</a>
 
             <a href="recursos.html">Recursos</a>
 
-            <a href="sobre.html">Sobre</a>
+            <a href="sobre.html" aria-current="page">Sobre</a>
 
             <a href="seguranca.html">Segurança</a>
 
@@ -58,3 +62,204 @@
         </div>
 
     </header>
+
+
+    <main>
+
+        <!-- 2. TOPO -->
+        <section class="pagina_topo">
+            <p class="etiqueta">Sobre</p>
+
+            <h1>A segunda leitura para quem programa com IA</h1>
+
+            <p>
+                O SpyCode lê o seu repositório do GitHub antes do deploy e explica, em português simples, o que está
+                perigoso e como corrigir. É o Projeto Integrador de quatro alunos do curso de Desenvolvimento Full Stack
+                do Senac.
+            </p>
+        </section>
+
+
+        <!-- 3. O PROBLEMA: quatro números da pesquisa, cada um com a fonte -->
+        <section class="secao">
+
+            <div class="secao_cabecalho">
+                <p class="etiqueta">Por que o SpyCode existe</p>
+                <h2>Mais código feito com IA, mais falhas indo para o ar</h2>
+                <p>
+                    A IA escreve rápido, mas não revisa a segurança do que escreve. E quem está começando nem sempre
+                    sabe o que procurar antes de publicar.
+                </p>
+            </div>
+
+            <!-- os links das fontes abrem em outra aba (target="_blank");
+                 o rel="noopener" impede a outra página de mexer nesta -->
+            <div class="dados">
+                <div class="dado revela">
+                    <strong>84%</strong>
+                    <p>dos desenvolvedores usam ou pretendem usar IA para programar.</p>
+                    <a href="https://survey.stackoverflow.co/2025/ai" target="_blank" rel="noopener">Stack Overflow, 2025</a>
+                </div>
+                <div class="dado revela">
+                    <strong>45%</strong>
+                    <p>das tarefas de teste terminaram com falha de segurança no código gerado por IA.</p>
+                    <a href="https://www.veracode.com/press-release/ai-generated-code-poses-major-security-risks-in-nearly-half-of-all-development-tasks-veracode-research-reveals/"
+                        target="_blank" rel="noopener">Veracode, 2025</a>
+                </div>
+                <div class="dado revela">
+                    <strong>28,65 mi</strong>
+                    <p>de segredos novos expostos no GitHub público em 2025, 34% a mais que em 2024.</p>
+                    <a href="https://dev.to/gitguardian/the-state-of-secrets-sprawl-2026-ai-service-leaks-surge-81-and-29m-secrets-hit-public-github-2bgj"
+                        target="_blank" rel="noopener">GitGuardian, 2026</a>
+                </div>
+                <div class="dado revela">
+                    <strong>R$ 7,19 mi</strong>
+                    <p>é o custo médio de uma violação de dados no Brasil.</p>
+                    <a href="https://tecnoblog.net/noticias/custo-medio-por-violacao-de-dados-sobe-no-brasil-e-chega-a-r-719-milhoes/"
+                        target="_blank" rel="noopener">IBM, 2025</a>
+                </div>
+            </div>
+
+            <p class="dados_nota">
+                Os 45% vêm de 80 tarefas de teste feitas com mais de 100 modelos de IA. Não é uma medida de todo
+                código feito com IA.
+            </p>
+
+        </section>
+
+
+        <!-- 4. PARA QUEM É -->
+        <section class="secao secao_alternada">
+
+            <div class="secao_cabecalho">
+                <p class="etiqueta">Para quem é</p>
+                <h2>Para quem programa sem um especialista em segurança do lado</h2>
+            </div>
+
+            <div class="cartoes">
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-mortarboard"></i></span>
+                    <h3>Estudantes</h3>
+                    <p>Publicando os primeiros projetos e montando o GitHub para mostrar nas entrevistas.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-person-workspace"></i></span>
+                    <h3>Quem programa sozinho</h3>
+                    <p>Usa IA para ir mais rápido e não tem ninguém para revisar o código antes de publicar.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-people"></i></span>
+                    <h3>Equipes pequenas</h3>
+                    <p>Sem especialista em segurança e sem verba para ferramenta corporativa.</p>
+                </article>
+            </div>
+
+        </section>
+
+
+        <!-- 5. COMO FUNCIONA: quatro passos em ordem (o número vem do CSS) -->
+        <section class="secao">
+
+            <div class="secao_cabecalho">
+                <p class="etiqueta">Como funciona</p>
+                <h2>Do repositório ao dossiê em quatro passos</h2>
+            </div>
+
+            <ol class="passos">
+                <li class="passo revela">
+                    <h3>Entre com o GitHub</h3>
+                    <p>O SpyCode pede só permissão para ler os seus repositórios.</p>
+                </li>
+                <li class="passo revela">
+                    <h3>Escolha o repositório</h3>
+                    <p>Um projeto em Node.js com Express, público ou privado.</p>
+                </li>
+                <li class="passo revela">
+                    <h3>O SpyCode analisa</h3>
+                    <p>Três motores leem o código sem executar nada. Depois a cópia é apagada.</p>
+                </li>
+                <li class="passo revela">
+                    <h3>Receba o dossiê</h3>
+                    <p>A nota de 0 a 100 e cada achado com o risco e a correção.</p>
+                </li>
+            </ol>
+
+            <!-- o mesmo botão "Como funciona" da página inicial, com a seta que anda -->
+            <div class="sobre_acao">
+                <a href="recursos.html" class="info_button">
+                    Ver tudo o que ele confere
+                    <svg class="seta" viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M4 10h11M11 5.5 15.5 10 11 14.5" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+            </div>
+
+        </section>
+
+
+        <!-- 6. PARA ONDE VAMOS -->
+        <section class="secao secao_alternada">
+
+            <div class="secao_cabecalho">
+                <p class="etiqueta">Visão de futuro</p>
+                <h2>Para onde o SpyCode vai</h2>
+                <p>A primeira versão analisa projetos em Node.js com Express. Depois dela, a ideia é:</p>
+            </div>
+
+            <div class="cartoes">
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-code-slash"></i></span>
+                    <h3>Outras linguagens</h3>
+                    <p>Analisar projetos além de Node.js e Express.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-git"></i></span>
+                    <h3>Correção sugerida</h3>
+                    <p>Propor a correção pronta num pull request, para a pessoa revisar e aceitar.</p>
+                </article>
+
+                <article class="cartao revela">
+                    <span class="icone"><i class="bi bi-stars"></i></span>
+                    <h3>Explicação com IA</h3>
+                    <p>Explicar cada achado usando o próprio código da pessoa como exemplo.</p>
+                </article>
+            </div>
+
+        </section>
+
+
+        <!-- 7. CTA -->
+        <section class="cta">
+            <h2>Quer ver o SpyCode no seu projeto?</h2>
+            <a href="login.html" class="cta_botao">Escanear agora</a>
+        </section>
+
+    </main>
+
+
+    <!-- 8. RODAPÉ -->
+    <footer>
+
+        <a href="index.html">
+            <img src="img/logo-horizontal.png" alt="SpyCode" height="32">
+        </a>
+
+        <p>
+            Projeto Integrador do curso de Desenvolvimento Full Stack do Senac, 2026.
+        </p>
+
+        <nav class="rodape_links">
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="recursos.html">O que encontra</a>
+            <a href="seguranca.html">Privacidade</a>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>

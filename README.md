@@ -20,12 +20,16 @@ Projeto-Integrador/
 ├── frontend/              tudo que o navegador abre
 │   ├── index.html         página inicial (landing)
 │   ├── login.html         tela de login
-│   ├── recursos.html      páginas do menu (em construção)
-│   ├── sobre.html
-│   ├── seguranca.html
+│   ├── recursos.html      páginas do menu: o que o SpyCode encontra,
+│   ├── sobre.html         por que o projeto existe
+│   ├── seguranca.html     e como o código da pessoa é tratado
 │   ├── css/
-│   │   ├── style.css      estilos da página inicial
-│   │   └── login.css      estilos da tela de login
+│   │   ├── style.css      cores, cabeçalho e rodapé de todas as páginas, e a página inicial
+│   │   ├── paginas.css    peças que as três páginas do menu usam iguais
+│   │   ├── recursos.css   um CSS para cada página, com o mesmo nome do HTML
+│   │   ├── sobre.css
+│   │   ├── seguranca.css
+│   │   └── login.css
 │   ├── js/
 │   │   ├── terminal.js    animação do terminal da página inicial
 │   │   └── login.js       login com GitHub, Google e e-mail (Firebase)
@@ -47,6 +51,7 @@ Cada pessoa trabalha nos **seus** arquivos. Assim duas pessoas nunca editam a me
 | Parte | Responsável | Arquivos |
 | --- | --- | --- |
 | Página inicial | Samuel | `frontend/index.html`, `frontend/css/style.css` |
+| Páginas do menu | Samuel | `frontend/recursos.html`, `sobre.html`, `seguranca.html` e os CSS com o mesmo nome, mais `frontend/css/paginas.css` |
 | Tela de login | Aline e Helena | `frontend/login.html`, `frontend/css/login.css`, `frontend/js/login.js` |
 
 - Cada página nova tem **um HTML e um CSS com o mesmo nome**, como `login.html` e `css/login.css`.

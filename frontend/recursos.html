@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="O SpyCode varre seu repositório do GitHub atrás de chaves expostas, rotas abertas e bibliotecas vulneráveis, e explica cada achado em português.">
+        content="Os três motores do SpyCode: caçador de segredos, mapa de rotas e dependências, e o dossiê com a nota do seu repositório.">
 
-    <title>SpyCode | Seu código protegido antes do deploy</title>
+    <title>SpyCode | Recursos</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,10 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&family=Sora:wght@600;700&display=swap"
         rel="stylesheet">
 
+    <!-- style.css: cores, cabeçalho e rodapé | paginas.css: peças das páginas do menu | recursos.css: só desta página -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/paginas.css">
+    <link rel="stylesheet" href="css/recursos.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -35,11 +38,12 @@
 
         </div>
 
+        <!-- aria-current="page" marca a página atual: o CSS deixa a pílula escura parada nela -->
         <nav class="navegacao">
 
             <a href="index.html">Início</a>
 
-            <a href="recursos.html">Recursos</a>
+            <a href="recursos.html" aria-current="page">Recursos</a>
 
             <a href="sobre.html">Sobre</a>
 
@@ -58,3 +62,332 @@
         </div>
 
     </header>
+
+
+    <main>
+
+        <!-- 2. TOPO: título da página e atalhos para cada parte -->
+        <section class="pagina_topo">
+            <p class="etiqueta">Recursos</p>
+
+            <h1>Tudo o que o SpyCode confere no seu repositório</h1>
+
+            <p>
+                Três motores leem o seu projeto ao mesmo tempo, sem executar nada. Cada problema encontrado vira um
+                achado com a gravidade, o risco explicado em português e o passo a passo da correção.
+            </p>
+
+            <!-- atalhos: cada um leva até a seção com o mesmo id, mais abaixo -->
+            <nav class="atalhos" aria-label="Partes desta página">
+                <a href="#segredos"><i class="bi bi-key"></i> Caçador de segredos</a>
+                <a href="#rotas"><i class="bi bi-bezier2"></i> Mapa de rotas</a>
+                <a href="#dependencias"><i class="bi bi-box"></i> Dependências</a>
+                <a href="#dossie"><i class="bi bi-clipboard-data"></i> O dossiê</a>
+            </nav>
+        </section>
+
+
+        <!-- 3. MOTOR 1: texto à esquerda, exemplo de achado à direita -->
+        <section class="secao recurso" id="segredos">
+
+            <div class="recurso_texto">
+                <p class="etiqueta">Motor 1</p>
+
+                <h2>Caçador de segredos</h2>
+
+                <p class="recurso_resumo">
+                    Procura chaves, tokens e senhas que foram parar no código, inclusive nos commits antigos que você
+                    achou que tinha apagado.
+                </p>
+
+                <h3 class="recurso_subtitulo">O que ele procura</h3>
+
+                <!-- cada item tem duas partes, o ícone e um <span> com o texto: o CSS põe as duas lado a lado -->
+                <ul class="recurso_lista">
+                    <li><i class="bi bi-check2"></i><span>Chaves de serviços de nuvem e de pagamento</span></li>
+                    <li><i class="bi bi-check2"></i><span>Tokens do GitHub e tokens de login (JWT)</span></li>
+                    <li><i class="bi bi-check2"></i><span>Chaves privadas e endereços de conexão com o banco</span></li>
+                    <li><i class="bi bi-check2"></i><span>Arquivo <code>.env</code> enviado ao GitHub</span></li>
+                    <li><i class="bi bi-check2"></i><span>Textos aleatórios demais para serem palavras, que costumam ser chaves</span></li>
+                </ul>
+
+                <p class="recurso_nota">
+                    Mostra o arquivo, a linha e o commit em que o segredo entrou. O segredo aparece sempre mascarado.
+                </p>
+            </div>
+
+            <!-- exemplo de achado. As linhas do código ficam coladas umas nas outras no HTML
+                 porque cada uma já é um bloco no CSS; uma quebra de linha aqui viraria linha em branco. -->
+            <figure class="exemplo">
+                <div class="terminal_barra">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <small class="terminal_titulo">.env · commit a1b2c3d</small>
+                </div>
+
+                <pre class="janela_codigo"><span class="janela_linha"><span class="numero">1</span>PORT=3000</span><span class="janela_linha"><span class="numero">2</span>DB_HOST=localhost</span><span class="janela_linha janela_achado"><span class="numero">3</span>PAGAMENTO_CHAVE=sk_live_<span class="mascara">••••••••••••••••</span>4f2a</span></pre>
+
+                <figcaption>
+                    <span class="selo selo_critica">Crítica</span>
+                    <span>Chave de pagamento exposta na linha 3. Ela entrou no commit <code>a1b2c3d</code> e continua
+                        no histórico, mesmo depois de apagada do arquivo.</span>
+                </figcaption>
+            </figure>
+
+        </section>
+
+
+        <!-- 4. MOTOR 2: invertido, com o exemplo à esquerda e o texto à direita -->
+        <section class="secao secao_alternada recurso recurso_invertido" id="rotas">
+
+            <div class="recurso_texto">
+                <p class="etiqueta">Motor 2</p>
+
+                <h2>Mapa de rotas</h2>
+
+                <p class="recurso_resumo">
+                    Lê o código do Express e monta a lista de todas as rotas da sua API. As que qualquer pessoa
+                    consegue acessar sem login aparecem com o cadeado aberto.
+                </p>
+
+                <h3 class="recurso_subtitulo">Também confere a configuração</h3>
+
+                <ul class="recurso_lista">
+                    <li><i class="bi bi-check2"></i><span>CORS aberto para qualquer site</span></li>
+                    <li><i class="bi bi-check2"></i><span>Falta de limite de pedidos (<code>express-rate-limit</code>)</span></li>
+                    <li><i class="bi bi-check2"></i><span>Falta dos cabeçalhos de segurança (<code>helmet</code>)</span></li>
+                    <li><i class="bi bi-check2"></i><span>Cookie sem proteção (<code>httpOnly</code>, <code>secure</code> e <code>sameSite</code>)</span></li>
+                </ul>
+
+                <p class="recurso_nota">
+                    Uma rota pública de propósito, como a de login, pode ser dispensada e não aparece de novo.
+                </p>
+            </div>
+
+            <figure class="exemplo mapa">
+                <div class="terminal_barra">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <small class="terminal_titulo">mapa de rotas</small>
+                </div>
+
+                <!-- a tabela fica numa caixa própria: em tela estreita só ela rola para o lado -->
+                <div class="mapa_caixa">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Caminho</th>
+                                <th>Acesso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="metodo">GET</span></td>
+                                <td><code>/api/tarefas</code></td>
+                                <td><span class="acesso acesso_fechado"><i class="bi bi-lock-fill"></i> Com login</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="metodo">POST</span></td>
+                                <td><code>/api/tarefas</code></td>
+                                <td><span class="acesso acesso_fechado"><i class="bi bi-lock-fill"></i> Com login</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="metodo">DELETE</span></td>
+                                <td><code>/users/:id</code></td>
+                                <td><span class="acesso acesso_aberto"><i class="bi bi-unlock-fill"></i> Aberta <span class="selo selo_alta">Alta</span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="metodo">GET</span></td>
+                                <td><code>/admin/usuarios</code></td>
+                                <td><span class="acesso acesso_aberto"><i class="bi bi-unlock-fill"></i> Aberta <span class="selo selo_alta">Alta</span></span></td>
+                            </tr>
+                            <tr class="rota_dispensada">
+                                <td><span class="metodo">POST</span></td>
+                                <td><code>/login</code></td>
+                                <td><span class="acesso"><i class="bi bi-unlock"></i> Pública de propósito</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <figcaption>
+                    <span>Exemplo: 5 rotas encontradas, 2 abertas sem login.</span>
+                </figcaption>
+            </figure>
+
+        </section>
+
+
+        <!-- 5. MOTOR 3 -->
+        <section class="secao recurso" id="dependencias">
+
+            <div class="recurso_texto">
+                <p class="etiqueta">Motor 3</p>
+
+                <h2>Dependências</h2>
+
+                <p class="recurso_resumo">
+                    Lê o <code>package.json</code> e o <code>package-lock.json</code>, consulta a OSV.dev, a base
+                    pública de falhas conhecidas, e mostra qual versão resolve.
+                </p>
+
+                <h3 class="recurso_subtitulo">Por que importa</h3>
+
+                <ul class="recurso_lista">
+                    <li><i class="bi bi-check2"></i><span>Um projeto Node usa dezenas de bibliotecas, e cada uma usa outras</span></li>
+                    <li><i class="bi bi-check2"></i><span>Uma versão antiga, copiada de um tutorial, pode ter falha conhecida há anos</span></li>
+                    <li><i class="bi bi-check2"></i><span>A base é atualizada todo dia: uma versão segura hoje pode deixar de ser</span></li>
+                </ul>
+            </div>
+
+            <figure class="exemplo">
+                <div class="terminal_barra">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <small class="terminal_titulo">package.json</small>
+                </div>
+
+                <ul class="pacotes">
+                    <li class="pacote">
+                        <span><span class="pacote_nome">express</span><span class="pacote_versao">4.21.2</span></span>
+                        <span class="pacote_estado pacote_ok"><i class="bi bi-check-circle-fill"></i> Sem falha conhecida</span>
+                    </li>
+                    <li class="pacote">
+                        <span><span class="pacote_nome">lodash</span><span class="pacote_versao">4.17.15</span></span>
+                        <span class="pacote_estado"><span class="selo selo_alta">Alta</span> Atualize para <code>4.18.0</code></span>
+                    </li>
+                    <li class="pacote">
+                        <span><span class="pacote_nome">jsonwebtoken</span><span class="pacote_versao">8.5.1</span></span>
+                        <span class="pacote_estado"><span class="selo selo_alta">Alta</span> Atualize para <code>9.0.0</code></span>
+                    </li>
+                    <li class="pacote">
+                        <span><span class="pacote_nome">dotenv</span><span class="pacote_versao">16.4.5</span></span>
+                        <span class="pacote_estado pacote_ok"><i class="bi bi-check-circle-fill"></i> Sem falha conhecida</span>
+                    </li>
+                </ul>
+
+                <figcaption>
+                    <span>Resultado real da OSV.dev para estas versões, consultado em outubro de 2026.</span>
+                </figcaption>
+            </figure>
+
+        </section>
+
+
+        <!-- 6. O DOSSIÊ: a nota à esquerda, o que vem junto à direita, as gravidades embaixo -->
+        <section class="secao secao_alternada" id="dossie">
+
+            <div class="secao_cabecalho secao_cabecalho_meio">
+                <p class="etiqueta">O resultado</p>
+                <h2>O dossiê</h2>
+                <p>Tudo o que os três motores encontraram, numa página só, do achado mais grave para o mais leve.</p>
+            </div>
+
+            <div class="dossie">
+
+                <!-- a nota: o anel verde é preenchido até a porcentagem guardada em --valor -->
+                <figure class="nota_cartao">
+                    <div class="nota" style="--valor: 61">
+                        <p class="nota_numero">61<small>/100</small></p>
+                    </div>
+
+                    <ul class="nota_contagem">
+                        <li><span class="ponto ponto_critica"></span> 1 crítica</li>
+                        <li><span class="ponto ponto_alta"></span> 1 alta</li>
+                        <li><span class="ponto ponto_media"></span> 1 média</li>
+                        <li><span class="ponto ponto_baixa"></span> 0 baixa</li>
+                    </ul>
+
+                    <figcaption class="nota_conta">100 − 25 − 10 − 4 = 61</figcaption>
+                </figure>
+
+                <div class="cartoes cartoes_2">
+                    <article class="cartao revela">
+                        <span class="icone"><i class="bi bi-translate"></i></span>
+                        <h3>Explicado em português</h3>
+                        <p>Cada achado diz qual é o risco e o passo a passo da correção, sem sigla.</p>
+                    </article>
+
+                    <article class="cartao revela">
+                        <span class="icone"><i class="bi bi-clock-history"></i></span>
+                        <h3>Histórico</h3>
+                        <p>Compare com os escaneamentos anteriores e veja a nota subir conforme você corrige.</p>
+                    </article>
+
+                    <article class="cartao revela">
+                        <span class="icone"><i class="bi bi-check2-circle"></i></span>
+                        <h3>Falso positivo resolvido</h3>
+                        <p>Marque o que não é problema, e ele não volta nos próximos escaneamentos.</p>
+                    </article>
+
+                    <article class="cartao revela">
+                        <span class="icone"><i class="bi bi-file-earmark-pdf"></i></span>
+                        <h3>Laudo em PDF</h3>
+                        <p>Baixe o resultado para guardar ou mostrar numa entrevista.</p>
+                    </article>
+                </div>
+
+            </div>
+
+            <!-- as quatro gravidades e quanto cada uma tira da nota -->
+            <div class="gravidades">
+                <div class="gravidade">
+                    <span class="selo selo_critica">Crítica</span>
+                    <strong>−25 pontos</strong>
+                    <p>Corrija antes do deploy.</p>
+                </div>
+                <div class="gravidade">
+                    <span class="selo selo_alta">Alta</span>
+                    <strong>−10 pontos</strong>
+                    <p>Corrija o quanto antes.</p>
+                </div>
+                <div class="gravidade">
+                    <span class="selo selo_media">Média</span>
+                    <strong>−4 pontos</strong>
+                    <p>Planeje a correção.</p>
+                </div>
+                <div class="gravidade">
+                    <span class="selo selo_baixa">Baixa</span>
+                    <strong>−1 ponto</strong>
+                    <p>Boa prática para melhorar.</p>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- 7. CTA: a mesma faixa verde da página inicial -->
+        <section class="cta">
+            <h2>Pronto para ver o que seu código está escondendo?</h2>
+            <a href="login.html" class="cta_botao">Escanear agora</a>
+        </section>
+
+    </main>
+
+
+    <!-- 8. RODAPÉ -->
+    <footer>
+
+        <a href="index.html">
+            <img src="img/logo-horizontal.png" alt="SpyCode" height="32">
+        </a>
+
+        <p>
+            Projeto Integrador do curso de Desenvolvimento Full Stack do Senac, 2026.
+        </p>
+
+        <nav class="rodape_links">
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="recursos.html">O que encontra</a>
+            <a href="seguranca.html">Privacidade</a>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>
