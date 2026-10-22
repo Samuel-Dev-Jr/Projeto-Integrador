@@ -145,6 +145,21 @@ header {
     color: var(--texto);
 }
 
+/* TROCA DE ABA (js/transicao.js): por um instante a pílula e o texto claro ficam
+   na aba de onde a pessoa veio, sem animação; depois deslizam até a aba atual. */
+.navegacao.sem_transicao::before,
+.navegacao.sem_transicao a {
+    transition: none;
+}
+
+.navegacao.deslizando:not(:has(a:hover)) a[aria-current="page"] {
+    color: var(--texto-sobre-verde);
+}
+
+.navegacao a.texto_claro {
+    color: var(--texto);
+}
+
 /* encolhe um pouco enquanto está sendo clicado */
 .navegacao a:active {
     transform: scale(0.95);
@@ -948,7 +963,88 @@ footer p {
 }
 
 
-/* 7. TELA DE CELULAR (vale para todas as páginas que usam este arquivo)
+/* 7. TROCA DE ABA
+   Quando a pessoa clica numa aba do menu, o navegador tira uma "foto" da página antiga
+   e anima a troca para a nova (View Transitions). Funciona no Chrome, no Edge e no Safari
+   recentes; nos outros navegadores a página só troca, como antes.
+   Cada parte com um view-transition-name anima separada:
+   - o cabeçalho fica parado (a pílula desliza de verdade, pelo js/transicao.js);
+   - o conteúdo (main) sai para um lado e entra pelo outro;
+   - o resto (fundo e rodapé) troca num esmaecer rápido. */
+@view-transition {
+    navigation: auto;
+}
+
+header {
+    view-transition-name: cabecalho;
+}
+
+/* a foto do cabeçalho antigo some, e o novo aparece direto, sem animação:
+   como os dois são iguais, ninguém percebe a troca, só a pílula andando */
+::view-transition-old(cabecalho) {
+    display: none;
+}
+
+::view-transition-new(cabecalho) {
+    animation: none;
+}
+
+main {
+    view-transition-name: conteudo;
+}
+
+/* --sentido: 1 quando a aba nova fica à direita da antiga, -1 quando fica à esquerda.
+   Quem escolhe é o js/transicao.js, pelo atributo data-sentido no <html>. */
+:root {
+    --sentido: 1;
+}
+
+:root[data-sentido="esquerda"] {
+    --sentido: -1;
+}
+
+/* a página antiga sai rápido, indo para o lado contrário e desfocando */
+::view-transition-old(conteudo) {
+    animation: conteudo_sai 0.25s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+/* a nova só entra quando a antiga já quase sumiu (o atraso de 0.2s), para os textos
+   não se misturarem; vem do lado da aba clicada e freia devagar no lugar */
+::view-transition-new(conteudo) {
+    animation: conteudo_entra 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+@keyframes conteudo_sai {
+    to {
+        opacity: 0;
+        transform: translateX(calc(var(--sentido) * -60px));
+        filter: blur(6px);
+    }
+}
+
+@keyframes conteudo_entra {
+    from {
+        opacity: 0;
+        transform: translateX(calc(var(--sentido) * 60px));
+        filter: blur(6px);
+    }
+}
+
+/* fundo e rodapé */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.3s;
+}
+
+/* quem pediu "menos movimento" no sistema vê a página trocar direto */
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+}
+
+
+/* 8. TELA DE CELULAR (vale para todas as páginas que usam este arquivo)
    Com menos de 760px, a margem de 80px come metade da tela. Ela diminui,
    o cabeçalho quebra em duas linhas (logo e botões em cima, menu embaixo)
    e a faixa verde e o rodapé passam a ficar um item embaixo do outro. */

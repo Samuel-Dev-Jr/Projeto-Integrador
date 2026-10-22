@@ -26,12 +26,16 @@ Projeto-Integrador/
 │   ├── css/
 │   │   ├── style.css      cores, cabeçalho e rodapé de todas as páginas, e a página inicial
 │   │   ├── paginas.css    peças que as três páginas do menu usam iguais
+│   │   ├── cinema.css     a abertura do site e o movimento na rolagem (com o js/cinema.js)
 │   │   ├── recursos.css   um CSS para cada página, com o mesmo nome do HTML
 │   │   ├── sobre.css
 │   │   ├── seguranca.css
 │   │   └── login.css
 │   ├── js/
 │   │   ├── terminal.js    animação do terminal da página inicial
+│   │   ├── transicao.js   troca animada entre as abas do menu
+│   │   ├── cinema.js      abertura do site, rolagem suave e parallax (GSAP e Lenis)
+│   │   ├── dossie.js      carregamento, números e simulador do dossiê (página de recursos)
 │   │   └── login.js       login com GitHub, Google e e-mail (Firebase)
 │   └── img/               logos e ilustrações usadas no site
 ├── docs/

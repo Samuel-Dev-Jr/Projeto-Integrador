@@ -16,13 +16,40 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
+    <!-- a abertura do site e o movimento na rolagem (js/cinema.js) -->
+    <link rel="stylesheet" href="css/cinema.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <!-- troca de aba animada: fica no <head> para estar pronta antes de a página aparecer -->
+    <script src="js/transicao.js"></script>
+    <!-- só mostra a página depois de ler o conteúdo (id="conteudo"), para a transição pegar ele inteiro -->
+    <link rel="expect" href="#conteudo" blocking="render">
 
 </head>
 
 <body>
+
+    <!-- 0. ABERTURA: a tela de cofre que abre o site (css/cinema.css e js/cinema.js).
+         Só aparece quando a pessoa abre o site direto, não quando chega por uma aba do menu.
+         aria-hidden: é só enfeite, o leitor de tela pula. -->
+    <div class="abertura" id="abertura" aria-hidden="true">
+        <div class="abertura_porta abertura_porta_cima"></div>
+        <div class="abertura_porta abertura_porta_baixo"></div>
+
+        <div class="abertura_conteudo">
+            <p class="abertura_hud abertura_hud_topo_esquerda">SpyCode · análise estática</p>
+            <p class="abertura_hud abertura_hud_topo_direita">Projeto Integrador · Senac 2026</p>
+
+            <img class="abertura_logo" src="img/logo-animado.svg" alt="" height="96">
+            <div class="abertura_barra"><span></span></div>
+
+            <p class="abertura_hud abertura_texto">carregando os motores</p>
+            <p class="abertura_numero"><span>000</span><small>%</small></p>
+        </div>
+
+        <span class="abertura_linha"></span>
+    </div>
 
     <!-- 1. CABEÇALHO: logo, menu, lupa e botão "Começar" -->
     <header>
@@ -62,29 +89,33 @@
 
 
     <!-- CONTEÚDO PRINCIPAL: tudo que fica entre o cabeçalho e o rodapé -->
-    <main>
+    <main id="conteudo">
 
         <!-- 2. HERO: título grande, parágrafo, dois botões e a ilustração do cadeado -->
         <section class="hero">
             <div class="hero_texto">
                 <!-- o aria-label diz aos leitores de tela a frase certa, sem ler a pilha de palavras -->
+                <!-- Cada linha do título fica numa "janela" (titulo_linha) que esconde o que passa da borda.
+                     Na abertura, o texto de cada linha sobe de baixo para dentro dela (js/cinema.js). -->
                 <h1 aria-label="Seu código protegido antes do deploy">
-                    Seu código
+                    <span class="titulo_linha"><span class="titulo_texto">Seu código</span></span>
 
                     <!-- palavra que troca: a "janela" mostra uma palavra da lista por vez -->
-                    <span class="destaque palavras" aria-hidden="true">
-                        <span class="palavras_lista">
-                            <span>protegido</span>
-                            <span>escaneado</span>
-                            <span>auditado</span>
-                            <span>revisado</span>
-                            <span>seguro</span>
-                            <!-- a primeira de novo, para o ciclo emendar sem salto -->
-                            <span>protegido</span>
+                    <span class="titulo_linha">
+                        <span class="titulo_texto destaque palavras" aria-hidden="true">
+                            <span class="palavras_lista">
+                                <span>protegido</span>
+                                <span>escaneado</span>
+                                <span>auditado</span>
+                                <span>revisado</span>
+                                <span>seguro</span>
+                                <!-- a primeira de novo, para o ciclo emendar sem salto -->
+                                <span>protegido</span>
+                            </span>
                         </span>
                     </span>
 
-                    antes do deploy
+                    <span class="titulo_linha"><span class="titulo_texto">antes do deploy</span></span>
                 </h1>
 
                 <p>
@@ -117,6 +148,9 @@
             <div class="hero_imagem">
                 <img src="img/hero-cadeado.svg" alt="Cadeado com o símbolo de código sobre uma plataforma" width="520">
             </div>
+
+            <!-- a palavra gigante, só contorno, atrás de tudo: desliza para o lado ao rolar -->
+            <span class="hero_fundo" aria-hidden="true">SpyCode</span>
 
         </section>
 
@@ -163,7 +197,8 @@
 
         <!-- 4. BEM-VINDO: terminal à esquerda, texto e três destaques à direita -->
         <section class="bem_vindo" id="sobre">
-            <div class="terminal">
+            <!-- data-parallax: o terminal anda um pouco mais devagar que a página ao rolar (js/cinema.js) -->
+            <div class="terminal" data-parallax="0.08">
 
                 <div class="terminal_barra">
                     <span></span>
@@ -187,7 +222,8 @@ lendo 128 arquivos
 <span class="ok">✓</span> código apagado da pasta temporária
 <span class="claro">nota final: 58/100</span></pre>
 
-                <p class="motores">
+                <!-- o selo anda ainda mais que o terminal: parece flutuar na frente dele -->
+                <p class="motores" data-parallax="0.18">
                     <strong>3</strong> motores de análise
                 </p>
 
@@ -284,6 +320,14 @@ lendo 128 arquivos
 
     <!-- animação do terminal: fica no fim para rodar depois de a página já existir -->
     <script src="js/terminal.js"></script>
+
+    <!-- GSAP (animações), ScrollTrigger (animação ligada à rolagem), SplitText (texto em linhas e palavras)
+         e Lenis (rolagem suave), e depois o nosso js/cinema.js, que usa os quatro -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+    <script src="js/cinema.js"></script>
 
 </body>
 
