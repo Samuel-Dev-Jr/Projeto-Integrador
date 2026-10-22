@@ -15,9 +15,16 @@ html.lenis body {
     scroll-behavior: auto !important;
 }
 
-/* com a rolagem parada (durante a abertura), nada rola */
+/* O espaço da barra de rolagem fica sempre reservado. Sem isto, a barra some durante a
+   abertura e volta no fim: a página fica 15px mais estreita de repente e tudo dá um tranco. */
+html {
+    scrollbar-gutter: stable;
+}
+
+/* com a rolagem parada (durante a abertura), nada rola.
+   É "hidden" e não "clip" (o que o Lenis sugere) porque com "clip" o espaço reservado acima some. */
 .lenis:not(.lenis-autoToggle).lenis-stopped {
-    overflow: clip;
+    overflow: hidden;
 }
 
 .lenis.lenis-smooth iframe {
