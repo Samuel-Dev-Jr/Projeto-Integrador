@@ -19,9 +19,15 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/paginas.css">
     <link rel="stylesheet" href="css/recursos.css">
+    <!-- a entrada da página e o movimento na rolagem (js/cinema.js) -->
+    <link rel="stylesheet" href="css/cinema.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <!-- troca de aba animada: fica no <head> para estar pronta antes de a página aparecer -->
+    <script src="js/transicao.js"></script>
+    <!-- só mostra a página depois de ler o conteúdo (id="conteudo"), para a transição pegar ele inteiro -->
+    <link rel="expect" href="#conteudo" blocking="render">
 
 </head>
 
@@ -64,7 +70,7 @@
     </header>
 
 
-    <main>
+    <main id="conteudo">
 
         <!-- 2. TOPO: título da página e atalhos para cada parte -->
         <section class="pagina_topo">
@@ -118,7 +124,7 @@
 
             <!-- exemplo de achado. As linhas do código ficam coladas umas nas outras no HTML
                  porque cada uma já é um bloco no CSS; uma quebra de linha aqui viraria linha em branco. -->
-            <figure class="exemplo">
+            <figure data-parallax="0.06" class="exemplo">
                 <div class="terminal_barra">
                     <span></span>
                     <span></span>
@@ -165,7 +171,7 @@
                 </p>
             </div>
 
-            <figure class="exemplo mapa">
+            <figure data-parallax="0.06" class="exemplo mapa">
                 <div class="terminal_barra">
                     <span></span>
                     <span></span>
@@ -243,7 +249,7 @@
                 </ul>
             </div>
 
-            <figure class="exemplo">
+            <figure data-parallax="0.06" class="exemplo">
                 <div class="terminal_barra">
                     <span></span>
                     <span></span>
@@ -278,7 +284,10 @@
         </section>
 
 
-        <!-- 6. O DOSSIÊ: a nota à esquerda, o que vem junto à direita, as gravidades embaixo -->
+        <!-- 6. O DOSSIÊ: a nota à esquerda, o que vem junto à direita e o simulador embaixo.
+             Sem JavaScript a seção já aparece pronta, com a nota 61. O js/dossie.js acrescenta
+             o carregamento, os números contando, as demonstrações dos cartões e o simulador.
+             O que tem data-com-js e hidden só aparece quando o js/dossie.js roda. -->
         <section class="secao secao_alternada" id="dossie">
 
             <div class="secao_cabecalho secao_cabecalho_meio">
@@ -289,72 +298,178 @@
 
             <div class="dossie">
 
-                <!-- a nota: o anel verde é preenchido até a porcentagem guardada em --valor -->
-                <figure class="nota_cartao">
-                    <div class="nota" style="--valor: 61">
-                        <p class="nota_numero">61<small>/100</small></p>
+                <!-- A NOTA: o anel verde é preenchido até a porcentagem guardada em --valor -->
+                <figure class="nota_cartao" id="nota_cartao">
+
+                    <div class="nota" id="nota" style="--valor: 61">
+                        <!-- o arco que gira enquanto a análise de exemplo roda -->
+                        <span class="nota_giro" aria-hidden="true"></span>
+                        <p class="nota_numero"><span id="nota_valor">61</span><small>/100</small></p>
                     </div>
 
-                    <ul class="nota_contagem">
-                        <li><span class="ponto ponto_critica"></span> 1 crítica</li>
-                        <li><span class="ponto ponto_alta"></span> 1 alta</li>
-                        <li><span class="ponto ponto_media"></span> 1 média</li>
-                        <li><span class="ponto ponto_baixa"></span> 0 baixa</li>
-                    </ul>
+                    <!-- as etapas da análise e o resultado ocupam o mesmo lugar: um some quando o outro aparece -->
+                    <div class="nota_detalhes">
+                        <ol class="nota_etapas" aria-hidden="true">
+                            <li>Caçador de segredos</li>
+                            <li>Mapa de rotas</li>
+                            <li>Dependências</li>
+                        </ol>
 
-                    <figcaption class="nota_conta">100 − 25 − 10 − 4 = 61</figcaption>
+                        <div class="nota_resultado">
+                            <ul class="nota_contagem">
+                                <li data-gravidade="critica"><span class="ponto ponto_critica"></span> <span class="nota_quantos">1 crítica</span></li>
+                                <li data-gravidade="alta"><span class="ponto ponto_alta"></span> <span class="nota_quantos">1 alta</span></li>
+                                <li data-gravidade="media"><span class="ponto ponto_media"></span> <span class="nota_quantos">1 média</span></li>
+                                <li data-gravidade="baixa"><span class="ponto ponto_baixa"></span> <span class="nota_quantos">0 baixas</span></li>
+                            </ul>
+
+                            <p class="nota_conta" id="nota_conta">100 − 25 − 10 − 4 = 61</p>
+                        </div>
+                    </div>
+
+                    <button type="button" class="nota_repetir" id="nota_repetir" data-com-js hidden>
+                        <i class="bi bi-arrow-clockwise"></i> Escanear de novo
+                    </button>
+
+                    <!-- só para leitor de tela: avisa a nota nova quando ela muda -->
+                    <p class="so_leitor" id="nota_aviso" aria-live="polite"></p>
                 </figure>
 
                 <div class="cartoes cartoes_2">
-                    <article class="cartao revela">
+
+                    <!-- cada cartão tem uma pequena demonstração do que ele promete -->
+                    <article class="cartao cartao_dossie revela" id="cartao_traducao">
                         <span class="icone"><i class="bi bi-translate"></i></span>
                         <h3>Explicado em português</h3>
                         <p>Cada achado diz qual é o risco e o passo a passo da correção, sem sigla.</p>
+
+                        <div class="demo">
+                            <!-- data-tecnico: como outras ferramentas mostram; data-simples: como o SpyCode mostra -->
+                            <p class="demo_texto" id="demo_traducao"
+                                data-tecnico="CWE-798: Use of Hard-coded Credentials"
+                                data-simples="A senha do banco está escrita no código. Quem vê o repositório entra no seu banco.">
+                                A senha do banco está escrita no código. Quem vê o repositório entra no seu banco.</p>
+                            <button type="button" class="demo_botao" id="botao_traducao" data-com-js hidden>Ver como outras ferramentas mostram</button>
+                        </div>
                     </article>
 
-                    <article class="cartao revela">
+                    <article class="cartao cartao_dossie revela">
                         <span class="icone"><i class="bi bi-clock-history"></i></span>
                         <h3>Histórico</h3>
                         <p>Compare com os escaneamentos anteriores e veja a nota subir conforme você corrige.</p>
+
+                        <div class="demo">
+                            <!-- gráfico da nota em quatro escaneamentos. A altura de cada ponto é 78 − nota × 0,66,
+                                 para a nota 100 ficar no alto (12) e a nota 0 embaixo (78). -->
+                            <svg class="grafico" id="grafico" viewBox="0 0 260 84" role="img"
+                                aria-label="Nota em quatro escaneamentos: 22, 38, 47 e 61">
+                                <defs>
+                                    <linearGradient id="grafico_degrade" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0" stop-color="#2BD96B" stop-opacity="0.28" />
+                                        <stop offset="1" stop-color="#2BD96B" stop-opacity="0" />
+                                    </linearGradient>
+                                </defs>
+                                <path class="grafico_area" d="M22 63.5 L94 52.9 L166 47 L238 37.7 L238 80 L22 80 Z" />
+                                <polyline class="grafico_linha" points="22,63.5 94,52.9 166,47 238,37.7" />
+                                <g class="grafico_ponto"><circle cx="22" cy="63.5" r="4" /><text x="22" y="52">22</text></g>
+                                <g class="grafico_ponto"><circle cx="94" cy="52.9" r="4" /><text x="94" y="41">38</text></g>
+                                <g class="grafico_ponto"><circle cx="166" cy="47" r="4" /><text x="166" y="35">47</text></g>
+                                <g class="grafico_ponto"><circle cx="238" cy="37.7" r="4" /><text x="238" y="26">61</text></g>
+                            </svg>
+                            <p class="demo_legenda">De <strong>22</strong> para <strong>61</strong> em 4 escaneamentos</p>
+                        </div>
                     </article>
 
-                    <article class="cartao revela">
+                    <article class="cartao cartao_dossie revela">
                         <span class="icone"><i class="bi bi-check2-circle"></i></span>
                         <h3>Falso positivo resolvido</h3>
                         <p>Marque o que não é problema, e ele não volta nos próximos escaneamentos.</p>
+
+                        <div class="demo">
+                            <div class="falso" id="demo_falso">
+                                <span class="selo selo_alta">Alta</span>
+                                <code>senha = "teste123"</code>
+                                <span class="falso_arquivo">testes/login.test.js</span>
+                            </div>
+                            <button type="button" class="demo_botao" id="botao_falso" data-com-js hidden>Não é problema</button>
+                            <p class="falso_aviso" id="aviso_falso" hidden><i class="bi bi-check2-circle"></i> Dispensado. Não aparece mais nos próximos escaneamentos.</p>
+                        </div>
                     </article>
 
-                    <article class="cartao revela">
+                    <article class="cartao cartao_dossie revela">
                         <span class="icone"><i class="bi bi-file-earmark-pdf"></i></span>
                         <h3>Laudo em PDF</h3>
                         <p>Baixe o resultado para guardar ou mostrar numa entrevista.</p>
+
+                        <div class="demo">
+                            <div class="laudo" id="demo_laudo">
+                                <span class="laudo_arquivo"><i class="bi bi-file-earmark-pdf"></i> laudo-app-de-tarefas.pdf</span>
+                                <div class="laudo_barra" id="laudo_barra" role="progressbar" aria-label="Laudo de exemplo"
+                                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span></span></div>
+                                <span class="laudo_status" id="laudo_status">2 páginas, nota 61</span>
+                            </div>
+                            <button type="button" class="demo_botao" id="botao_laudo" data-com-js hidden>Gerar laudo de exemplo</button>
+                        </div>
                     </article>
                 </div>
 
             </div>
 
-            <!-- as quatro gravidades e quanto cada uma tira da nota -->
-            <div class="gravidades">
-                <div class="gravidade">
-                    <span class="selo selo_critica">Crítica</span>
-                    <strong>−25 pontos</strong>
-                    <p>Corrija antes do deploy.</p>
+            <!-- O SIMULADOR: as quatro gravidades, quanto cada uma tira da nota
+                 e quantos achados de cada uma o exemplo tem (data-peso e o número do contador) -->
+            <div class="simulador" id="simulador">
+
+                <div class="simulador_cabecalho" data-com-js hidden>
+                    <div>
+                        <h3>Simule a nota</h3>
+                        <p>Mude quantos achados de cada gravidade o projeto tem e veja a nota mudar.</p>
+                    </div>
+                    <p class="simulador_nota">Nota <strong id="simulador_nota">61</strong>/100</p>
                 </div>
-                <div class="gravidade">
-                    <span class="selo selo_alta">Alta</span>
-                    <strong>−10 pontos</strong>
-                    <p>Corrija o quanto antes.</p>
+
+                <div class="gravidades">
+                    <div class="gravidade" data-gravidade="critica" data-peso="25">
+                        <span class="selo selo_critica">Crítica</span>
+                        <strong>−<span class="gravidade_peso">25</span> pontos</strong>
+                        <p>Corrija antes do deploy.</p>
+                        <div class="contador" data-com-js hidden>
+                            <button type="button" class="contador_botao" data-passo="-1" aria-label="Um achado crítico a menos"><i class="bi bi-dash-lg"></i></button>
+                            <output class="contador_valor" aria-label="Achados críticos">1</output>
+                            <button type="button" class="contador_botao" data-passo="1" aria-label="Um achado crítico a mais"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                    </div>
+                    <div class="gravidade" data-gravidade="alta" data-peso="10">
+                        <span class="selo selo_alta">Alta</span>
+                        <strong>−<span class="gravidade_peso">10</span> pontos</strong>
+                        <p>Corrija o quanto antes.</p>
+                        <div class="contador" data-com-js hidden>
+                            <button type="button" class="contador_botao" data-passo="-1" aria-label="Um achado alto a menos"><i class="bi bi-dash-lg"></i></button>
+                            <output class="contador_valor" aria-label="Achados altos">1</output>
+                            <button type="button" class="contador_botao" data-passo="1" aria-label="Um achado alto a mais"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                    </div>
+                    <div class="gravidade" data-gravidade="media" data-peso="4">
+                        <span class="selo selo_media">Média</span>
+                        <strong>−<span class="gravidade_peso">4</span> pontos</strong>
+                        <p>Planeje a correção.</p>
+                        <div class="contador" data-com-js hidden>
+                            <button type="button" class="contador_botao" data-passo="-1" aria-label="Um achado médio a menos"><i class="bi bi-dash-lg"></i></button>
+                            <output class="contador_valor" aria-label="Achados médios">1</output>
+                            <button type="button" class="contador_botao" data-passo="1" aria-label="Um achado médio a mais"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                    </div>
+                    <div class="gravidade" data-gravidade="baixa" data-peso="1">
+                        <span class="selo selo_baixa">Baixa</span>
+                        <strong>−<span class="gravidade_peso">1</span> ponto</strong>
+                        <p>Boa prática para melhorar.</p>
+                        <div class="contador" data-com-js hidden>
+                            <button type="button" class="contador_botao" data-passo="-1" aria-label="Um achado baixo a menos"><i class="bi bi-dash-lg"></i></button>
+                            <output class="contador_valor" aria-label="Achados baixos">0</output>
+                            <button type="button" class="contador_botao" data-passo="1" aria-label="Um achado baixo a mais"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="gravidade">
-                    <span class="selo selo_media">Média</span>
-                    <strong>−4 pontos</strong>
-                    <p>Planeje a correção.</p>
-                </div>
-                <div class="gravidade">
-                    <span class="selo selo_baixa">Baixa</span>
-                    <strong>−1 ponto</strong>
-                    <p>Boa prática para melhorar.</p>
-                </div>
+
             </div>
 
         </section>
@@ -387,6 +502,17 @@
         </nav>
 
     </footer>
+
+    <!-- animações e interações do dossiê: fica no fim para rodar depois de a página já existir -->
+    <script src="js/dossie.js"></script>
+
+    <!-- GSAP (animações), ScrollTrigger (animação ligada à rolagem), SplitText (texto em linhas e palavras)
+         e Lenis (rolagem suave), e depois o nosso js/cinema.js, que usa os quatro -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+    <script src="js/cinema.js"></script>
 
 </body>
 

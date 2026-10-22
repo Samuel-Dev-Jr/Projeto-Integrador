@@ -417,6 +417,7 @@ html {
 .ponto_baixa { background-color: var(--baixo); }
 
 .nota_conta {
+    margin: 0;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
     color: var(--texto-secundario);
@@ -427,12 +428,16 @@ html {
     grid-template-columns: repeat(2, 1fr);
 }
 
+/* o simulador fica embaixo da nota e dos cartões */
+.simulador {
+    margin-top: 48px;
+}
+
 /* as quatro gravidades, lado a lado */
 .gravidades {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-top: 48px;
 }
 
 .gravidade {
@@ -457,7 +462,598 @@ html {
 }
 
 
-/* 8. TELAS MENORES */
+/* 8. O DOSSIÊ EM MOVIMENTO (js/dossie.js)
+   O JavaScript só troca classes e números; o visual de cada estado está aqui. */
+
+/* o que tem o atributo hidden fica escondido mesmo quando outra regra dá um display a ele */
+#dossie [hidden] {
+    display: none !important;
+}
+
+/* texto que só o leitor de tela lê */
+.so_leitor {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Registrar a --valor como número deixa o navegador animar o anel aos poucos
+   (sem isto, a variável pularia direto para o valor novo). */
+@property --valor {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+}
+
+.nota {
+    /* a duração vem do JavaScript, porque cada passo da análise tem a sua */
+    transition: --valor var(--duracao_anel, 600ms) cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* para zerar o anel de uma vez, sem animar */
+.nota.sem_transicao {
+    transition: none;
+}
+
+/* o pulso que sai do anel quando a nota muda: na cor da gravidade que descontou,
+   ou verde quando um achado foi corrigido */
+.nota.pulsa {
+    animation: pulsa_nota 0.6s ease-out;
+}
+
+@keyframes pulsa_nota {
+    from { box-shadow: 0 0 0 0 var(--cor_pulso, var(--verde)); }
+    to { box-shadow: 0 0 0 18px transparent; }
+}
+
+/* O ARCO DO CARREGAMENTO: um degradê em volta do centro, recortado (mask) para virar só o anel,
+   girando sem parar enquanto a análise roda */
+.nota_giro {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(transparent 0 62%, rgba(43, 217, 107, 0.15) 70%, var(--verde) 100%);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 13px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 13px));
+    opacity: 0;
+    transition: opacity 0.3s;
+    animation: gira 1s linear infinite paused;
+}
+
+.nota_cartao.analisando .nota_giro {
+    opacity: 1;
+    animation-play-state: running;
+}
+
+@keyframes gira {
+    to { transform: rotate(1turn); }
+}
+
+.nota_numero {
+    transition: opacity 0.3s;
+}
+
+/* durante a análise o número fica apagado */
+.nota_cartao.analisando .nota_numero {
+    opacity: 0.25;
+}
+
+/* As etapas e o resultado ficam na mesma célula da grade, um por cima do outro:
+   enquanto um aparece o outro some, e o cartão não muda de altura. */
+.nota_detalhes {
+    display: grid;
+}
+
+.nota_detalhes > * {
+    grid-area: 1 / 1;
+    transition: opacity 0.35s, transform 0.35s;
+}
+
+.nota_etapas {
+    display: grid;
+    align-content: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #6F8C7E;
+    text-align: left;
+    justify-self: center;
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+.nota_cartao.analisando .nota_etapas {
+    opacity: 1;
+    transform: none;
+}
+
+.nota_cartao.analisando .nota_resultado {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+.nota_etapas li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s;
+}
+
+/* a bolinha de cada etapa: vazia, girando quando está rodando, cheia quando terminou */
+.nota_etapas li::before {
+    content: "";
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border: 1.5px solid var(--borda);
+    border-radius: 50%;
+}
+
+.nota_etapas li.ativa {
+    color: var(--texto);
+}
+
+.nota_etapas li.ativa::before {
+    border-color: var(--verde);
+    border-top-color: transparent;
+    animation: gira 0.7s linear infinite;
+}
+
+.nota_etapas li.feita {
+    color: var(--verde);
+}
+
+.nota_etapas li.feita::before {
+    border-color: var(--verde);
+    background-color: var(--verde);
+}
+
+/* enquanto a nota desce, cada gravidade fica apagada até a vez dela */
+.nota_contagem li {
+    transition: opacity 0.3s;
+}
+
+.nota_cartao.revelando .nota_contagem li {
+    opacity: 0.3;
+}
+
+.nota_cartao.revelando .nota_contagem li.acesa {
+    opacity: 1;
+}
+
+.nota_contagem li.acesa,
+.nota_contagem li.muda {
+    animation: salta 0.45s var(--mola);
+}
+
+@keyframes salta {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.18); }
+    100% { transform: scale(1); }
+}
+
+.nota_repetir {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    padding: 8px 16px;
+    border: 1px solid var(--borda);
+    border-radius: 50px;
+    background: transparent;
+    color: var(--texto);
+    font: 600 13px 'IBM Plex Sans', Arial, sans-serif;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+.nota_repetir i {
+    transition: transform 0.5s var(--mola);
+}
+
+.nota_repetir:hover:not(:disabled) {
+    border-color: var(--verde);
+    color: var(--verde);
+}
+
+/* a seta gira meia volta com o mouse em cima */
+.nota_repetir:hover:not(:disabled) i {
+    transform: rotate(-180deg);
+}
+
+.nota_repetir:disabled {
+    opacity: 0.4;
+    cursor: progress;
+}
+
+
+/* LUZ QUE SEGUE O MOUSE: um círculo verde bem fraco no ponto do mouse (--x e --y vêm do JavaScript).
+   O isolation e o z-index -1 deixam a luz atrás do texto, mas na frente do fundo da caixa. */
+.cartao_dossie,
+.gravidade {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.cartao_dossie::after,
+.gravidade::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(300px circle at var(--x, 50%) var(--y, 50%), rgba(43, 217, 107, 0.12), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.cartao_dossie:hover::after,
+.gravidade:hover::after {
+    opacity: 1;
+}
+
+/* as caixas das gravidades sobem e acendem como os cartões */
+.gravidade {
+    transition: transform 0.4s var(--mola), border-color 0.3s;
+}
+
+.gravidade:hover {
+    transform: translateY(-4px);
+    border-color: var(--verde);
+}
+
+
+/* AS DEMONSTRAÇÕES DENTRO DOS CARTÕES */
+.demo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--borda);
+}
+
+/* botão pequeno, de contorno, igual nos quatro cartões */
+.demo_botao {
+    align-self: flex-start;
+    padding: 7px 14px;
+    border: 1px solid var(--borda);
+    border-radius: 50px;
+    background: transparent;
+    color: var(--texto);
+    font: 600 13px 'IBM Plex Sans', Arial, sans-serif;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s, transform 0.4s var(--mola);
+}
+
+.demo_botao:hover:not(:disabled) {
+    border-color: var(--verde);
+    color: var(--verde);
+    transform: translateY(-1px);
+}
+
+.demo_botao:active:not(:disabled) {
+    transform: scale(0.96);
+}
+
+.demo_botao:disabled {
+    opacity: 0.4;
+    cursor: progress;
+}
+
+.nota_repetir:focus-visible,
+.demo_botao:focus-visible,
+.contador_botao:focus-visible {
+    outline: 2px solid var(--texto);
+    outline-offset: 3px;
+}
+
+/* 1) a tradução: o texto técnico em letra de código, o explicado em letra normal.
+      A altura mínima segura o cartão no lugar enquanto o texto troca. */
+.demo_texto {
+    min-height: 3.2em;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--texto);
+}
+
+.demo_texto.tecnico {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--texto-secundario);
+}
+
+/* 2) o gráfico do histórico */
+.grafico {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.grafico_area {
+    fill: url(#grafico_degrade);
+}
+
+/* a linha é tracejada com um traço do tamanho dela inteira (--comprimento, medido no JavaScript):
+   empurrando o traço para fora (dashoffset), ela some; trazendo de volta, ela "se desenha" */
+.grafico_linha {
+    fill: none;
+    stroke: var(--verde);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: var(--comprimento, none);
+}
+
+.grafico_ponto circle {
+    fill: var(--card);
+    stroke: var(--verde);
+    stroke-width: 2;
+    transition: r 0.2s;
+}
+
+/* o número de cada ponto aparece com o mouse em cima; o último (a nota de agora) fica sempre */
+.grafico_ponto text {
+    font: 600 11px 'IBM Plex Mono', monospace;
+    fill: var(--texto-secundario);
+    text-anchor: middle;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.grafico_ponto:hover circle {
+    r: 6px;
+}
+
+.grafico_ponto:hover text,
+.grafico_ponto:last-of-type text {
+    opacity: 1;
+}
+
+.grafico_ponto:last-of-type circle {
+    fill: var(--verde);
+}
+
+.grafico_ponto:last-of-type text {
+    fill: var(--verde);
+}
+
+/* antes de aparecer na tela: linha recolhida, área e pontos invisíveis */
+.grafico.vai_desenhar .grafico_linha {
+    stroke-dashoffset: var(--comprimento);
+}
+
+.grafico.vai_desenhar .grafico_area,
+.grafico.vai_desenhar .grafico_ponto {
+    opacity: 0;
+}
+
+/* ao aparecer: a linha se desenha da esquerda para a direita e os pontos surgem atrás dela */
+.grafico.vai_desenhar.desenhar .grafico_linha {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.grafico.vai_desenhar.desenhar .grafico_area {
+    opacity: 1;
+    transition: opacity 0.8s 0.7s;
+}
+
+.grafico.vai_desenhar.desenhar .grafico_ponto {
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.grafico.desenhar .grafico_ponto:nth-of-type(1) { transition-delay: 0.1s; }
+.grafico.desenhar .grafico_ponto:nth-of-type(2) { transition-delay: 0.5s; }
+.grafico.desenhar .grafico_ponto:nth-of-type(3) { transition-delay: 0.9s; }
+.grafico.desenhar .grafico_ponto:nth-of-type(4) { transition-delay: 1.3s; }
+
+.demo_legenda {
+    margin: 0;
+    font-size: 13px;
+    color: var(--texto-secundario);
+}
+
+.demo_legenda strong {
+    color: var(--texto);
+    font-variant-numeric: tabular-nums;
+}
+
+/* 3) o falso positivo: a linha do achado e o aviso de dispensado */
+.falso {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    background-color: var(--fundo);
+    font-size: 13px;
+    transition: opacity 0.4s, transform 0.4s var(--mola);
+}
+
+.falso_arquivo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #6F8C7E;
+}
+
+/* dispensado: fica apagado, anda um pouco para o lado e o código é riscado */
+.falso.dispensado {
+    opacity: 0.45;
+    transform: translateX(6px);
+}
+
+.falso.dispensado code {
+    text-decoration: line-through;
+}
+
+.falso_aviso {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 13px;
+    color: var(--verde);
+    animation: aviso_entra 0.35s ease-out;
+}
+
+@keyframes aviso_entra {
+    from { opacity: 0; transform: translateY(-4px); }
+}
+
+/* 4) o laudo: nome do arquivo, barra de progresso e situação */
+.laudo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.laudo_arquivo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+}
+
+.laudo_arquivo i {
+    color: var(--verde);
+}
+
+.laudo_barra {
+    height: 6px;
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    background-color: var(--fundo);
+}
+
+/* a parte cheia da barra: a largura vem do JavaScript, em --progresso */
+.laudo_barra span {
+    display: block;
+    width: var(--progresso, 100%);
+    height: 100%;
+    background: var(--degrade);
+    transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.laudo_barra.sem_transicao span {
+    transition: none;
+}
+
+.laudo_status {
+    font-size: 13px;
+    color: var(--texto-secundario);
+}
+
+.laudo.pronto .laudo_status {
+    color: var(--verde);
+}
+
+
+/* O SIMULADOR: título, nota pequena e os botões − e + em cada gravidade */
+.simulador_cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.simulador_cabecalho h3 {
+    margin: 0 0 6px;
+    font-size: 22px;
+}
+
+.simulador_cabecalho p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--texto-secundario);
+}
+
+/* a nota repetida aqui, para quem está no celular e não vê o anel lá em cima */
+.simulador_cabecalho .simulador_nota {
+    padding: 8px 16px;
+    border: 1px solid var(--borda);
+    border-radius: 50px;
+    background-color: var(--fundo);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+}
+
+.simulador_nota strong {
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 18px;
+    color: var(--verde);
+    font-variant-numeric: tabular-nums;
+}
+
+.contador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.contador_botao {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--borda);
+    border-radius: 50%;
+    background-color: var(--card);
+    color: var(--texto);
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, transform 0.3s var(--mola);
+}
+
+.contador_botao:hover:not(:disabled) {
+    border-color: var(--verde);
+    color: var(--verde);
+    transform: scale(1.1);
+}
+
+.contador_botao:active:not(:disabled) {
+    transform: scale(0.9);
+}
+
+.contador_botao:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.contador_valor {
+    min-width: 2ch;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.contador_valor.muda {
+    animation: salta 0.35s var(--mola);
+}
+
+
+/* 9. TELAS MENORES */
 @media (max-width: 1100px) {
     /* texto em cima, exemplo embaixo, nos três motores */
     .recurso {

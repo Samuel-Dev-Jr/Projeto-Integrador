@@ -1,0 +1,282 @@
+/* CINEMA: a abertura do site e o movimento na rolagem
+   O visual fica aqui; o tempo e a ordem de cada movimento ficam no js/cinema.js,
+   que usa as bibliotecas GSAP (animações) e Lenis (rolagem suave).
+   Vale para as quatro páginas do menu. */
+
+
+/* 1. ROLAGEM SUAVE (Lenis): regras que a própria biblioteca pede */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+/* a rolagem suave já é feita pelo Lenis; a do CSS (scroll-behavior) brigaria com ela */
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+/* com a rolagem parada (durante a abertura), nada rola */
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
+}
+
+
+/* 2. A ABERTURA (só na página inicial)
+   Duas "portas" escuras cobrem a tela, como um cofre, com o logo, a barra e o contador.
+   No fim, uma linha de scanner corta o meio e as portas se abrem a partir dela.
+   Ela só aparece quando o js/transicao.js marca data-chegada="direta" no <html>:
+   chegando por uma aba do menu, quem anima é a transição entre abas. */
+.abertura {
+    display: none;
+}
+
+html[data-chegada="direta"] .abertura {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: block;
+    /* plano B: se o JavaScript não tocar a abertura, ela some sozinha depois de 4 segundos */
+    animation: abertura_reserva 0.5s 4s forwards;
+}
+
+@keyframes abertura_reserva {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* quem pediu "menos movimento" no sistema não vê a abertura */
+@media (prefers-reduced-motion: reduce) {
+    html[data-chegada="direta"] .abertura {
+        display: none;
+    }
+}
+
+/* as duas metades da tela: escuras, com uma grade bem fraca, como papel quadriculado de projeto */
+.abertura_porta {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: var(--fundo);
+    background-image:
+        linear-gradient(rgba(43, 217, 107, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(43, 217, 107, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+
+/* a grade das duas metades começa na emenda, para as linhas se encontrarem no meio */
+.abertura_porta_cima {
+    top: 0;
+    background-position: 0 100%;
+}
+
+.abertura_porta_baixo {
+    bottom: 0;
+    background-position: 0 0;
+}
+
+/* tudo o que fica por cima das portas: logo, barra, textos e contador */
+.abertura_conteudo {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    /* brilho verde bem fraco atrás do logo */
+    background: radial-gradient(ellipse 40% 35% at 50% 50%, rgba(43, 217, 107, 0.12), transparent 70%);
+}
+
+.abertura_logo {
+    display: block;
+    width: auto;
+    height: 96px;
+}
+
+/* a barra fina que enche da esquerda para a direita (o js/cinema.js muda o scaleX) */
+.abertura_barra {
+    width: 240px;
+    height: 2px;
+    overflow: hidden;
+    border-radius: 2px;
+    background-color: var(--borda);
+}
+
+.abertura_barra span {
+    display: block;
+    height: 100%;
+    background: var(--degrade);
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+/* as legendas pequenas nos cantos, como o painel de um equipamento */
+.abertura_hud {
+    position: absolute;
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--texto-secundario);
+}
+
+.abertura_hud_topo_esquerda {
+    top: 32px;
+    left: var(--margem-lateral);
+}
+
+.abertura_hud_topo_direita {
+    top: 32px;
+    right: var(--margem-lateral);
+}
+
+/* o que está carregando agora, no canto de baixo, com um cursor piscando */
+.abertura_texto {
+    bottom: 6vh;
+    left: var(--margem-lateral);
+    text-transform: none;
+    letter-spacing: 0.5px;
+    font-size: 13px;
+    color: var(--texto);
+}
+
+.abertura_texto::before {
+    content: "> ";
+    color: var(--verde);
+}
+
+.abertura_texto::after {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 13px;
+    margin-left: 4px;
+    vertical-align: -2px;
+    background-color: var(--verde);
+    animation: pisca_cursor 1s steps(1) infinite;
+}
+
+/* o contador gigante e bem apagado no outro canto */
+.abertura_numero {
+    position: absolute;
+    right: var(--margem-lateral);
+    bottom: 3vh;
+    margin: 0;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: clamp(72px, 13vw, 180px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: rgba(234, 247, 240, 0.08);
+    font-variant-numeric: tabular-nums;
+}
+
+.abertura_numero small {
+    font-size: 0.35em;
+    color: rgba(43, 217, 107, 0.4);
+}
+
+/* a linha do scanner, bem na emenda das portas */
+.abertura_linha {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    margin-top: -1px;
+    background: linear-gradient(90deg, transparent, var(--verde) 20%, var(--verde) 80%, transparent);
+    box-shadow: 0 0 18px 2px rgba(43, 217, 107, 0.55);
+    transform: scaleX(0);
+}
+
+
+/* 3. O TÍTULO DA PÁGINA INICIAL EM LINHAS
+   Cada linha fica numa "janela" que esconde o que passa da borda (overflow: hidden).
+   Na abertura, o texto de cada linha sobe de baixo para dentro da janela. */
+.titulo_linha {
+    display: block;
+    overflow: hidden;
+    /* espaço para as pernas do g e do p não serem cortadas pela janela */
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+}
+
+.titulo_texto {
+    display: block;
+}
+
+
+/* 4. A PALAVRA GIGANTE ATRÁS DO TOPO DA PÁGINA INICIAL
+   Só o contorno, bem fraco. Ao rolar, ela desliza para o lado (parallax). */
+.hero {
+    position: relative;
+    /* corta o que passar dos lados, sem criar rolagem para o lado */
+    overflow-x: clip;
+}
+
+.hero_fundo {
+    position: absolute;
+    left: 0;
+    bottom: -3vw;
+    /* atrás do texto e do cadeado */
+    z-index: -1;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 21vw;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(43, 217, 107, 0.15);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Os cards da página inicial ficam por cima do topo: com o parallax, o cadeado desce
+   um pouco ao rolar e, sem isto, passaria por cima do fundo dos cards. */
+.cards {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* 5. A ENTRADA DAS PÁGINAS ABERTAS DIRETO
+   Até o js/cinema.js começar (ele põe a classe cinema_pronto no <html>), o cabeçalho e o topo
+   ficam invisíveis, para não aparecerem e sumirem de novo quando a entrada começar.
+   Plano B: se o JavaScript não carregar, tudo aparece sozinho depois de 2,5 segundos. */
+@media (prefers-reduced-motion: no-preference) {
+    html[data-chegada="direta"]:not(.cinema_pronto) :is(header, .pagina_topo, .hero) {
+        opacity: 0;
+        animation: entrada_reserva 0.6s 2.5s forwards;
+    }
+}
+
+@keyframes entrada_reserva {
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* 6. CELULAR */
+@media (max-width: 760px) {
+    .abertura_logo {
+        height: 72px;
+    }
+
+    .abertura_barra {
+        width: 180px;
+    }
+
+    .abertura_hud_topo_direita {
+        display: none;
+    }
+}
