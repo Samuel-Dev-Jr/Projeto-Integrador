@@ -1,10 +1,11 @@
 /* ENTRADA DA TELA DE LOGIN
    A tela chega com movimento: uma linha de scanner desce uma vez, a coluna da esquerda
-   sobe em partes e o cartão de login desliza da direita.
+   sobe em partes e o cartão de login desliza da direita. Vindo do botão "Escanear",
+   a logo da varredura voa até o lugar do logo desta tela.
 
    Este arquivo fica separado do login.css de propósito: o visual da tela é da Aline e da Helena,
    e a animação não mexe nele. Ela só usa nomes que o login.js também usa e que não mudam
-   (.logo, .ilustracao, .texto, .card...). Se um desses nomes mudar, a parte dele só deixa de animar.
+   (.logo-img, .ilustracao, .texto, .card...). Se um desses nomes mudar, a parte dele só deixa de animar.
 
    Quem pediu "menos movimento" no sistema vê a tela parada. */
 
@@ -38,6 +39,50 @@
     }
 }
 
+/* A LOGO VOA: a logo grande do fim da varredura e o logo desta tela têm o mesmo
+   view-transition-name, então o navegador leva uma até o lugar da outra, encolhendo no caminho.
+   No fim do voo, a logo grande se apaga e fica o logo do login. */
+.logo-img {
+    view-transition-name: logo_spycode;
+}
+
+::view-transition-group(logo_spycode) {
+    animation-duration: 0.9s;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.25, 1);
+}
+
+/* as duas são a logo inteira em caixas de formatos diferentes (a daqui é quadrada);
+   "contain" encaixa cada uma sem esticar, centralizada, como no próprio login */
+::view-transition-old(logo_spycode),
+::view-transition-new(logo_spycode) {
+    height: 100%;
+    object-fit: contain;
+}
+
+::view-transition-old(logo_spycode) {
+    animation: logo_apaga 0.9s ease both;
+}
+
+::view-transition-new(logo_spycode) {
+    animation: logo_acende 0.9s ease both;
+}
+
+/* chegando por outro botão não há logo grande para voar (":only-child" = só existe a nova):
+   o logo aparece direto, com a entrada do próprio SVG */
+::view-transition-new(logo_spycode):only-child {
+    animation: none;
+}
+
+@keyframes logo_apaga {
+    0%, 50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes logo_acende {
+    0%, 40% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 
 /* 2. A ENTRADA DA TELA
    "backwards": cada parte fica no ponto de partida durante o atraso (animation-delay)
@@ -59,8 +104,8 @@
         animation: login_scanner 1.2s 0.1s cubic-bezier(0.65, 0, 0.35, 1) both;
     }
 
-    /* a coluna da esquerda: cada parte sobe e aparece, uma depois da outra */
-    .logo,
+    /* a coluna da esquerda: cada parte sobe e aparece, uma depois da outra.
+       O logo fica de fora: ele já tem a entrada dele no SVG, ou chega voando da varredura. */
     .texto h1,
     .texto p,
     .texto li,
@@ -68,7 +113,6 @@
         animation: login_sobe 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards;
     }
 
-    .logo { animation-delay: 0.15s; }
     .texto h1 { animation-delay: 0.35s; }
     .texto p { animation-delay: 0.45s; }
     .texto li:nth-child(1) { animation-delay: 0.55s; }
