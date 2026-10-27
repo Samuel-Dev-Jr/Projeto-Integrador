@@ -1087,6 +1087,12 @@ main {
         font-size: 28px;
     }
 
+    /* o quadro dos "3 motores" sai 28px para fora do terminal; aqui o terminal ocupa a largura toda,
+       e esses 28px passavam da borda da tela (a página arrastava para o lado e a troca de aba não animava) */
+    .motores {
+        right: -8px;
+    }
+
     footer {
         flex-direction: column;
         align-items: flex-start;
