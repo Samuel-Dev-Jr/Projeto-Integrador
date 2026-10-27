@@ -1,6 +1,6 @@
 /* VARREDURA: a animação que toca ao clicar em "Escanear" (js/varredura.js)
    A tela vira um editor de código, um feixe verde varre as linhas, cada problema acende
-   na cor da gravidade e, no fim, um cadeado se fecha pedindo o login.
+   na cor da gravidade e, no fim, a logo do SpyCode se monta pedindo o login.
    Aqui fica o visual; o tempo de cada parte fica no js/varredura.js. */
 
 
@@ -208,7 +208,7 @@
 }
 
 
-/* 4. O FIM: um cadeado que se fecha no meio da tela, pedindo o login */
+/* 4. O FIM: a logo se monta no meio da tela, pedindo o login */
 .varredura_final {
     position: absolute;
     inset: 0;
@@ -224,22 +224,20 @@
     visibility: hidden;
 }
 
-.varredura_cadeado {
-    display: grid;
-    place-items: center;
-    width: 84px;
-    height: 84px;
-    margin-bottom: 8px;
-    border-radius: 50%;
-    background: var(--degrade);
-    color: var(--texto-sobre-verde);
+/* a logo (o desenho está no js/varredura.js). overflow: visible deixa o sonar e o brilho
+   passarem da caixa da logo. */
+.varredura_logo {
+    width: min(440px, 78vw);
+    height: auto;
+    margin-bottom: 14px;
+    overflow: visible;
+    /* na troca de página, a logo voa até o logo da tela de login (css/login-entrada.css) */
+    view-transition-name: logo_spycode;
 }
 
-/* o mesmo desenho de cadeado do botão "Escanear repositório" */
-.varredura_cadeado svg {
-    width: 36px;
-    height: 40px;
-    overflow: visible;
+/* as camadas que o js/varredura.js acende uma por uma começam apagadas */
+.varredura_logo :is(.logo_vidro, .logo_traco, .logo_aro, .logo_radar, .logo_brilho, .logo_sonar, .logo_faisca, .logo_nome_barra) {
+    opacity: 0;
 }
 
 .varredura_final_etiqueta {
