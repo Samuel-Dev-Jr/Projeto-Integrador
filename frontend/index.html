@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- a abertura do site e o movimento na rolagem (js/cinema.js) -->
     <link rel="stylesheet" href="css/cinema.css">
+    <!-- a animação dos botões "Escanear" (js/varredura.js) -->
+    <link rel="stylesheet" href="css/varredura.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -123,7 +125,8 @@
                     vulneráveis, e explica cada achado em português.
                 </p>
 
-                <a href="#comecar" class="scanner_button">
+                <!-- data-varredura: ao clicar, toca a animação de varredura e abre o login (js/varredura.js) -->
+                <a href="login.html" class="scanner_button" data-varredura>
                     <!-- cadeado: a argola e o corpo são desenhos separados, para a argola abrir no CSS -->
                     <svg class="cadeado" viewBox="0 0 20 22" aria-hidden="true">
                         <path class="cadeado_argola" d="M6.5 10V6.5a3.5 3.5 0 0 1 7 0V10" fill="none"
@@ -288,7 +291,7 @@ lendo 128 arquivos
                 Pronto para ver o que seu código está escondendo?
             </h2>
 
-            <a href="login.html" class="cta_botao">Escanear agora</a>
+            <a href="login.html" class="cta_botao" data-varredura>Escanear agora</a>
 
         </section>
 
@@ -328,6 +331,9 @@ lendo 128 arquivos
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
     <script src="js/cinema.js"></script>
+
+    <!-- a animação dos botões "Escanear" (usa o GSAP carregado acima) -->
+    <script src="js/varredura.js"></script>
 
 </body>
 

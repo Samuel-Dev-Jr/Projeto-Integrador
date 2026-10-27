@@ -1,0 +1,298 @@
+/* VARREDURA: a animação que toca ao clicar em "Escanear" (js/varredura.js)
+   A tela vira um editor de código, um feixe verde varre as linhas, cada problema acende
+   na cor da gravidade e, no fim, um cadeado se fecha pedindo o login.
+   Aqui fica o visual; o tempo de cada parte fica no js/varredura.js. */
+
+
+/* 1. A TELA: escura, com a mesma grade fraca da abertura do site.
+   O JavaScript a abre num círculo que cresce a partir do botão clicado (clip-path). */
+.varredura {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    padding: 24px var(--margem-lateral);
+    background-color: var(--fundo);
+    background-image:
+        radial-gradient(ellipse 55% 45% at 50% 45%, rgba(43, 217, 107, 0.10), transparent 70%),
+        linear-gradient(rgba(43, 217, 107, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(43, 217, 107, 0.05) 1px, transparent 1px);
+    background-size: auto, 48px 48px, 48px 48px;
+    /* na troca para a tela de login, esta camada anima separada do resto (css/login-entrada.css) */
+    view-transition-name: varredura;
+}
+
+
+/* 2. O EDITOR DE CÓDIGO */
+.varredura_editor {
+    width: min(820px, 100%);
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    background-color: rgba(10, 36, 25, 0.92);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+/* as linhas ficam numa caixa própria, que esconde o feixe enquanto ele está fora delas */
+.varredura_codigo {
+    position: relative;
+    overflow: hidden;
+    padding: 14px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    line-height: 26px;
+    color: #C9E0D4;
+}
+
+/* cada linha: número, código e, se tiver problema, a etiqueta no fim */
+.varredura_linha {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 26px;
+    padding: 0 20px;
+    white-space: pre;
+    transition: background-color 0.3s;
+}
+
+.varredura_linha .numero {
+    flex: none;
+    width: 22px;
+    color: #4F6E60;
+    text-align: right;
+    user-select: none;
+}
+
+.varredura_linha code {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font: inherit;
+    color: inherit;
+}
+
+/* as cores do código, sempre puxando para o verde do site */
+.cod_chave {
+    color: #7FD1A8;
+}
+
+.cod_texto {
+    color: #B8E8CF;
+}
+
+.cod_funcao {
+    color: #EAF7F0;
+}
+
+.cod_comentario {
+    font-style: italic;
+    color: #5E7D6E;
+}
+
+/* A LINHA COM PROBLEMA: quando o feixe passa, ela ganha a classe "achou" e acende
+   na cor da gravidade. As quatro cores só servem para gravidade, como no resto do site. */
+.varredura_linha[data-gravidade="critica"] {
+    --cor_achado: var(--critico);
+    --fundo_achado: rgba(255, 92, 108, 0.14);
+}
+
+.varredura_linha[data-gravidade="alta"] {
+    --cor_achado: var(--alto);
+    --fundo_achado: rgba(255, 138, 61, 0.13);
+}
+
+.varredura_linha[data-gravidade="media"] {
+    --cor_achado: var(--medio);
+    --fundo_achado: rgba(245, 197, 66, 0.11);
+}
+
+.varredura_linha.achou {
+    background-color: var(--fundo_achado);
+    box-shadow: inset 3px 0 0 var(--cor_achado);
+}
+
+/* a etiqueta do problema, escondida até o feixe passar (o JavaScript a faz aparecer) */
+.varredura_etiqueta {
+    flex: none;
+    padding: 2px 10px;
+    border-radius: 50px;
+    background-color: var(--cor_achado);
+    color: var(--texto-sobre-verde);
+    font-family: 'IBM Plex Sans', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.6;
+    opacity: 0;
+}
+
+/* O FEIXE: uma faixa com brilho que desce pelo código. A linha forte é a borda de baixo;
+   em cima dela, um degradê fraco, como o rastro do scanner. Começa logo acima das linhas. */
+.varredura_feixe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+    margin-top: -90px;
+    background: linear-gradient(to bottom, transparent, rgba(43, 217, 107, 0.08) 60%, rgba(43, 217, 107, 0.28));
+    border-bottom: 2px solid var(--verde);
+    box-shadow: 0 8px 24px rgba(43, 217, 107, 0.45);
+    pointer-events: none;
+}
+
+
+/* 3. O PAINEL EMBAIXO: o comando, os três motores e a porcentagem */
+.varredura_painel {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    width: min(820px, 100%);
+}
+
+.varredura_comando {
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--texto);
+}
+
+.varredura_comando::before {
+    content: "$ ";
+    color: var(--verde);
+}
+
+.varredura_motores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #4F6E60;
+    transition: color 0.3s;
+}
+
+/* cada motor fica verde e ganha o "certo" quando o feixe passa da parte dele */
+.varredura_motores li {
+    transition: color 0.3s;
+}
+
+.varredura_motores li.feito {
+    color: var(--verde);
+}
+
+.varredura_motores li.feito::after {
+    content: " ✓";
+}
+
+.varredura_contador {
+    margin: 0;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 0.9;
+    color: rgba(234, 247, 240, 0.12);
+    font-variant-numeric: tabular-nums;
+}
+
+.varredura_contador small {
+    font-size: 0.4em;
+    color: rgba(43, 217, 107, 0.5);
+}
+
+
+/* 4. O FIM: um cadeado que se fecha no meio da tela, pedindo o login */
+.varredura_final {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    padding: 0 var(--margem-lateral);
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.varredura_cadeado {
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 84px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    background: var(--degrade);
+    color: var(--texto-sobre-verde);
+}
+
+/* o mesmo desenho de cadeado do botão "Escanear repositório" */
+.varredura_cadeado svg {
+    width: 36px;
+    height: 40px;
+    overflow: visible;
+}
+
+.varredura_final_etiqueta {
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--verde);
+}
+
+.varredura_final h2 {
+    margin: 0;
+    font-family: 'Sora', Arial, sans-serif;
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.1;
+    color: var(--texto);
+}
+
+.varredura_final_texto {
+    margin: 0;
+    font-size: 17px;
+    color: var(--texto-secundario);
+}
+
+
+/* 5. CELULAR: letra menor no código e etiquetas menores */
+@media (max-width: 760px) {
+    .varredura {
+        gap: 20px;
+    }
+
+    .varredura_codigo {
+        font-size: 11px;
+        line-height: 21px;
+    }
+
+    .varredura_linha {
+        gap: 10px;
+        min-height: 21px;
+        padding: 0 12px;
+    }
+
+    .varredura_linha .numero {
+        width: 16px;
+    }
+
+    .varredura_etiqueta {
+        padding: 1px 8px;
+        font-size: 10px;
+    }
+
+    .varredura_contador {
+        font-size: 40px;
+    }
+}

@@ -1,0 +1,157 @@
+/* ENTRADA DA TELA DE LOGIN
+   A tela chega com movimento: uma linha de scanner desce uma vez, a coluna da esquerda
+   sobe em partes e o cartão de login desliza da direita.
+
+   Este arquivo fica separado do login.css de propósito: o visual da tela é da Aline e da Helena,
+   e a animação não mexe nele. Ela só usa nomes que o login.js também usa e que não mudam
+   (.logo, .ilustracao, .texto, .card...). Se um desses nomes mudar, a parte dele só deixa de animar.
+
+   Quem pediu "menos movimento" no sistema vê a tela parada. */
+
+
+/* 1. A TROCA DE PÁGINA (Chrome, Edge e Safari recentes)
+   Quem liga a troca animada é a linha <style> do login.html, e não este arquivo: o navegador
+   decide se anima quando começa a ler o <body>, e nessa hora este arquivo pode não ter chegado.
+   Aqui fica só o jeito de animar.
+   Chegando do site, a página anterior não aparece na troca. Se a pessoa clicou em "Escanear",
+   quem fica na frente é a tela da varredura (js/varredura.js), que some crescendo e desfocando
+   enquanto o login entra por baixo. */
+::view-transition-old(root),
+::view-transition-old(cabecalho),
+::view-transition-old(conteudo) {
+    display: none;
+}
+
+::view-transition-new(root) {
+    animation: none;
+}
+
+::view-transition-old(varredura) {
+    animation: varredura_sai 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes varredura_sai {
+    to {
+        opacity: 0;
+        transform: scale(1.12);
+        filter: blur(10px);
+    }
+}
+
+
+/* 2. A ENTRADA DA TELA
+   "backwards": cada parte fica no ponto de partida durante o atraso (animation-delay)
+   e, quando a animação acaba, volta a usar só o estilo do login.css. */
+@media (prefers-reduced-motion: no-preference) {
+
+    /* a linha do scanner desce a tela uma vez, como o fim da varredura */
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #2BD96B 20%, #2BD96B 80%, transparent);
+        box-shadow: 0 0 18px 2px rgba(43, 217, 107, 0.55);
+        pointer-events: none;
+        animation: login_scanner 1.2s 0.1s cubic-bezier(0.65, 0, 0.35, 1) both;
+    }
+
+    /* a coluna da esquerda: cada parte sobe e aparece, uma depois da outra */
+    .logo,
+    .texto h1,
+    .texto p,
+    .texto li,
+    .esquerda small {
+        animation: login_sobe 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .logo { animation-delay: 0.15s; }
+    .texto h1 { animation-delay: 0.35s; }
+    .texto p { animation-delay: 0.45s; }
+    .texto li:nth-child(1) { animation-delay: 0.55s; }
+    .texto li:nth-child(2) { animation-delay: 0.62s; }
+    .texto li:nth-child(3) { animation-delay: 0.69s; }
+    .esquerda small { animation-delay: 0.85s; }
+
+    /* a ilustração aparece crescendo e saindo do desfoque */
+    .ilustracao {
+        animation: login_ilustracao 1.1s 0.2s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    /* o cartão desliza da direita com a borda acesa, e o brilho apaga aos poucos
+       (--cartao_vem_de: de onde ele parte) */
+    .card {
+        --cartao_vem_de: translateX(40px);
+        animation: login_cartao 0.9s 0.25s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    /* até 800px o login.css põe o cartão embaixo, com a largura toda: vindo da direita, ele passaria
+       da borda da tela por um instante (no celular a página alarga e a troca de página não anima).
+       Então aqui ele sobe. */
+    @media (max-width: 800px) {
+        .card {
+            --cartao_vem_de: translateY(40px);
+        }
+    }
+
+    /* o que tem dentro do cartão (título, botões, formulário...) entra em escadinha */
+    .card > * {
+        animation: login_sobe 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .card > :nth-child(1) { animation-delay: 0.45s; }
+    .card > :nth-child(2) { animation-delay: 0.5s; }
+    .card > :nth-child(3) { animation-delay: 0.55s; }
+    .card > :nth-child(4) { animation-delay: 0.6s; }
+    .card > :nth-child(5) { animation-delay: 0.65s; }
+    .card > :nth-child(6) { animation-delay: 0.7s; }
+    .card > :nth-child(7) { animation-delay: 0.75s; }
+    .card > :nth-child(8) { animation-delay: 0.8s; }
+}
+
+@keyframes login_scanner {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+@keyframes login_sobe {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+}
+
+@keyframes login_ilustracao {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+        filter: blur(10px);
+    }
+}
+
+/* só o começo é dito: do fim cuida o login.css (o navegador anima até o estilo normal do cartão) */
+@keyframes login_cartao {
+    from {
+        opacity: 0;
+        transform: var(--cartao_vem_de) scale(0.97);
+        box-shadow: 0 0 0 1px rgba(43, 217, 107, 0.7), 0 0 60px rgba(43, 217, 107, 0.35);
+    }
+
+    60% {
+        box-shadow: 0 0 0 1px rgba(43, 217, 107, 0.45), 0 0 36px rgba(43, 217, 107, 0.18);
+    }
+}

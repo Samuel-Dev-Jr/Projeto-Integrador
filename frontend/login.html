@@ -13,6 +13,12 @@
 
     <!-- o que acontece quando a pessoa clica em cada botão desta tela -->
     <script src="js/login.js" defer></script>
+
+    <!-- a animação de entrada desta tela (num arquivo separado do login.css, para não misturar).
+         O <style> liga a troca animada de página vinda do site: ele fica escrito aqui porque o
+         navegador decide se anima antes de o arquivo .css terminar de carregar -->
+    <style media="(prefers-reduced-motion: no-preference)">@view-transition { navigation: auto; }</style>
+    <link rel="stylesheet" href="css/login-entrada.css">
 </head>
 
 <body>
