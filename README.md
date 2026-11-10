@@ -27,15 +27,18 @@ Projeto-Integrador/
 │   │   ├── style.css      cores, cabeçalho e rodapé de todas as páginas, e a página inicial
 │   │   ├── paginas.css    peças que as três páginas do menu usam iguais
 │   │   ├── cinema.css     a abertura do site e o movimento na rolagem (com o js/cinema.js)
+│   │   ├── varredura.css  a animação dos botões "Escanear" (com o js/varredura.js)
 │   │   ├── recursos.css   um CSS para cada página, com o mesmo nome do HTML
 │   │   ├── sobre.css
 │   │   ├── seguranca.css
-│   │   └── login.css
+│   │   ├── login.css
+│   │   └── login-entrada.css  a entrada animada da tela de login (fica fora do login.css)
 │   ├── js/
 │   │   ├── terminal.js    animação do terminal da página inicial
 │   │   ├── transicao.js   troca animada entre as abas do menu
 │   │   ├── cinema.js      abertura do site, rolagem suave e parallax (GSAP e Lenis)
 │   │   ├── dossie.js      carregamento, números e simulador do dossiê (página de recursos)
+│   │   ├── varredura.js   a varredura de código que toca antes de abrir o login
 │   │   └── login.js       login com GitHub, Google e e-mail (Firebase)
 │   └── img/               logos e ilustrações usadas no site
 ├── docs/
@@ -57,7 +60,9 @@ Cada pessoa trabalha nos **seus** arquivos. Assim duas pessoas nunca editam a me
 | Página inicial | Samuel | `frontend/index.html`, `frontend/css/style.css` |
 | Páginas do menu | Samuel | `frontend/recursos.html`, `sobre.html`, `seguranca.html` e os CSS com o mesmo nome, mais `frontend/css/paginas.css` |
 | Tela de login | Aline e Helena | `frontend/login.html`, `frontend/css/login.css`, `frontend/js/login.js` |
+| Animações | Samuel | `frontend/css/cinema.css`, `varredura.css`, `login-entrada.css` e `frontend/js/transicao.js`, `cinema.js`, `varredura.js` |
 
+- No fim do `<head>` do `login.html` há duas linhas da animação de entrada: o `<style>` com `@view-transition` e o link do `css/login-entrada.css`. O resto da tela é livre; essas duas ficam. Se o Git der conflito nesse trecho, fiquem com as duas versões.
 - Cada página nova tem **um HTML e um CSS com o mesmo nome**, como `login.html` e `css/login.css`.
 - Página nova vai dentro de `frontend/`, nunca solta na raiz do projeto.
 - Imagem nova vai para `frontend/img/`. Desenho de tela vai para `docs/design/`.
